@@ -1,0 +1,11 @@
+{
+    "debug.javascript.defaultRuntimeExecutable": {
+        "pwa-node": "/home/borodavkin/.local/share/mise/shims/node"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/.nuxt": true,
+        "**/.vscode": true,
+    }
+}
