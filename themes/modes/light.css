@@ -1,0 +1,25 @@
+.theme-light {
+    /* Цвета режима - светлый */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #ffffff;
+
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-tertiary: #9ca3af;
+    --text-inverse: #ffffff;
+
+    --border-primary: #e5e7eb;
+    --border-secondary: #d1d5db;
+
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Дополнительные стили для светлого режима */
+.theme-light body {
+    @apply bg-bg-primary text-text-primary;
+}
+
+.theme-light .surface {
+    @apply bg-bg-secondary;
+}

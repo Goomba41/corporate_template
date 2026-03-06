@@ -1,0 +1,25 @@
+.theme-dark {
+    /* Цвета режима - темный */
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
+    --text-inverse: #111827;
+
+    --border-primary: #374151;
+    --border-secondary: #4b5563;
+
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Дополнительные стили для темного режима */
+.theme-dark body {
+    @apply bg-bg-primary text-text-primary;
+}
+
+.theme-dark .surface {
+    @apply bg-bg-secondary;
+}

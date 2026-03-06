@@ -36,11 +36,13 @@ export default defineNuxtConfig({
   },
 
   unocss: {
+    preflight: true,
     icons: true,
-    attributify: true,
+    typography: true,
   },
 
   css: [
-    '@unocss/reset/tailwind.css'
+    '~/assets/css/global.css',
+    '~/themes/themes.css'  // Импортируем главный файл тем
   ],
 })
