@@ -14,12 +14,3 @@
 
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
-
-/* Дополнительные стили для темного режима */
-.theme-dark body {
-    @apply bg-bg-primary text-text-primary;
-}
-
-.theme-dark .surface {
-    @apply bg-bg-secondary;
-}

@@ -22,9 +22,10 @@
     --secondary-800: #1f2937;
     --secondary-900: #111827;
 
-    --accent-success: var(--default-accent-success);
-    --accent-warning: var(--default-accent-warning);
-    --accent-error: var(--default-accent-error);
-    --accent-info: var(--default-accent-info);
-    --accent-help: var(--default-accent-help);
+    /* Убрать комментарий, если неободимо переопределить цвет */
+    /* --accent-success: #цвет;
+    --accent-warning: #цвет;
+    --accent-error: #цвет;
+    --accent-info: #цвет;
+    --accent-help: #цвет; */
 }

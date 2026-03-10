@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import Button from '~/components/shared/ui/atoms/Button.vue';
 
+import { useTheme } from '~/composables/app/useTheme';
+
+const { 
+  colorTheme, 
+  displayMode, 
+  toggleDisplayMode,
+  cycleColorTheme 
+} = useTheme()
 </script>
 
 <template>
@@ -42,6 +50,15 @@ import Button from '~/components/shared/ui/atoms/Button.vue';
       <Button label="Small" size="sm"/>
       <Button label="Medium" size="md"/>
       <Button label="Large" size="lg"/>
+    </div>
+  </div>
+
+  <!-- TODO: кнопки с loading-state, disabled-state, rounded, icon, icon-only, button-group, badge  -->
+
+  <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
+    <div class="flex gap-2 items-center">
+      <button @click="cycleColorTheme">{{ colorTheme }}</button>
+      <button @click="toggleDisplayMode">{{ displayMode }}</button>
     </div>
   </div>
 </template>

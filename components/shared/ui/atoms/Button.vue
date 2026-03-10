@@ -32,7 +32,7 @@ const emit = defineEmits<{ click: [] }>()
     <PrimeButton :label="label" :icon="icon" :icon-pos="iconPos" :loading="loading" :disabled="disabled" :class="[
         'btn',
         {
-            // ⭐ СТАТИЧЕСКИЕ СТРОКИ - UnoCSS их увидит!
+            // СТАТИЧЕСКИЕ СТРОКИ - UnoCSS их увидит!
             'btn-primary': severity === 'primary',
             'btn-secondary': severity === 'secondary',
             'btn-success': severity === 'success',
@@ -60,129 +60,108 @@ const emit = defineEmits<{ click: [] }>()
 </template>
 
 <style scoped lang="scss">
+// Карта основных вариантов кнопок и их цветов
+$btn-variants: (
+    success: var(--accent-success),
+    warning: var(--accent-warning),
+    danger: var(--accent-error),
+    info: var(--accent-info),
+    help: var(--accent-help),
+    primary: var(--primary-600),
+);
+
+// Варианты для solid кнопок (без primary и secondary)
+$solid-variants: (
+    success: var(--accent-success),
+    warning: var(--accent-warning),
+    danger: var(--accent-error),
+    info: var(--accent-info),
+    help: var(--accent-help),
+);
+
+// Миксин для hover эффекта solid кнопок
+@mixin btn-solid-hover($color) {
+    $mixed: color-mix(in srgb, $color 80%, var(--text-primary) 20%);
+    background-color: $mixed;
+    border-color: $mixed;
+}
+
+// Миксин для hover фона outlined/text кнопок
+@mixin btn-outline-hover($color) {
+    background-color: color-mix(in srgb, $color 10%, var(--text-inverse) 90%);
+}
+
+// Миксин для hover border text кнопок
+@mixin btn-text-border-hover($color) {
+    border-color: color-mix(in srgb, $color 10%, var(--text-inverse) 90%);
+}
+
 .btn {
-    &.btn-success:hover {
-        background-color: color-mix(in srgb, var(--accent-success) 90%, black 10%);
-        border-color: color-mix(in srgb, var(--accent-success) 90%, black 10%);
+    color: var(--text-inverse);
+
+    // Генерация hover состояний для solid кнопок
+    @each $name, $color in $solid-variants {
+        &.btn-#{$name}:hover {
+            @include btn-solid-hover($color);
+        }
     }
 
-
-    &.btn-warning:hover {
-        background-color: color-mix(in srgb, var(--accent-warning) 90%, black 10%);
-        border-color: color-mix(in srgb, var(--accent-warning) 90%, black 10%);
-    }
-
-
-    &.btn-danger:hover {
-        background-color: color-mix(in srgb, var(--accent-error) 90%, black 10%);
-        border-color: color-mix(in srgb, var(--accent-error) 90%, black 10%);
-    }
-
-
-    &.btn-info:hover {
-        background-color: color-mix(in srgb, var(--accent-info) 90%, black 10%);
-        border-color: color-mix(in srgb, var(--accent-info) 90%, black 10%);
-    }
-
-
-    &.btn-help:hover {
-        background-color: color-mix(in srgb, var(--accent-help) 90%, black 10%);
-        border-color: color-mix(in srgb, var(--accent-help) 90%, black 10%);
+    &.btn-secondary {
+        color: var(--text-primary);
     }
 }
 
 .btn-outlined,
 .btn-text {
-    &.btn-success {
-        color: var(--accent-success);
+    // Генерация цветов и hover фона для основных вариантов
+    @each $name, $color in $btn-variants {
+        &.btn-#{$name} {
+            color: $color;
 
-        &:hover {
-            background-color: color-mix(in srgb, var(--accent-success) 10%, white 90%);
+            &:hover {
+                @include btn-outline-hover($color);
+            }
         }
     }
 
-    &.btn-warning {
-        color: var(--accent-warning);
-
-        &:hover {
-            background-color: color-mix(in srgb, var(--accent-warning) 10%, white 90%);
-        }
-    }
-
-    &.btn-danger {
-        color: var(--accent-error);
-
-        &:hover {
-            background-color: color-mix(in srgb, var(--accent-error) 10%, white 90%);
-        }
-    }
-
-    &.btn-info {
-        color: var(--accent-info);
-
-        &:hover {
-            background-color: color-mix(in srgb, var(--accent-info) 10%, white 90%);
-        }
-    }
-
-    &.btn-help {
-        color: var(--accent-help);
-
-        &:hover {
-            background-color: color-mix(in srgb, var(--accent-help) 10%, white 90%);
-        }
-    }
-
-    &.btn-primary {
-        color: var(--primary-600);
-
-        &:hover {
-            background-color: color-mix(in srgb, var(--primary-600) 10%, white 90%);
-        }
-    }
-
+    // Secondary variant (использует другие переменные для hover)
     &.btn-secondary {
-        color: var(--secondary-600);
+        color: var(--secondary-500);
+        background-color: transparent;
 
         &:hover {
-            background-color: color-mix(in srgb, var(--secondary-600) 10%, white 90%);
+            @include btn-outline-hover(var(--secondary-400));
         }
     }
 }
 
 .btn-text {
-    &.btn-success:hover {
-        border-color: color-mix(in srgb, var(--accent-success) 10%, white 90%);
+    // Генерация hover border для text кнопок
+    @each $name, $color in $btn-variants {
+        &.btn-#{$name}:hover {
+            @include btn-text-border-hover($color);
+        }
     }
 
+    // Secondary variant для text кнопок
+    &.btn-secondary {
+        border-color: transparent;
 
-    &.btn-warning:hover {
-        border-color: color-mix(in srgb, var(--accent-warning) 10%, white 90%);
+        &:hover {
+            @include btn-text-border-hover(var(--secondary-400));
+        }
     }
+}
 
+.theme-dark {
+    .btn-secondary {
+        &:hover {
+            border-color: var(--secondary-500);
+        }
 
-    &.btn-danger:hover {
-        border-color: color-mix(in srgb, var(--accent-error) 10%, white 90%);
-    }
-
-
-    &.btn-info:hover {
-        border-color: color-mix(in srgb, var(--accent-info) 10%, white 90%);
-    }
-
-
-    &.btn-help:hover {
-        border-color: color-mix(in srgb, var(--accent-help) 10%, white 90%);
-    }
-
-
-    &.btn-primary:hover {
-        border-color: color-mix(in srgb, var(--primary-600) 10%, white 90%);
-    }
-
-
-    &.btn-secondary:hover {
-        border-color: color-mix(in srgb, var(--secondary-600) 10%, white 90%);
+        &.btn-text:hover {
+            border-color: color-mix(in srgb, var(--secondary-500) 10%, var(--text-inverse) 90%);
+        }
     }
 }
 </style>

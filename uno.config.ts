@@ -28,26 +28,26 @@ export default defineConfig({
     }],
 
     // Варианты кнопок
-    ['btn-primary', 'bg-primary-600 text-secondary-100 border-primary-600 hover:bg-primary-700 hover:border-primary-700', {
+    ['btn-primary', 'bg-primary-600 border-primary-600 hover:bg-primary-700 hover:border-primary-700 hover:dark:bg-primary-500 hover:dark:border-primary-500', {
       layer: 'btn-base'
     }],
-    ['btn-secondary', 'bg-secondary-200 text-secondary-800 hover:bg-secondary-300 hover:border-secondary-300', {
+    ['btn-secondary', 'bg-secondary-200 border-secondary-200 dark:bg-secondary-500 dark:border-secondary-500 hover:bg-secondary-300 hover:border-secondary-300 hover:dark:bg-secondary-400 ', {
       layer: 'btn-base'
     }],
 
-    ['btn-success', 'bg-success text-white border-success', {
+    ['btn-success', 'bg-success border-success', {
       layer: 'btn-base'
     }],
-    ['btn-danger', 'bg-error text-white border-error', {
+    ['btn-danger', 'bg-error border-error', {
       layer: 'btn-base'
     }],
-    ['btn-info', 'bg-info text-white border-info', {
+    ['btn-info', 'bg-info border-info', {
       layer: 'btn-base'
     }],
-    ['btn-warning', 'bg-warning text-white border-warning', {
+    ['btn-warning', 'bg-warning border-warning', {
       layer: 'btn-base'
     }],
-    ['btn-help', 'bg-help text-white border-help', {
+    ['btn-help', 'bg-help border-help', {
       layer: 'btn-base'
     }],
 
