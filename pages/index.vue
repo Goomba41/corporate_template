@@ -53,8 +53,6 @@ const {
     </div>
   </div>
 
-  <!-- TODO: кнопки с loading-state, disabled-state, rounded, icon, icon-only, button-group, badge  -->
-
   <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
     <div class="flex gap-2 items-center">
       <button @click="cycleColorTheme">{{ colorTheme }}</button>

@@ -26,6 +26,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{ click: [] }>()
+
+// TODO: loading-state, disabled-state, rounded, icon, icon-only, button-group, badge
 </script>
 
 <template>
@@ -60,6 +62,7 @@ const emit = defineEmits<{ click: [] }>()
 </template>
 
 <style scoped lang="scss">
+// TODO: перенести стили из unocss
 // Карта основных вариантов кнопок и их цветов
 $btn-variants: (
     success: var(--accent-success),
