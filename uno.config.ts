@@ -8,68 +8,11 @@ export default defineConfig({
     // Компоненты библиотек (PrimeVue)
     components: 1,
 
-    // СЛОЙ 1: Базовые варианты кнопок (цвета)
-    'btn-base': 2,
-
-    // СЛОЙ 2: Модификаторы кнопок (outlined, text) - ВЫШЕ приоритет!
-    'btn-modifiers': 3,
-
-    // Размеры (не конфликтуют)
-    'btn-sizes': 4,
-
     // Утилиты UnoCSS (наивысший приоритет)
-    utilities: 5
+    utilities: 2
   },
 
   shortcuts: [
-    // Базовые классы для кнопок
-    ['btn', 'rounded-lg font-medium inline-flex items-center justify-center gap-2 border', {
-      layer: 'btn-base'
-    }],
-
-    // Варианты кнопок
-    ['btn-primary', 'bg-primary-600 border-primary-600 hover:bg-primary-700 hover:border-primary-700 hover:dark:bg-primary-500 hover:dark:border-primary-500', {
-      layer: 'btn-base'
-    }],
-    ['btn-secondary', 'bg-secondary-200 border-secondary-200 dark:bg-secondary-500 dark:border-secondary-500 hover:bg-secondary-300 hover:border-secondary-300 hover:dark:bg-secondary-400 ', {
-      layer: 'btn-base'
-    }],
-
-    ['btn-success', 'bg-success border-success', {
-      layer: 'btn-base'
-    }],
-    ['btn-danger', 'bg-error border-error', {
-      layer: 'btn-base'
-    }],
-    ['btn-info', 'bg-info border-info', {
-      layer: 'btn-base'
-    }],
-    ['btn-warning', 'bg-warning border-warning', {
-      layer: 'btn-base'
-    }],
-    ['btn-help', 'bg-help border-help', {
-      layer: 'btn-base'
-    }],
-
-    // Размеры кнопок
-    ['btn-sm', 'text-sm px-2.5 py-1.5 leading-[normal]', {
-      layer: 'btn-sizes'
-    }],
-    ['btn-md', 'text-base px-3 py-2 leading-[normal]', {
-      layer: 'btn-sizes'
-    }],
-    ['btn-lg', 'text-lg px-3.5 py-2.5 leading-[normal]', {
-      layer: 'btn-sizes'
-    }],
-
-    // Специальные варианты
-    ['btn-outlined', 'bg-transparent', {
-      layer: 'btn-modifiers'
-    }],
-    ['btn-text', 'border-transparent bg-transparent', {
-      layer: 'btn-modifiers'
-    }],
-
     // Утилиты
     ['flex-center', 'flex items-center justify-center', { layer: 'utilities' }],
     ['flex-between', 'flex items-center justify-between', { layer: 'utilities' }],

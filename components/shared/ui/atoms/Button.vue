@@ -62,7 +62,6 @@ const emit = defineEmits<{ click: [] }>()
 </template>
 
 <style scoped lang="scss">
-// TODO: перенести стили из unocss
 // Карта основных вариантов кнопок и их цветов
 $btn-variants: (
     success: var(--accent-success),
@@ -101,6 +100,91 @@ $solid-variants: (
 
 .btn {
     color: var(--text-inverse);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    border-width: 1px;
+
+    &.btn-sm {
+        line-height: normal;
+        font-size: 0.875rem;
+        padding-inline: calc(var(--spacing) * 2.5); // px
+        padding-block: calc(var(--spacing) * 1.5); // py
+    }
+
+    &.btn-md {
+        line-height: normal;
+        font-size: 1rem;
+        padding-inline: calc(var(--spacing) * 3); // px
+        padding-block: calc(var(--spacing) * 2); // py
+    }
+
+    &.btn-lg {
+        line-height: normal;
+        font-size: 1.125rem;
+        padding-inline: calc(var(--spacing) * 3.5); // px
+        padding-block: calc(var(--spacing) * 2.5); // py
+    }
+
+    &.btn-primary {
+        background-color: var(--primary-600);
+        border-color: var(--primary-600);
+
+        &:hover {
+            background-color: var(--primary-700);
+            border-color: var(--primary-700);
+        }
+    }
+
+    &.btn-secondary {
+        background-color: var(--secondary-200);
+        border-color: var(--secondary-200);
+
+        &:hover {
+            background-color: var(--secondary-300);
+            border-color: var(--secondary-300);
+        }
+    }
+
+    @each $name, $color in $btn-variants {
+        &.btn-#{$name} {
+            background-color: $color;
+            border-color: $color;
+        }
+    }
+
+    &.btn-outlined,
+    &.btn-text {
+        background: transparent;
+
+        // Генерация цветов и hover фона для основных вариантов
+        @each $name, $color in $btn-variants {
+            &.btn-#{$name} {
+                color: $color;
+
+                &:hover {
+                    @include btn-outline-hover($color);
+                }
+            }
+        }
+
+        // Secondary variant (использует другие переменные для hover)
+        &.btn-secondary {
+            color: var(--secondary-500);
+            background-color: transparent;
+
+            &:hover {
+                @include btn-outline-hover(var(--secondary-400));
+            }
+        }
+    }
+
+    &.btn-text {
+        border-color: transparent;
+    }
 
     // Генерация hover состояний для solid кнопок
     @each $name, $color in $solid-variants {
@@ -111,30 +195,6 @@ $solid-variants: (
 
     &.btn-secondary {
         color: var(--text-primary);
-    }
-}
-
-.btn-outlined,
-.btn-text {
-    // Генерация цветов и hover фона для основных вариантов
-    @each $name, $color in $btn-variants {
-        &.btn-#{$name} {
-            color: $color;
-
-            &:hover {
-                @include btn-outline-hover($color);
-            }
-        }
-    }
-
-    // Secondary variant (использует другие переменные для hover)
-    &.btn-secondary {
-        color: var(--secondary-500);
-        background-color: transparent;
-
-        &:hover {
-            @include btn-outline-hover(var(--secondary-400));
-        }
     }
 }
 
@@ -158,13 +218,25 @@ $solid-variants: (
 
 .theme-dark {
     .btn-secondary {
+        background-color: var(--secondary-500);
+        border-color: var(--secondary-500);
+
+        &.btn-text {
+            border-color: transparent
+        }
+
         &:hover {
             border-color: var(--secondary-500);
+            background-color: var(--secondary-400);
         }
 
         &.btn-text:hover {
             border-color: color-mix(in srgb, var(--secondary-500) 10%, var(--text-inverse) 90%);
         }
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-500);
     }
 }
 </style>
