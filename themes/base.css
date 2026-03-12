@@ -13,16 +13,16 @@
     --primary-900: #0c4a6e;
 
     /* Вторичные цвета по умолчанию */
-    --secondary-50: #f9fafb;
-    --secondary-100: #f3f4f6;
-    --secondary-200: #e5e7eb;
-    --secondary-300: #d1d5db;
-    --secondary-400: #9ca3af;
-    --secondary-500: #6b7280;
-    --secondary-600: #4b5563;
-    --secondary-700: #374151;
-    --secondary-800: #1f2937;
-    --secondary-900: #111827;
+    --surface-50: #f9fafb;
+    --surface-100: #f3f4f6;
+    --surface-200: #e5e7eb;
+    --surface-300: #d1d5db;
+    --surface-400: #9ca3af;
+    --surface-500: #6b7280;
+    --surface-600: #4b5563;
+    --surface-700: #374151;
+    --surface-800: #1f2937;
+    --surface-900: #111827;
 
     /* Цвета режима по умолчанию (светлый) */
     --bg-primary: #ffffff;

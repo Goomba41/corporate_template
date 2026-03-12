@@ -35,16 +35,16 @@ export default defineConfig({
       },
 
       secondary: {
-        50: 'var(--secondary-50, #f9fafb)',
-        100: 'var(--secondary-100, #f3f4f6)',
-        200: 'var(--secondary-200, #e5e7eb)',
-        300: 'var(--secondary-300, #d1d5db)',
-        400: 'var(--secondary-400, #9ca3af)',
-        500: 'var(--secondary-500, #6b7280)',
-        600: 'var(--secondary-600, #4b5563)',
-        700: 'var(--secondary-700, #374151)',
-        800: 'var(--secondary-800, #1f2937)',
-        900: 'var(--secondary-900, #111827)'
+        50: 'var(--surface-50, #f9fafb)',
+        100: 'var(--surface-100, #f3f4f6)',
+        200: 'var(--surface-200, #e5e7eb)',
+        300: 'var(--surface-300, #d1d5db)',
+        400: 'var(--surface-400, #9ca3af)',
+        500: 'var(--surface-500, #6b7280)',
+        600: 'var(--surface-600, #4b5563)',
+        700: 'var(--surface-700, #374151)',
+        800: 'var(--surface-800, #1f2937)',
+        900: 'var(--surface-900, #111827)'
       },
 
       success: 'var(--accent-success, var(--default-accent-success))',

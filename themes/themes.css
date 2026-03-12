@@ -4,8 +4,32 @@
 @import "./base.css";
 
 /* Импортируем CSS переменные для всех тем */
+/* Импорт режимов */
 @import "./modes/light.css";
 @import "./modes/dark.css";
-@import "./brand/blue.css";
-@import "./brand/green.css";
-@import "./brand/purple.css";
+/* Импорт цветов */
+@import "./brands/emerald.css";
+@import "./brands/green.css";
+@import "./brands/lime.css";
+@import "./brands/orange.css";
+@import "./brands/amber.css";
+@import "./brands/yellow.css";
+@import "./brands/teal.css";
+@import "./brands/cyan.css";
+@import "./brands/sky.css";
+@import "./brands/blue.css";
+@import "./brands/indigo.css";
+@import "./brands/violet.css";
+@import "./brands/purple.css";
+@import "./brands/fuchsia.css";
+@import "./brands/pink.css";
+@import "./brands/rose.css";
+/* Импорт поверхностей */
+@import "./surfaces/slate.css";
+@import "./surfaces/gray.css";
+@import "./surfaces/zinc.css";
+@import "./surfaces/neutral.css";
+@import "./surfaces/stone.css";
+@import "./surfaces/soho.css";
+@import "./surfaces/viva.css";
+@import "./surfaces/ocean.css";

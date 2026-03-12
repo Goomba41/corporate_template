@@ -140,12 +140,12 @@ $solid-variants: (
     }
 
     &.btn-secondary {
-        background-color: var(--secondary-200);
-        border-color: var(--secondary-200);
+        background-color: var(--surface-200);
+        border-color: var(--surface-200);
 
         &:hover {
-            background-color: var(--secondary-300);
-            border-color: var(--secondary-300);
+            background-color: var(--surface-300);
+            border-color: var(--surface-300);
         }
     }
 
@@ -173,11 +173,11 @@ $solid-variants: (
 
         // Secondary variant (использует другие переменные для hover)
         &.btn-secondary {
-            color: var(--secondary-500);
+            color: var(--surface-500);
             background-color: transparent;
 
             &:hover {
-                @include btn-outline-hover(var(--secondary-400));
+                @include btn-outline-hover(var(--surface-400));
             }
         }
     }
@@ -211,27 +211,27 @@ $solid-variants: (
         border-color: transparent;
 
         &:hover {
-            @include btn-text-border-hover(var(--secondary-400));
+            @include btn-text-border-hover(var(--surface-400));
         }
     }
 }
 
 .theme-dark {
     .btn-secondary {
-        background-color: var(--secondary-500);
-        border-color: var(--secondary-500);
+        background-color: var(--surface-500);
+        border-color: var(--surface-500);
 
         &.btn-text {
             border-color: transparent
         }
 
         &:hover {
-            border-color: var(--secondary-500);
-            background-color: var(--secondary-400);
+            border-color: var(--surface-500);
+            background-color: var(--surface-400);
         }
 
         &.btn-text:hover {
-            border-color: color-mix(in srgb, var(--secondary-500) 10%, var(--text-inverse) 90%);
+            border-color: color-mix(in srgb, var(--surface-500) 10%, var(--text-inverse) 90%);
         }
     }
 

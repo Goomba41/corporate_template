@@ -1,6 +1,7 @@
 
 import { ref, watch, onMounted } from 'vue'
 import {
+    colorThemes,
     type ColorTheme,
     type DisplayMode,
 } from '~/themes/types'
@@ -52,7 +53,7 @@ export const useTheme = () => {
 
     // Переключение цветовой темы
     const cycleColorTheme = () => {
-        const colors: ColorTheme[] = ['blue', 'green', 'purple']
+        const colors: readonly ColorTheme[] = colorThemes
         const currentIndex = colors.indexOf(colorTheme.value)
         const nextIndex = (currentIndex + 1) % colors.length
         setColorTheme(colors[nextIndex]!)
@@ -65,8 +66,10 @@ export const useTheme = () => {
         const root = document.documentElement
 
         // Удаляем все классы тем
+        const themeClassesPattern = [...colorThemes, 'light', 'dark'].join('|')
+        const themeRegex = new RegExp(`\\btheme-(${themeClassesPattern})\\b`, 'g');
         root.className = root.className
-            .replace(/\btheme-(blue|green|purple|light|dark)\b/g, '')
+            .replace(themeRegex, '')
             .trim()
 
         // Добавляем классы текущей темы
