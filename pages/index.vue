@@ -4,10 +4,12 @@ import Button from '~/components/shared/ui/atoms/Button.vue';
 import { useTheme } from '~/composables/app/useTheme';
 
 const { 
-  colorTheme, 
+  colorSurface,
+  colorTheme,
   displayMode, 
   toggleDisplayMode,
-  cycleColorTheme 
+  cycleColorTheme,
+  cycleColorSurface
 } = useTheme()
 </script>
 
@@ -55,6 +57,7 @@ const {
 
   <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
     <div class="flex gap-2 items-center">
+      <button @click="cycleColorSurface">{{ colorSurface }}</button>
       <button @click="cycleColorTheme">{{ colorTheme }}</button>
       <button @click="toggleDisplayMode">{{ displayMode }}</button>
     </div>

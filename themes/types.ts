@@ -17,8 +17,8 @@ export const colorThemes = [
     'violet',
     'yellow',
 ] as const;
-export const colorSurface = ['gray', 'neutral', 'ocean', 'slate', 'soho', 'stone', 'viva', 'ocean']
+export const colorSurfaces = ['gray', 'neutral', 'ocean', 'slate', 'soho', 'stone', 'viva', 'ocean']
 
 export type ColorTheme = typeof colorThemes[number];
-export type ColorSurface = typeof colorSurface[number]
+export type ColorSurface = typeof colorSurfaces[number]
 export type DisplayMode = 'dark' | 'light' | 'no-preference'

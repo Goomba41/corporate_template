@@ -1,16 +1,16 @@
-.theme-light {
+.mode-light {
     /* Цвета режима - светлый */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f9fafb;
-    --bg-tertiary: #ffffff;
+    --bg-primary: var(--surface-0);
+    --bg-secondary: var(--surface-50);
+    --bg-tertiary: var(--surface-0);
 
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --text-tertiary: #9ca3af;
-    --text-inverse: #ffffff;
+    --text-primary: var(--surface-800);
+    --text-secondary: var(--surface-500);
+    --text-tertiary: var(--surface-400);
+    --text-inverse: var(--surface-0);
 
-    --border-primary: #e5e7eb;
-    --border-secondary: #d1d5db;
+    --border-primary: var(--surface-200);
+    --border-secondary: var(--surface-300);
 
     --shadow-color: rgba(0, 0, 0, 0.1);
 }

@@ -216,7 +216,7 @@ $solid-variants: (
     }
 }
 
-.theme-dark {
+.mode-dark {
     .btn-secondary {
         background-color: var(--surface-500);
         border-color: var(--surface-500);
