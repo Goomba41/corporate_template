@@ -3,6 +3,8 @@ import Button from '~/components/shared/ui/atoms/Button.vue';
 
 import { useTheme } from '~/composables/app/useTheme';
 
+import Logo from '~/assets/icons/logo.svg?component';
+
 const { 
   colorSurface,
   colorTheme,
@@ -61,5 +63,9 @@ const {
       <button @click="cycleColorTheme">{{ colorTheme }}</button>
       <button @click="toggleDisplayMode">{{ displayMode }}</button>
     </div>
+  </div>
+
+  <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
+    <Logo width="2.875rem" height="2.875rem"/>
   </div>
 </template>

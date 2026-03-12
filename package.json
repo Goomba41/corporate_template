@@ -17,6 +17,7 @@
     "@vueuse/core": "^14.2.1",
     "@vueuse/integrations": "^14.2.1",
     "nuxt": "^4.3.1",
+    "nuxt-svgo": "4.2.6",
     "nuxt-zod-i18n": "^1.12.1",
     "pinia": "^3.0.4",
     "primevue": "^4.5.4",

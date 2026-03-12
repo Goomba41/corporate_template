@@ -9,7 +9,18 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/icon',
     'nuxt-zod-i18n',
+    'nuxt-svgo',
   ],
+
+  app: {
+    head: {
+      link: [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]
+    }
+  },
+
+  svgo: {
+    dts: true,
+  },
 
   vite: {
     server: { allowedHosts: ['borodavkin'] }
