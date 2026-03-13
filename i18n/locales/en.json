@@ -7,6 +7,15 @@
       "sm": "Small",
       "md": "Medium",
       "lg": "large"
+    },
+    "severities": {
+      "primary": "Primary",
+      "secondary": "Secondary",
+      "success": "Success",
+      "info": "Info",
+      "warning": "Warning",
+      "help": "Help",
+      "danger": "Danger"
     }
   }
 }

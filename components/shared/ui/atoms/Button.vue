@@ -1,4 +1,9 @@
-<script setup lang="ts">
+<script
+    setup
+    lang="ts"
+>
+import Spinner from '~/assets/icons/spinnerDefault.svg?component';
+
 interface Props {
     severity?: 'primary' | 'secondary' | 'danger' | 'success' | 'info' | 'warning' | 'help'
     variant?: "outlined" | "text",
@@ -9,8 +14,6 @@ interface Props {
     iconPos?: 'left' | 'right'
     label?: string
     rounded?: boolean
-    fullWidth?: boolean
-    pill?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -21,47 +24,64 @@ const props = withDefaults(defineProps<Props>(), {
     disabled: false,
     iconPos: 'left',
     rounded: false,
-    fullWidth: false,
-    pill: false
 })
 
 const emit = defineEmits<{ click: [] }>()
 
-// TODO: loading-state, disabled-state, rounded, icon, icon-only, button-group, badge
+
+// TODO: icon, icon-only, button-group, badge
 </script>
 
 <template>
-    <PrimeButton :label="label ?? $t('button.label.default')" :icon="icon" :icon-pos="iconPos" :loading="loading" :disabled="disabled" :class="[
-        'btn',
-        {
-            // СТАТИЧЕСКИЕ СТРОКИ - UnoCSS их увидит!
-            'btn-primary': severity === 'primary',
-            'btn-secondary': severity === 'secondary',
-            'btn-success': severity === 'success',
-            'btn-danger': severity === 'danger',
-            'btn-info': severity === 'info',
-            'btn-warning': severity === 'warning',
-            'btn-help': severity === 'help',
+    <PrimeButton
+        :label="label ?? $t('button.label.default')"
+        :icon="icon"
+        :icon-pos="iconPos"
+        :loading="loading"
+        :disabled="disabled || loading"
+        :class="[
+            'btn',
+            {
+                'btn-primary': severity === 'primary',
+                'btn-secondary': severity === 'secondary',
+                'btn-success': severity === 'success',
+                'btn-danger': severity === 'danger',
+                'btn-info': severity === 'info',
+                'btn-warning': severity === 'warning',
+                'btn-help': severity === 'help',
 
-            'btn-sm': size === 'sm',
-            'btn-md': size === 'md',
-            'btn-lg': size === 'lg',
+                'btn-sm': size === 'sm',
+                'btn-md': size === 'md',
+                'btn-lg': size === 'lg',
 
-            'btn-outlined': variant === 'outlined',
-            'btn-text': variant === 'text',
+                'btn-outlined': variant === 'outlined',
+                'btn-text': variant === 'text',
 
-            'rounded-full': pill,
-            'rounded-lg': rounded && !pill,
-            'w-full': fullWidth,
-            'opacity-50 cursor-not-allowed': disabled
-        },
-    ]
-        " @click="emit('click')">
-        <slot />
+                'btn-rounded': rounded,
+
+                'btn-disabled': disabled || loading
+            },
+        ]"
+        @click="emit('click')"
+    >
+        <template #default>
+            <slot />
+        </template>
+        <template #loadingicon>
+            <slot v-if="$slots.loadingIcon" name="loadingIcon"></slot>
+            <div v-else><Spinner height="1.25em" width="1.25em" /></div>
+        </template>
+        <!-- TODO: сделать слот иконки -->
+        <!-- <template #icon>
+            <slot name="icon"></slot>
+        </template> -->
     </PrimeButton>
 </template>
 
-<style scoped lang="scss">
+<style
+    scoped
+    lang="scss"
+>
 // Карта основных вариантов кнопок и их цветов
 $btn-variants: (
     success: var(--accent-success),
@@ -108,6 +128,15 @@ $solid-variants: (
     justify-content: center;
     border-width: 1px;
 
+    &.btn-rounded {
+        border-radius: 2rem;
+    }
+
+    &.btn-disabled {
+        opacity: 60%;
+        cursor: default;
+    }
+
     &.btn-sm {
         line-height: normal;
         font-size: 0.875rem;
@@ -133,7 +162,7 @@ $solid-variants: (
         background-color: var(--primary-600);
         border-color: var(--primary-600);
 
-        &:hover {
+        &:not(:disabled):hover {
             background-color: var(--primary-700);
             border-color: var(--primary-700);
         }
@@ -143,7 +172,7 @@ $solid-variants: (
         background-color: var(--surface-200);
         border-color: var(--surface-200);
 
-        &:hover {
+        &:not(:disabled):hover {
             background-color: var(--surface-300);
             border-color: var(--surface-300);
         }
@@ -165,7 +194,7 @@ $solid-variants: (
             &.btn-#{$name} {
                 color: $color;
 
-                &:hover {
+                &:not(:disabled):hover {
                     @include btn-outline-hover($color);
                 }
             }
@@ -176,7 +205,7 @@ $solid-variants: (
             color: var(--surface-500);
             background-color: transparent;
 
-            &:hover {
+            &:not(:disabled):hover {
                 @include btn-outline-hover(var(--surface-400));
             }
         }
@@ -188,7 +217,7 @@ $solid-variants: (
 
     // Генерация hover состояний для solid кнопок
     @each $name, $color in $solid-variants {
-        &.btn-#{$name}:hover {
+        &.btn-#{$name}:not(:disabled):hover {
             @include btn-solid-hover($color);
         }
     }
@@ -202,7 +231,7 @@ $solid-variants: (
 
     // Генерация hover border для text кнопок
     @each $name, $color in $btn-variants {
-        &.btn-#{$name}:hover {
+        &.btn-#{$name}:not(:disabled):hover {
             @include btn-text-border-hover($color);
         }
     }
@@ -211,7 +240,7 @@ $solid-variants: (
     &.btn-secondary {
         border-color: transparent;
 
-        &:hover {
+        &:not(:disabled):hover {
             @include btn-text-border-hover(var(--surface-400));
         }
     }
@@ -226,17 +255,17 @@ $solid-variants: (
             border-color: transparent
         }
 
-        &:hover {
+        &:not(:disabled):hover {
             border-color: var(--surface-500);
             background-color: var(--surface-400);
         }
 
-        &.btn-text:hover {
+        &.btn-text:not(:disabled):hover {
             border-color: color-mix(in srgb, var(--surface-500) 10%, var(--text-inverse) 90%);
         }
     }
 
-    .btn-primary:hover {
+    .btn-primary:not(:disabled):hover {
         background-color: var(--primary-500);
     }
 }
