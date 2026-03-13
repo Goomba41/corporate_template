@@ -2,17 +2,20 @@
 import Button from '~/components/shared/ui/atoms/Button.vue';
 
 import { useTheme } from '~/composables/app/useTheme';
+import { useLocale } from '~/composables/app/useLocale';
 
 import Logo from '~/assets/icons/logo.svg?component';
 
-const { 
+const {
   colorSurface,
   colorTheme,
-  displayMode, 
+  displayMode,
   toggleDisplayMode,
   cycleColorTheme,
   cycleColorSurface
 } = useTheme()
+
+const { appLocaleName, cycleAppLocale } = useLocale()
 </script>
 
 <template>
@@ -51,10 +54,14 @@ const {
 
   <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
     <div class="flex gap-2 items-center">
-      <Button label="Small" size="sm"/>
-      <Button label="Medium" size="md"/>
-      <Button label="Large" size="lg"/>
+      <Button :label="$t('button.sizes.sm')" size="sm" />
+      <Button :label="$t('button.sizes.md')" size="md" />
+      <Button :label="$t('button.sizes.lg')" size="lg" />
     </div>
+  </div>
+
+  <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
+    <Button />
   </div>
 
   <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
@@ -62,10 +69,11 @@ const {
       <button @click="cycleColorSurface">{{ colorSurface }}</button>
       <button @click="cycleColorTheme">{{ colorTheme }}</button>
       <button @click="toggleDisplayMode">{{ displayMode }}</button>
+      <button @click="cycleAppLocale">{{ appLocaleName }}</button>
     </div>
   </div>
 
   <div class="flex flex-col flex-wrap items-center justify-center gap-2 p-2">
-    <Logo width="2.875rem" height="2.875rem"/>
+    <Logo width="2.875rem" height="2.875rem" />
   </div>
 </template>

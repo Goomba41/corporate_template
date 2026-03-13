@@ -31,7 +31,7 @@ const emit = defineEmits<{ click: [] }>()
 </script>
 
 <template>
-    <PrimeButton :label="label" :icon="icon" :icon-pos="iconPos" :loading="loading" :disabled="disabled" :class="[
+    <PrimeButton :label="label ?? $t('button.label.default')" :icon="icon" :icon-pos="iconPos" :loading="loading" :disabled="disabled" :class="[
         'btn',
         {
             // СТАТИЧЕСКИЕ СТРОКИ - UnoCSS их увидит!
@@ -199,6 +199,7 @@ $solid-variants: (
 }
 
 .btn-text {
+
     // Генерация hover border для text кнопок
     @each $name, $color in $btn-variants {
         &.btn-#{$name}:hover {

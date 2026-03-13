@@ -1,158 +1,74 @@
 
 import { ref, watch, onMounted } from 'vue'
-import {
-    colorSurfaces,
-    colorThemes,
-    type ColorSurface,
-    type ColorTheme,
-    type DisplayMode,
-} from '~/themes/types'
 import { useCookie } from '#app'
-import { usePreferredColorScheme } from '@vueuse/core'
 
-export const useTheme = () => {
-    const colorThemeCookie = useCookie<ColorTheme>('theme-color', {
-        default: () => 'blue'
+export const useLocale = () => {
+    const { locale, locales, setLocale } = useI18n()
+
+    type Locale = typeof locale extends globalThis.WritableComputedRef<infer T, infer S> ? T : never
+
+    // Доступные локали, кроме текущей
+    const availableLocales = computed(() => {
+        return locales.value.filter(i => i.code !== locale.value)
     })
 
-    const colorSurfaceCookie = useCookie<ColorSurface>('theme-surface', {
-        default: () => 'slate'
+    const appLocaleCookie = useCookie<Locale>('locale', {
+        default: () => 'ru'
     })
 
-    const displayModeCookie = useCookie<DisplayMode>('theme-mode', {
-        default: () => 'no-preference'
-    })
+    // Код текущей локали
+    const appLocale = ref<Locale>(appLocaleCookie.value)
 
-    // Определяем предпочитаемый режим системы
-    const preferredColorScheme = usePreferredColorScheme()
+    // Объект текущей локали
+    const appLocaleObject = computed(() => locales.value.find(i => i.code === locale.value))
 
-    // Цветовая тема (бренд)
-    const colorTheme = ref<ColorTheme>(colorThemeCookie.value)
+    // Имя текущей локали
+    const appLocaleName = computed(() => appLocaleObject.value?.name ?? 'Русский')
 
-    // Режим отображения (светлый/темный)
-    const displayMode = ref<DisplayMode>((() => {
-        if (displayModeCookie.value === 'no-preference' || !displayModeCookie.value) {
-            return preferredColorScheme.value as DisplayMode
-        }
-        return displayModeCookie.value
-    })())
-
-    // Цвет поверхности
-    const colorSurface = ref<ColorSurface>(colorSurfaceCookie.value)
-
-    // Изменение цветовой темы
-    const setColorTheme = (color: ColorTheme) => {
-        colorTheme.value = color
-        colorThemeCookie.value = color
-        applyTheme()
+    // Изменение локали
+    const setAppLocale = (locale: Locale) => {
+        appLocale.value = locale
+        appLocaleCookie.value = locale
+        applyLocale()
     }
 
-    // Изменение режима отображения
-    const setDisplayMode = (mode: DisplayMode) => {
-        displayMode.value = mode
-        displayModeCookie.value = mode
-        applyTheme()
-    }
+    // Переключение локали (в цикле)
+    const cycleAppLocale = () => {
+        const allAvailableLocales = locales.value
 
-    // Изменение цвета поверхности
-    const setColorSurface = (color: ColorSurface) => {
-        colorSurface.value = color
-        colorSurfaceCookie.value = color
-        applyTheme()
-    }
-
-    // Переключение режима
-    const toggleDisplayMode = () => {
-        const newMode: DisplayMode = displayMode.value === 'light' ? 'dark' : 'light'
-        setDisplayMode(newMode)
-    }
-
-    // Переключение цветовой темы (в цикле)
-    const cycleColorTheme = () => {
-        const colors: readonly ColorTheme[] = colorThemes
-        const currentIndex = colors.indexOf(colorTheme.value)
-        const nextIndex = (currentIndex + 1) % colors.length
-        setColorTheme(colors[nextIndex]!)
-    }
-
-    // Переключение цвета поверхности (в цикле)
-    const cycleColorSurface = () => {
-        const colors: readonly ColorSurface[] = colorSurfaces
-        const currentIndex = colors.indexOf(colorSurface.value)
-        const nextIndex = (currentIndex + 1) % colors.length
-        setColorSurface(colors[nextIndex]!)
-    }
-
-    // Применение темы
-    const applyTheme = () => {
-        if (typeof document === 'undefined') return
-
-        const root = document.documentElement
-
-        // Удаляем все классы тем
-        const themeClassesPattern = [...colorThemes, ...colorSurfaces, 'light', 'dark'].join('|')
-        const themeRegex = new RegExp(`\\b(color|mode|surface)-(${themeClassesPattern})\\b`, 'g');
-        root.className = root.className
-            .replace(themeRegex, '')
-            .trim()
-
-        // Добавляем классы текущей темы
-        root.classList.add(`color-${colorTheme.value}`)
-        root.classList.add(`mode-${displayMode.value}`)
-        root.classList.add(`surface-${colorSurface.value}`)
-
-        // Управляем классом 'dark' для UnoCSS
-        if (displayMode.value === 'dark') {
-            root.classList.add('dark')
-        } else {
-            root.classList.remove('dark')
+        if (allAvailableLocales.length && appLocaleObject.value) {
+            const currentIndex = allAvailableLocales.indexOf(appLocaleObject.value)
+            const nextIndex = (currentIndex + 1) % allAvailableLocales.length
+            setAppLocale(allAvailableLocales[nextIndex]!.code)
         }
     }
 
-    // Применяем тему на клиенте
+    // Применение локали
+    const applyLocale = () => {
+        setLocale(appLocale.value)
+    }
+
+    // Применяем локаль на клиенте
     onMounted(() => {
-        applyTheme()
+        applyLocale()
     })
 
     // Watchers
-    // Следим за изменением системного режима
-    watch(preferredColorScheme, (newScheme) => {
-        if (displayModeCookie.value === 'no-preference') {
-            displayMode.value = newScheme as DisplayMode
-            applyTheme()
-        }
-    })
-
-    watch(colorTheme, (newVal, oldVal) => {
+    watch(appLocale, (newVal, oldVal) => {
         if (newVal !== oldVal) {
-            colorThemeCookie.value = newVal
-        }
-    })
-
-    watch(displayMode, (newVal, oldVal) => {
-        if (newVal !== oldVal) {
-            displayModeCookie.value = newVal
-        }
-    })
-
-    watch(colorSurface, (newVal, oldVal) => {
-        if (newVal !== oldVal) {
-            colorSurfaceCookie.value = newVal
+            appLocaleCookie.value = newVal
         }
     })
 
     return {
         // Состояние
-        colorSurface,
-        colorTheme,
-        displayMode,
+        appLocale,
+        appLocaleName,
+        availableLocales,
 
         // Методы
-        setColorTheme,
-        setDisplayMode,
-        toggleDisplayMode,
-        cycleColorTheme,
-        cycleColorSurface,
-        applyTheme
+        setAppLocale,
+        cycleAppLocale,
+        applyLocale
     }
 }
