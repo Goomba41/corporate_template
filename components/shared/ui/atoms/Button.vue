@@ -10,8 +10,7 @@ interface Props {
     size?: 'sm' | 'md' | 'lg'
     loading?: boolean
     disabled?: boolean
-    icon?: string
-    iconPos?: 'left' | 'right'
+    iconPos?: 'left' | 'right' | 'top' | 'bottom'
     label?: string
     rounded?: boolean
 }
@@ -29,13 +28,12 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{ click: [] }>()
 
 
-// TODO: icon, icon-only, button-group, badge
+// TODO: button-group, badge
 </script>
 
 <template>
     <PrimeButton
-        :label="label ?? $t('button.label.default')"
-        :icon="icon"
+        :label="label"
         :icon-pos="iconPos"
         :loading="loading"
         :disabled="disabled || loading"
@@ -59,7 +57,10 @@ const emit = defineEmits<{ click: [] }>()
 
                 'btn-rounded': rounded,
 
-                'btn-disabled': disabled || loading
+                'btn-disabled': disabled || loading,
+
+                'btn-vertical': ['top', 'bottom'].includes(iconPos),
+                'btn-icon-only': label === undefined && $slots.icon
             },
         ]"
         @click="emit('click')"
@@ -67,14 +68,31 @@ const emit = defineEmits<{ click: [] }>()
         <template #default>
             <slot />
         </template>
+
         <template #loadingicon>
-            <slot v-if="$slots.loadingIcon" name="loadingIcon"></slot>
-            <div v-else><Spinner height="1.25em" width="1.25em" /></div>
+            <div
+                v-if="$slots.loadingIcon"
+                :class="['icon', `${iconPos}`]"
+            >
+                <slot name="loadingIcon"></slot>
+            </div>
+            <div
+                v-else
+                :class="['icon', `${iconPos}`]"
+            >
+
+                <Spinner />
+            </div>
         </template>
-        <!-- TODO: сделать слот иконки -->
-        <!-- <template #icon>
-            <slot name="icon"></slot>
-        </template> -->
+
+        <template
+            v-if="$slots.icon"
+            #icon
+        >
+            <div :class="['icon', `${iconPos}`]">
+                <slot name="icon"></slot>
+            </div>
+        </template>
     </PrimeButton>
 </template>
 
@@ -128,6 +146,27 @@ $solid-variants: (
     justify-content: center;
     border-width: 1px;
 
+    .icon {
+        height: 1.25em;
+        width: 1.25em;
+
+        &.right,
+        &.bottom {
+            order: 1
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            /* опционально, убирает лишние отступы */
+            display: block;
+        }
+    }
+
+    &.btn-vertical {
+        flex-direction: column;
+    }
+
     &.btn-rounded {
         border-radius: 2rem;
     }
@@ -156,6 +195,25 @@ $solid-variants: (
         font-size: 1.125rem;
         padding-inline: calc(var(--spacing) * 3.5); // px
         padding-block: calc(var(--spacing) * 2.5); // py
+    }
+
+    &.btn-icon-only {
+        
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        gap: 0;
+        
+        &.btn-sm {
+            width: calc(var(--spacing) * 7.95);
+        }
+
+        &.btn-md {
+            width: calc(var(--spacing) * 9.575);
+        }
+
+        &.btn-lg {
+            width: calc(var(--spacing) * 11.2);
+        }
     }
 
     &.btn-primary {
