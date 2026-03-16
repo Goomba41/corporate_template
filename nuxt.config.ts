@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/icon',
+    '@nuxt/test-utils/module',
     'nuxt-zod-i18n',
     'nuxt-svgo',
   ],
@@ -43,6 +44,7 @@ export default defineNuxtConfig({
       prefix: 'Prime', // Префикс для компонентов, чтобы избежать конфликтов
       include: [ // Явно указываем нужные компоненты для оптимизации
         'Button',
+        'InputText',
       ]
     },
   },

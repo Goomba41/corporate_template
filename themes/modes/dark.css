@@ -10,7 +10,7 @@
     --text-inverse: var(--surface-900);
 
     --border-primary: var(--surface-700);
-    --border-secondary: var(--surface-600);
+    --border-secondary: var(--surface-500);
 
     --shadow-color: rgba(0, 0, 0, 0.3);
 }

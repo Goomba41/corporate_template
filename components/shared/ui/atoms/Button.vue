@@ -2,11 +2,13 @@
     setup
     lang="ts"
 >
+import { computed, useSlots } from 'vue'
+
 import Spinner from '~/assets/icons/spinnerDefault.svg?component';
 
 interface Props {
     severity?: 'primary' | 'secondary' | 'danger' | 'success' | 'info' | 'warning' | 'help'
-    variant?: "outlined" | "text",
+    variant?: "outlined" | "text"
     size?: 'sm' | 'md' | 'lg'
     loading?: boolean
     disabled?: boolean
@@ -27,8 +29,34 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{ click: [] }>()
 
+const slots = useSlots()
 
 // TODO: button-group, badge
+
+const buttonClasses = computed(() => ({
+    'button': true,
+    'button-primary': props.severity === 'primary',
+    'button-secondary': props.severity === 'secondary',
+    'button-success': props.severity === 'success',
+    'button-danger': props.severity === 'danger',
+    'button-info': props.severity === 'info',
+    'button-warning': props.severity === 'warning',
+    'button-help': props.severity === 'help',
+
+    'button-sm': props.size === 'sm',
+    'button-md': props.size === 'md',
+    'button-lg': props.size === 'lg',
+
+    'button-outlined': props.variant === 'outlined',
+    'button-text': props.variant === 'text',
+
+    'button-rounded': props.rounded,
+
+    'button-disabled': props.disabled || props.loading,
+
+    'button-vertical': ['top', 'bottom'].includes(props.iconPos),
+    'button-icon-only': props.label === undefined && !!slots.icon
+}))
 </script>
 
 <template>
@@ -37,32 +65,7 @@ const emit = defineEmits<{ click: [] }>()
         :icon-pos="iconPos"
         :loading="loading"
         :disabled="disabled || loading"
-        :class="[
-            'btn',
-            {
-                'btn-primary': severity === 'primary',
-                'btn-secondary': severity === 'secondary',
-                'btn-success': severity === 'success',
-                'btn-danger': severity === 'danger',
-                'btn-info': severity === 'info',
-                'btn-warning': severity === 'warning',
-                'btn-help': severity === 'help',
-
-                'btn-sm': size === 'sm',
-                'btn-md': size === 'md',
-                'btn-lg': size === 'lg',
-
-                'btn-outlined': variant === 'outlined',
-                'btn-text': variant === 'text',
-
-                'btn-rounded': rounded,
-
-                'btn-disabled': disabled || loading,
-
-                'btn-vertical': ['top', 'bottom'].includes(iconPos),
-                'btn-icon-only': label === undefined && $slots.icon
-            },
-        ]"
+        :class="buttonClasses"
         @click="emit('click')"
     >
         <template #default>
@@ -80,7 +83,6 @@ const emit = defineEmits<{ click: [] }>()
                 v-else
                 :class="['icon', `${iconPos}`]"
             >
-
                 <Spinner />
             </div>
         </template>
@@ -101,7 +103,7 @@ const emit = defineEmits<{ click: [] }>()
     lang="scss"
 >
 // Карта основных вариантов кнопок и их цветов
-$btn-variants: (
+$button-variants: (
     success: var(--accent-success),
     warning: var(--accent-warning),
     danger: var(--accent-error),
@@ -120,23 +122,23 @@ $solid-variants: (
 );
 
 // Миксин для hover эффекта solid кнопок
-@mixin btn-solid-hover($color) {
+@mixin button-solid-hover($color) {
     $mixed: color-mix(in srgb, $color 80%, var(--text-primary) 20%);
     background-color: $mixed;
     border-color: $mixed;
 }
 
 // Миксин для hover фона outlined/text кнопок
-@mixin btn-outline-hover($color) {
+@mixin button-outline-hover($color) {
     background-color: color-mix(in srgb, $color 10%, var(--text-inverse) 90%);
 }
 
 // Миксин для hover border text кнопок
-@mixin btn-text-border-hover($color) {
+@mixin button-text-border-hover($color) {
     border-color: color-mix(in srgb, $color 10%, var(--text-inverse) 90%);
 }
 
-.btn {
+.button {
     color: var(--text-inverse);
     border-radius: 0.5rem;
     font-weight: 500;
@@ -163,60 +165,60 @@ $solid-variants: (
         }
     }
 
-    &.btn-vertical {
+    &.button-vertical {
         flex-direction: column;
     }
 
-    &.btn-rounded {
+    &.button-rounded {
         border-radius: 2rem;
     }
 
-    &.btn-disabled {
+    &.button-disabled {
         opacity: 60%;
         cursor: default;
     }
 
-    &.btn-sm {
+    &.button-sm {
         line-height: normal;
         font-size: 0.875rem;
         padding-inline: calc(var(--spacing) * 2.5); // px
         padding-block: calc(var(--spacing) * 1.5); // py
     }
 
-    &.btn-md {
+    &.button-md {
         line-height: normal;
         font-size: 1rem;
         padding-inline: calc(var(--spacing) * 3); // px
         padding-block: calc(var(--spacing) * 2); // py
     }
 
-    &.btn-lg {
+    &.button-lg {
         line-height: normal;
         font-size: 1.125rem;
         padding-inline: calc(var(--spacing) * 3.5); // px
         padding-block: calc(var(--spacing) * 2.5); // py
     }
 
-    &.btn-icon-only {
-        
+    &.button-icon-only {
+
         padding-inline-start: 0;
         padding-inline-end: 0;
         gap: 0;
-        
-        &.btn-sm {
+
+        &.button-sm {
             width: calc(var(--spacing) * 7.95);
         }
 
-        &.btn-md {
+        &.button-md {
             width: calc(var(--spacing) * 9.575);
         }
 
-        &.btn-lg {
+        &.button-lg {
             width: calc(var(--spacing) * 11.2);
         }
     }
 
-    &.btn-primary {
+    &.button-primary {
         background-color: var(--primary-600);
         border-color: var(--primary-600);
 
@@ -226,7 +228,7 @@ $solid-variants: (
         }
     }
 
-    &.btn-secondary {
+    &.button-secondary {
         background-color: var(--surface-200);
         border-color: var(--surface-200);
 
@@ -236,80 +238,80 @@ $solid-variants: (
         }
     }
 
-    @each $name, $color in $btn-variants {
-        &.btn-#{$name} {
+    @each $name, $color in $button-variants {
+        &.button-#{$name} {
             background-color: $color;
             border-color: $color;
         }
     }
 
-    &.btn-outlined,
-    &.btn-text {
+    &.button-outlined,
+    &.button-text {
         background: transparent;
 
         // Генерация цветов и hover фона для основных вариантов
-        @each $name, $color in $btn-variants {
-            &.btn-#{$name} {
+        @each $name, $color in $button-variants {
+            &.button-#{$name} {
                 color: $color;
 
                 &:not(:disabled):hover {
-                    @include btn-outline-hover($color);
+                    @include button-outline-hover($color);
                 }
             }
         }
 
         // Secondary variant (использует другие переменные для hover)
-        &.btn-secondary {
+        &.button-secondary {
             color: var(--surface-500);
             background-color: transparent;
 
             &:not(:disabled):hover {
-                @include btn-outline-hover(var(--surface-400));
+                @include button-outline-hover(var(--surface-400));
             }
         }
     }
 
-    &.btn-text {
+    &.button-text {
         border-color: transparent;
     }
 
     // Генерация hover состояний для solid кнопок
     @each $name, $color in $solid-variants {
-        &.btn-#{$name}:not(:disabled):hover {
-            @include btn-solid-hover($color);
+        &.button-#{$name}:not(:disabled):hover {
+            @include button-solid-hover($color);
         }
     }
 
-    &.btn-secondary {
+    &.button-secondary {
         color: var(--text-primary);
     }
 }
 
-.btn-text {
+.button-text {
 
     // Генерация hover border для text кнопок
-    @each $name, $color in $btn-variants {
-        &.btn-#{$name}:not(:disabled):hover {
-            @include btn-text-border-hover($color);
+    @each $name, $color in $button-variants {
+        &.button-#{$name}:not(:disabled):hover {
+            @include button-text-border-hover($color);
         }
     }
 
     // Secondary variant для text кнопок
-    &.btn-secondary {
+    &.button-secondary {
         border-color: transparent;
 
         &:not(:disabled):hover {
-            @include btn-text-border-hover(var(--surface-400));
+            @include button-text-border-hover(var(--surface-400));
         }
     }
 }
 
 .mode-dark {
-    .btn-secondary {
+    .button-secondary {
         background-color: var(--surface-500);
         border-color: var(--surface-500);
 
-        &.btn-text {
+        &.button-text {
             border-color: transparent
         }
 
@@ -318,12 +320,12 @@ $solid-variants: (
             background-color: var(--surface-400);
         }
 
-        &.btn-text:not(:disabled):hover {
+        &.button-text:not(:disabled):hover {
             border-color: color-mix(in srgb, var(--surface-500) 10%, var(--text-inverse) 90%);
         }
     }
 
-    .btn-primary:not(:disabled):hover {
+    .button-primary:not(:disabled):hover {
         background-color: var(--primary-500);
     }
 }

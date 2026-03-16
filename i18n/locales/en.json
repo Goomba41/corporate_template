@@ -6,7 +6,7 @@
     "sizes": {
       "sm": "Small",
       "md": "Medium",
-      "lg": "large"
+      "lg": "Large"
     },
     "severities": {
       "primary": "Primary",
@@ -16,6 +16,13 @@
       "warning": "Warning",
       "help": "Help",
       "danger": "Danger"
+    }
+  },
+  "input-text": {
+    "sizes": {
+      "sm": "Small",
+      "md": "Medium",
+      "lg": "Large"
     }
   }
 }
