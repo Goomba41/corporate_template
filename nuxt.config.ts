@@ -34,6 +34,7 @@ export default defineNuxtConfig({
       { code: 'es', language: 'es-ES', name: 'Español', file: 'es.json' },
     ],
     defaultLocale: 'ru',
+    strategy: 'no_prefix'
   },
 
   primevue: {
@@ -45,6 +46,7 @@ export default defineNuxtConfig({
       include: [ // Явно указываем нужные компоненты для оптимизации
         'Button',
         'InputText',
+        'Message'
       ]
     },
   },

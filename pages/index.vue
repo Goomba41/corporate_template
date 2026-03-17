@@ -4,6 +4,7 @@
 >
 import Button from '~/components/shared/ui/atoms/Button.vue';
 import InputText from '~/components/shared/ui/atoms/InputText.vue';
+import Message from '~/components/shared/ui/atoms/Message.vue';
 
 import { useTheme } from '~/composables/app/useTheme';
 import { useLocale } from '~/composables/app/useLocale';
@@ -34,6 +35,16 @@ const load = () => {
   setTimeout(() => {
     loading.value = false;
   }, 3000);
+}
+
+const visible = ref(false)
+
+const showMessage = () => {
+  visible.value = true;
+}
+
+const hideMessage = () => {
+  console.log('Message visibility state now is: hidden')
 }
 </script>
 
@@ -237,6 +248,7 @@ const load = () => {
           </template>
         </Button>
       </div>
+
       <div class="flex gap-2 items-center">
         <Button
           :label="$t('button.label.default')"
@@ -320,6 +332,7 @@ const load = () => {
           severity="danger"
           variant="text"
           rounded
+          @click="showMessage"
         >
           <template #icon>
             <Finn />
@@ -344,10 +357,117 @@ const load = () => {
       <InputText />
 
       <div class="flex gap-2 items-center">
-        <InputText :placeholder="$t('input-text.sizes.sm')" size="sm"/>
-        <InputText :placeholder="$t('input-text.sizes.md')" size="md"/>
-        <InputText :placeholder="$t('input-text.sizes.lg')" size="lg"/>
+        <InputText
+          :placeholder="$t('input-text.sizes.sm')"
+          size="sm"
+        />
+        <InputText
+          :placeholder="$t('input-text.sizes.md')"
+          size="md"
+        />
+        <InputText
+          :placeholder="$t('input-text.sizes.lg')"
+          size="lg"
+        />
       </div>
+    </div>
+
+    <div class="flex flex-col gap-2 p-2 items-center">
+      <Message>Привет</Message>
+
+      <div class="flex gap-2 items-center">
+        <Message size="sm">Small</Message>
+        <Message size="md">Medium</Message>
+        <Message size="lg">Large</Message>
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <Message severity="primary">Привет</Message>
+        <Message severity="secondary">Привет</Message>
+        <Message severity="success">Привет</Message>
+        <Message severity="info">Привет</Message>
+        <Message severity="warning">Привет</Message>
+        <Message severity="help">Привет</Message>
+        <Message severity="danger">Привет</Message>
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <Message
+          severity="primary"
+          variant="outlined"
+        >Привет</Message>
+        <Message
+          severity="secondary"
+          variant="outlined"
+        >Привет</Message>
+        <Message
+          severity="success"
+          variant="outlined"
+        >Привет</Message>
+      </div>
+
+      <div class="flex gap-6 items-center">
+        <Message
+          severity="primary"
+          variant="simple"
+        >Привет</Message>
+        <Message
+          severity="secondary"
+          variant="simple"
+        >Привет</Message>
+        <Message
+          severity="success"
+          variant="simple"
+        >Привет</Message>
+        <Message
+          severity="error"
+          variant="simple"
+        >Привет</Message>
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <Message severity="success">
+          <template #icon>
+            <Finn
+              width="1.25rem"
+              height="1.25rem"
+            />
+          </template>
+          Привет
+        </Message>
+        <Message severity="info">
+          <template #icon>
+            <Finn
+              width="3rem"
+              height="3rem"
+            />
+          </template>
+          Привет
+        </Message>
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <Message
+          severity="info"
+          appearance="right"
+          :life="5000"
+          v-model:visible="visible"
+          @life-end="hideMessage"
+        >
+          Привет
+        </Message>
+
+        <Message
+          severity="info"
+          appearance="top-bottom"
+          :life="5000"
+          v-model:visible="visible"
+          @life-end="hideMessage"
+        >
+          Привет
+        </Message>
+      </div>
+
     </div>
   </div>
 </template>
