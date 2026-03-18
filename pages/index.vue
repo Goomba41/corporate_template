@@ -12,6 +12,7 @@ import { useLocale } from '~/composables/app/useLocale';
 import Finn from '~/assets/icons/finnTheHumanDuotone.svg?component';
 import Logo from '~/assets/icons/logo.svg?component';
 import Spinner from '~/assets/icons/spinnerResize.svg?component';
+import FormField from '~/components/shared/ui/molecules/FormField.vue';
 
 const {
   colorSurface,
@@ -369,6 +370,23 @@ const hideMessage = () => {
           :placeholder="$t('input-text.sizes.lg')"
           size="lg"
         />
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <FormField error="Пустое поле">
+          <template #input="{ invalid }">
+            <InputText
+              :placeholder="$t('input-text.sizes.md')"
+              :invalid="invalid"
+              size="md"
+            />
+          </template>
+        </FormField>
+        <FormField>
+          <template #input>
+            <InputText :placeholder="$t('input-text.sizes.md')" />
+          </template>
+        </FormField>
       </div>
     </div>
 

@@ -9,12 +9,14 @@ import { computed, useSlots } from 'vue'
 interface Props {
     size?: 'sm' | 'md' | 'lg'
     placeholder?: string,
+    invalid?: boolean
 }
 
 // TODO: fluid, filled, disabled, invalid
 const props = withDefaults(defineProps<Props>(), {
     size: 'md',
     placeholder: undefined,
+    invalid: undefined
 })
 
 // TODO: эмиты событий
@@ -28,6 +30,8 @@ const inputClasses = computed(() => ({
     'input-text-sm': props.size === 'sm',
     'input-text-md': props.size === 'md',
     'input-text-lg': props.size === 'lg',
+
+    'input-text-invalid': props.invalid === true
 }))
 </script>
 
@@ -91,6 +95,14 @@ const inputClasses = computed(() => ({
     //     cursor: default;
     // }
 
+    &.input-text-invalid {
+        border-color: var(--accent-error);
+
+        &::placeholder {
+            color: var(--accent-error);
+        }
+    }
+
     &:not(:disabled) {
         &:hover {
             border-color: var(--border-secondary);
@@ -99,7 +111,7 @@ const inputClasses = computed(() => ({
 
         &:focus {
             border-color: var(--primary-500);
-            outline: 1px var(--p-inputtext-focus-ring-style) var(--primary-500);
+            outline: 1px solid var(--primary-500);
         }
     }
 
@@ -128,7 +140,7 @@ const inputClasses = computed(() => ({
 .mode-dark {
     &:not(:disabled):focus {
         border-color: var(--primary-400);
-        outline: 1px var(--p-inputtext-focus-ring-style) var(--primary-400);
+        outline: 1px solid var(--primary-400);
     }
 }
 </style>
