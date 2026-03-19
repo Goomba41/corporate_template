@@ -35,27 +35,27 @@ const slots = useSlots()
 
 const buttonClasses = computed(() => ({
     'button': true,
-    'button-primary': props.severity === 'primary',
-    'button-secondary': props.severity === 'secondary',
-    'button-success': props.severity === 'success',
-    'button-danger': props.severity === 'danger',
-    'button-info': props.severity === 'info',
-    'button-warning': props.severity === 'warning',
-    'button-help': props.severity === 'help',
+    'button--primary': props.severity === 'primary',
+    'button--secondary': props.severity === 'secondary',
+    'button--success': props.severity === 'success',
+    'button--danger': props.severity === 'danger',
+    'button--info': props.severity === 'info',
+    'button--warning': props.severity === 'warning',
+    'button--help': props.severity === 'help',
 
-    'button-sm': props.size === 'sm',
-    'button-md': props.size === 'md',
-    'button-lg': props.size === 'lg',
+    'button--sm': props.size === 'sm',
+    'button--md': props.size === 'md',
+    'button--lg': props.size === 'lg',
 
-    'button-outlined': props.variant === 'outlined',
-    'button-text': props.variant === 'text',
+    'button--outlined': props.variant === 'outlined',
+    'button--text': props.variant === 'text',
 
-    'button-rounded': props.rounded,
+    'button--rounded': props.rounded,
 
-    'button-disabled': props.disabled || props.loading,
+    'button--disabled': props.disabled || props.loading,
 
-    'button-vertical': ['top', 'bottom'].includes(props.iconPos),
-    'button-icon-only': props.label === undefined && !!slots.icon
+    'button--vertical': ['top', 'bottom'].includes(props.iconPos),
+    'button--icon-only': props.label === undefined && !!slots.icon
 }))
 </script>
 
@@ -75,13 +75,13 @@ const buttonClasses = computed(() => ({
         <template #loadingicon>
             <div
                 v-if="$slots.loadingIcon"
-                :class="['icon', `${iconPos}`]"
+                :class="['button__icon', `button__icon--${iconPos}`]"
             >
                 <slot name="loadingIcon"></slot>
             </div>
             <div
                 v-else
-                :class="['icon', `${iconPos}`]"
+                :class="['button__icon', `button__icon--${iconPos}`]"
             >
                 <Spinner />
             </div>
@@ -91,7 +91,7 @@ const buttonClasses = computed(() => ({
             v-if="$slots.icon"
             #icon
         >
-            <div :class="['icon', `${iconPos}`]">
+            <div :class="['button__icon', `button__icon--${iconPos}`]">
                 <slot name="icon"></slot>
             </div>
         </template>
@@ -148,12 +148,12 @@ $solid-variants: (
     justify-content: center;
     border-width: 1px;
 
-    .icon {
+    .button__icon {
         height: 1.25em;
         width: 1.25em;
 
-        &.right,
-        &.bottom {
+        &--right,
+        &--bottom {
             order: 1
         }
 
@@ -165,60 +165,60 @@ $solid-variants: (
         }
     }
 
-    &.button-vertical {
+    &.button--vertical {
         flex-direction: column;
     }
 
-    &.button-rounded {
+    &.button--rounded {
         border-radius: 2rem;
     }
 
-    &.button-disabled {
+    &.button--disabled {
         opacity: 60%;
         cursor: default;
     }
 
-    &.button-sm {
+    &.button--sm {
         line-height: normal;
         font-size: 0.875rem;
         padding-inline: calc(var(--spacing) * 2.5); // px
         padding-block: calc(var(--spacing) * 1.5); // py
     }
 
-    &.button-md {
+    &.button--md {
         line-height: normal;
         font-size: 1rem;
         padding-inline: calc(var(--spacing) * 3); // px
         padding-block: calc(var(--spacing) * 2); // py
     }
 
-    &.button-lg {
+    &.button--lg {
         line-height: normal;
         font-size: 1.125rem;
         padding-inline: calc(var(--spacing) * 3.5); // px
         padding-block: calc(var(--spacing) * 2.5); // py
     }
 
-    &.button-icon-only {
+    &.button--icon-only {
 
         padding-inline-start: 0;
         padding-inline-end: 0;
         gap: 0;
 
-        &.button-sm {
+        &.button--sm {
             width: calc(var(--spacing) * 7.95);
         }
 
-        &.button-md {
+        &.button--md {
             width: calc(var(--spacing) * 9.575);
         }
 
-        &.button-lg {
+        &.button--lg {
             width: calc(var(--spacing) * 11.2);
         }
     }
 
-    &.button-primary {
+    &.button--primary {
         background-color: var(--primary-600);
         border-color: var(--primary-600);
 
@@ -228,7 +228,7 @@ $solid-variants: (
         }
     }
 
-    &.button-secondary {
+    &.button--secondary {
         background-color: var(--surface-200);
         border-color: var(--surface-200);
 
@@ -239,19 +239,19 @@ $solid-variants: (
     }
 
     @each $name, $color in $button-variants {
-        &.button-#{$name} {
+        &.button--#{$name} {
             background-color: $color;
             border-color: $color;
         }
     }
 
-    &.button-outlined,
-    &.button-text {
+    &.button--outlined,
+    &.button--text {
         background: transparent;
 
         // Генерация цветов и hover фона для основных вариантов
         @each $name, $color in $button-variants {
-            &.button-#{$name} {
+            &.button--#{$name} {
                 color: $color;
 
                 &:not(:disabled):hover {
@@ -261,7 +261,7 @@ $solid-variants: (
         }
 
         // Secondary variant (использует другие переменные для hover)
-        &.button-secondary {
+        &.button--secondary {
             color: var(--surface-500);
             background-color: transparent;
 
@@ -271,33 +271,33 @@ $solid-variants: (
         }
     }
 
-    &.button-text {
+    &.button--text {
         border-color: transparent;
     }
 
     // Генерация hover состояний для solid кнопок
     @each $name, $color in $solid-variants {
-        &.button-#{$name}:not(:disabled):hover {
+        &.button--#{$name}:not(:disabled):hover {
             @include button-solid-hover($color);
         }
     }
 
-    &.button-secondary {
+    &.button--secondary {
         color: var(--text-primary);
     }
 }
 
-.button-text {
+.button--text {
 
     // Генерация hover border для text кнопок
     @each $name, $color in $button-variants {
-        &.button-#{$name}:not(:disabled):hover {
+        &.button--#{$name}:not(:disabled):hover {
             @include button-text-border-hover($color);
         }
     }
 
     // Secondary variant для text кнопок
-    &.button-secondary {
+    &.button--secondary {
         border-color: transparent;
 
         &:not(:disabled):hover {
@@ -307,11 +307,11 @@ $solid-variants: (
 }
 
 .mode-dark {
-    .button-secondary {
+    .button--secondary {
         background-color: var(--surface-500);
         border-color: var(--surface-500);
 
-        &.button-text {
+        &.button--text {
             border-color: transparent
         }
 
@@ -320,12 +320,12 @@ $solid-variants: (
             background-color: var(--surface-400);
         }
 
-        &.button-text:not(:disabled):hover {
+        &.button--text:not(:disabled):hover {
             border-color: color-mix(in srgb, var(--surface-500) 10%, var(--text-inverse) 90%);
         }
     }
 
-    .button-primary:not(:disabled):hover {
+    .button--primary:not(:disabled):hover {
         background-color: var(--primary-500);
     }
 }
