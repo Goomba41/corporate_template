@@ -79,6 +79,10 @@ const inputClasses = computed(() => ({
     lang="scss"
 >
 .input-text {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+
     font-family: inherit;
     font-feature-settings: inherit;
     font-size: 1rem;

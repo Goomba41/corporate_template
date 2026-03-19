@@ -372,8 +372,8 @@ const hideMessage = () => {
         />
       </div>
 
-      <div class="flex gap-2 items-center">
-        <FormField error="Пустое поле">
+      <div class="flex gap-2 items-center ">
+        <FormField class="w-1/4" error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле">
           <template #input="{ invalid }">
             <InputText
               :placeholder="$t('input-text.sizes.md')"
@@ -382,7 +382,7 @@ const hideMessage = () => {
             />
           </template>
         </FormField>
-        <FormField>
+        <FormField class="w-1/4">
           <template #input>
             <InputText :placeholder="$t('input-text.sizes.md')" />
           </template>
@@ -432,6 +432,7 @@ const hideMessage = () => {
         <Message
           severity="secondary"
           variant="simple"
+          size="sm"
         >Привет</Message>
         <Message
           severity="success"
@@ -440,6 +441,7 @@ const hideMessage = () => {
         <Message
           severity="error"
           variant="simple"
+          size="lg"
         >Привет</Message>
       </div>
 

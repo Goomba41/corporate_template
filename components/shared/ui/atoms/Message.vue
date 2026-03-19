@@ -154,6 +154,7 @@ $message-appearance-variants: (
     line-height: normal;
 
     :deep(div[data-pc-section="contentwrapper"]) {
+        max-width: 100%;
         min-height: 0;
 
         div[data-pc-section="content"] {
