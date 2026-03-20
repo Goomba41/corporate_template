@@ -78,8 +78,8 @@ const inputClasses = computed(() => ({
     scoped
     lang="scss"
 >
+// TODO: БЭМ
 .input-text {
-    width: 100%;
     display: block;
     box-sizing: border-box;
 
@@ -94,19 +94,6 @@ const inputClasses = computed(() => ({
     outline-color: transparent;
     appearance: none;
 
-    // &.input-text-disabled {
-    //     opacity: 60%;
-    //     cursor: default;
-    // }
-
-    &.input-text-invalid {
-        border-color: var(--accent-error);
-
-        &::placeholder {
-            color: var(--accent-error);
-        }
-    }
-
     &:not(:disabled) {
         &:hover {
             border-color: var(--border-secondary);
@@ -116,6 +103,23 @@ const inputClasses = computed(() => ({
         &:focus {
             border-color: var(--primary-500);
             outline: 1px solid var(--primary-500);
+        }
+    }
+
+    // &.input-text-disabled {
+    //     opacity: 60%;
+    //     cursor: default;
+    // }
+
+    &.input-text-invalid {
+        border-color: var(--accent-error);
+
+        &:hover {
+            border-color: color-mix(in srgb, var(--accent-error) 90%, var(--text-primary) 10%);
+        }
+
+        &::placeholder {
+            color: var(--accent-error);
         }
     }
 
@@ -142,9 +146,8 @@ const inputClasses = computed(() => ({
 }
 
 .mode-dark {
-    &:not(:disabled):focus {
-        border-color: var(--primary-400);
-        outline: 1px solid var(--primary-400);
+    .input-text-invalid:not(:disabled):hover {
+        border-color: color-mix(in srgb, var(--accent-error) 80%, var(--text-primary) 20%);
     }
 }
 </style>

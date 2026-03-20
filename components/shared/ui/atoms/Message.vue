@@ -95,6 +95,9 @@ onBeforeUnmount(clearLifeTimer)
     scoped
     lang="scss"
 >
+@use 'sass:list';
+
+// TODO: БЭМ
 // Карта основных вариантов и их цветов
 $message-variants: (
     success: var(--accent-success),
@@ -117,8 +120,8 @@ $message-appearance-variants: (
 );
 
 @each $name, $transforms in $message-appearance-variants {
-    $enter-transform: nth($transforms, 1);
-    $leave-transform: nth($transforms, 2);
+    $enter-transform: list.nth($transforms, 1);
+    $leave-transform: list.nth($transforms, 2);
     
     .message-slide-fade-#{$name} {
         &-enter-active,

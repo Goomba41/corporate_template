@@ -128,6 +128,7 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
             <!-- Слот для поля ввода -->
             <div class="form-field__input-slot">
                 <slot
+                    class="w-full"
                     name="input"
                     :invalid="hasError"
                 />
@@ -197,6 +198,14 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
         width: 100%;
         min-width: 0;
         display: flex;
+
+        .form-field__input-slot {
+            padding: 1px;
+
+            &>*:first-child {
+                width: 100%;
+            }
+        }
     }
 
     .form-field__input-error {
@@ -205,7 +214,6 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
         min-height: 1rem;
         overflow: hidden;
         contain: layout;
-
 
         .message {
             max-width: 100%;
