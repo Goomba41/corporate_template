@@ -4,6 +4,8 @@
 >
 import { computed, useSlots } from 'vue'
 
+import Badge from './Badge.vue';
+
 import Spinner from '~/assets/icons/spinnerDefault.svg?component';
 
 interface Props {
@@ -15,6 +17,8 @@ interface Props {
     iconPos?: 'left' | 'right' | 'top' | 'bottom'
     label?: string
     rounded?: boolean
+    badge?: string
+    badgeSeverity?: 'primary' | 'secondary' | 'danger' | 'success' | 'info' | 'warning' | 'help'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,13 +29,12 @@ const props = withDefaults(defineProps<Props>(), {
     disabled: false,
     iconPos: 'left',
     rounded: false,
+    badgeSeverity: 'info'
 })
 
 const emit = defineEmits<{ click: [] }>()
 
 const slots = useSlots()
-
-// TODO: button-group, badge
 
 const buttonClasses = computed(() => ({
     'button': true,
@@ -60,19 +63,21 @@ const buttonClasses = computed(() => ({
 </script>
 
 <template>
-    <PrimeButton
-        :label="label"
-        :icon-pos="iconPos"
-        :loading="loading"
-        :disabled="disabled || loading"
+    <button
+        :disabled="disabled"
         :class="buttonClasses"
         @click="emit('click')"
     >
-        <template #default>
-            <slot />
-        </template>
+        <span
+            v-if="label"
+            class="button__label"
+        >
+            {{ label }}
+        </span>
 
-        <template #loadingicon>
+        <slot />
+
+        <template v-if="loading">
             <div
                 v-if="$slots.loadingIcon"
                 :class="['button__icon', `button__icon--${iconPos}`]"
@@ -87,15 +92,21 @@ const buttonClasses = computed(() => ({
             </div>
         </template>
 
-        <template
-            v-if="$slots.icon"
-            #icon
-        >
+        <template v-if="!loading && $slots.icon">
             <div :class="['button__icon', `button__icon--${iconPos}`]">
                 <slot name="icon"></slot>
             </div>
         </template>
-    </PrimeButton>
+
+        <!-- Бейдж -->
+        <Badge
+            v-if="!loading && badge"
+            class="button__badge"
+            :value="badge"
+            :severity="badgeSeverity"
+            :circle="true"
+        ></Badge>
+    </button>
 </template>
 
 <style
@@ -148,22 +159,36 @@ $solid-variants: (
     justify-content: center;
     border-width: 1px;
 
+    .button__label {
+        order: 1;
+    }
+
+    .button__badge {
+        order: 3;
+        height: 1rem;
+        line-height: 1rem;
+        min-width: 1rem;
+        font-size: 0.625rem;
+    }
+
     .button__icon {
         height: 1.25em;
         width: 1.25em;
+        order: 2;
 
-        &--right,
-        &--bottom {
-            order: 1
+        &--left,
+        &--top {
+            order: 0
         }
 
-        svg {
+        :deep(svg) {
             width: 100%;
             height: 100%;
             /* опционально, убирает лишние отступы */
             display: block;
         }
     }
+
 
     &.button--vertical {
         flex-direction: column;

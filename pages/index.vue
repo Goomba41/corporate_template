@@ -2,9 +2,13 @@
   setup
   lang="ts"
 >
+import Badge from '~/components/shared/ui/atoms/Badge.vue';
 import Button from '~/components/shared/ui/atoms/Button.vue';
-import InputText from '~/components/shared/ui/atoms/InputText.vue';
 import Message from '~/components/shared/ui/atoms/Message.vue';
+import InputText from '~/components/shared/ui/atoms/InputText.vue';
+
+import FormField from '~/components/shared/ui/molecules/FormField.vue';
+import ButtonGroup from '~/components/shared/ui/molecules/ButtonGroup.vue';
 
 import { useTheme } from '~/composables/app/useTheme';
 import { useLocale } from '~/composables/app/useLocale';
@@ -12,7 +16,6 @@ import { useLocale } from '~/composables/app/useLocale';
 import Finn from '~/assets/icons/finnTheHumanDuotone.svg?component';
 import Logo from '~/assets/icons/logo.svg?component';
 import Spinner from '~/assets/icons/spinnerResize.svg?component';
-import FormField from '~/components/shared/ui/molecules/FormField.vue';
 
 const {
   colorSurface,
@@ -152,6 +155,76 @@ const hideMessage = () => {
           severity="danger"
           variant="text"
         />
+      </div>
+
+      <div class="flex gap-2">
+        <Button
+          :label="$t('button.severities.primary')"
+          badge="5"
+          badge-severity="info"
+        />
+        <Button
+          :label="$t('button.severities.primary')"
+          :loading="loading"
+          badge="555"
+          badge-severity="info"
+        />
+        <Button
+          :label="$t('button.severities.primary')"
+          :loading="loading"
+          badge="5"
+          badge-severity="success"
+        >
+          <template #icon>
+            <Finn />
+          </template>
+        </Button>
+        <Button
+          :label="$t('button.severities.primary')"
+          :loading="loading"
+          icon-pos="right"
+          badge="5"
+          badge-severity="help"
+        >
+          <template #icon>
+            <Finn />
+          </template>
+        </Button>
+      </div>
+
+      <div class="flex gap-2">
+        <ButtonGroup>
+          <Button :label="$t('button.severities.primary')">
+            <template #icon>
+              <Finn />
+            </template>
+          </Button>
+          <Button
+            :label="$t('button.severities.primary')"
+            disabled
+          />
+          <Button
+            :label="$t('button.severities.primary')"
+            :loading="loading"
+          />
+        </ButtonGroup>
+      </div>
+
+      <div class="flex gap-2">
+        <ButtonGroup>
+          <Button
+            :label="$t('button.severities.primary')"
+            severity="success"
+          />
+          <Button
+            :label="$t('button.severities.primary')"
+            variant="outlined"
+          />
+          <Button
+            :label="$t('button.severities.primary')"
+            rounded
+          />
+        </ButtonGroup>
       </div>
 
       <div class="flex gap-2">
@@ -352,6 +425,29 @@ const hideMessage = () => {
         width="2.875rem"
         height="2.875rem"
       />
+
+      <div class="flex gap-2 items-center">
+        <Badge
+          value="88"
+          size="xl"
+          severity="success"
+          circle
+        ></Badge>
+        <Badge
+          value="6"
+          size="lg"
+          severity="warning"
+          circle
+        ></Badge>
+        <Badge
+          value="4"
+          severity="info"
+        ></Badge>
+        <Badge
+          value="2"
+          size="sm"
+        ></Badge>
+      </div>
     </div>
 
     <div class="flex flex-col gap-2 p-2 items-center">
@@ -373,7 +469,10 @@ const hideMessage = () => {
       </div>
 
       <div class="flex gap-2 items-center ">
-        <FormField class="w-1/4" error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле">
+        <FormField
+          class="w-1/4"
+          error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
+        >
           <template #input="{ invalid }">
             <InputText
               :placeholder="$t('input-text.sizes.md')"

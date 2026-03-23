@@ -183,7 +183,7 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .form-field {
     min-width: 0;
     overflow: hidden;
