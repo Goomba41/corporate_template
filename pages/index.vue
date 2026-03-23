@@ -55,6 +55,8 @@ const hideMessage = () => {
 <template>
   <div class="flex gap-2">
     <div class="flex flex-col gap-2 p-2 items-center">
+
+      <!-- Кнопки -->
       <div class="flex gap-2">
         <Button :label="$t('button.severities.primary')" />
         <Button
@@ -414,18 +416,13 @@ const hideMessage = () => {
         </Button>
       </div>
 
-      <div class="flex gap-2 items-center">
-        <button @click="cycleColorSurface">{{ colorSurface }}</button>
-        <button @click="cycleColorTheme">{{ colorTheme }}</button>
-        <button @click="toggleDisplayMode">{{ displayMode }}</button>
-        <button @click="cycleAppLocale">{{ appLocaleName }}</button>
-      </div>
-
+      <!-- Лого -->
       <Logo
         width="2.875rem"
         height="2.875rem"
       />
 
+      <!-- Бэйджи -->
       <div class="flex gap-2 items-center">
         <Badge
           value="88"
@@ -450,6 +447,7 @@ const hideMessage = () => {
       </div>
     </div>
 
+    <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 p-2 items-center">
       <InputText />
 
@@ -489,6 +487,7 @@ const hideMessage = () => {
       </div>
     </div>
 
+    <!-- Сообщения -->
     <div class="flex flex-col gap-2 p-2 items-center">
       <Message>Привет</Message>
 
@@ -588,5 +587,12 @@ const hideMessage = () => {
       </div>
 
     </div>
+  </div>
+
+  <div class="flex flex-col items-center justify-center mt-6">
+    <button @click="cycleColorSurface">Поверхность: {{ colorSurface }}</button>
+    <button @click="cycleColorTheme">Тема: {{ colorTheme }}</button>
+    <button @click="toggleDisplayMode">Режим: {{ displayMode }}</button>
+    <button @click="cycleAppLocale">Язык: {{ appLocaleName }}</button>
   </div>
 </template>
