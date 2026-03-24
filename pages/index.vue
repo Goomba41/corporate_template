@@ -466,10 +466,23 @@ const hideMessage = () => {
         />
       </div>
 
-      <div class="flex gap-2 items-center ">
+      <div class="flex gap-2 items-start ">
         <FormField
           class="w-1/4"
           error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
+        >
+          <template #input="{ invalid }">
+            <InputText
+              :placeholder="$t('input-text.sizes.md')"
+              :invalid="invalid"
+              size="md"
+            />
+          </template>
+        </FormField>
+        <FormField
+          class="w-1/4"
+          error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
+          :error-lines="2"
         >
           <template #input="{ invalid }">
             <InputText

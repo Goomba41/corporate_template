@@ -11,47 +11,49 @@ import ErrorMessage from '~/components/shared/ui/atoms/Message.vue'
 // import Icon from '~/components/shared/ui/atoms/Icon.vue'
 
 interface Props {
-    label?: string
+    // label?: string
     error?: string | null
-    hint?: string
-    required?: boolean
-    disabled?: boolean
-    readonly?: boolean
-    focused?: boolean
-    type?: string
-    size?: 'sm' | 'md' | 'lg'
-    variant?: 'default' | 'filled' | 'outlined' | 'underlined'
-    maxLength?: number
-    modelValue?: string | number
-    prefixIcon?: string
-    suffixIcon?: string
-    prefixText?: string
-    suffixText?: string
-    showCounter?: boolean
-    classes?: string
-    style?: string
+    errorLines?: number
+    // hint?: string
+    // required?: boolean
+    // disabled?: boolean
+    // readonly?: boolean
+    // focused?: boolean
+    // type?: string
+    // size?: 'sm' | 'md' | 'lg'
+    // variant?: 'default' | 'filled' | 'outlined' | 'underlined'
+    // maxLength?: number
+    // modelValue?: string | number
+    // prefixIcon?: string
+    // suffixIcon?: string
+    // prefixText?: string
+    // suffixText?: string
+    // showCounter?: boolean
+    // classes?: string
+    // style?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    label: '',
+    // label: '',
     error: null,
-    hint: '',
-    required: false,
-    disabled: false,
-    readonly: false,
-    focused: false,
-    type: 'text',
-    size: 'md',
-    variant: 'default',
-    maxLength: undefined,
-    modelValue: '',
-    prefixIcon: undefined,
-    suffixIcon: undefined,
-    prefixText: undefined,
-    suffixText: undefined,
-    showCounter: false,
-    classes: '',
-    style: ''
+    errorLines: 1
+    // hint: '',
+    // required: false,
+    // disabled: false,
+    // readonly: false,
+    // focused: false,
+    // type: 'text',
+    // size: 'md',
+    // variant: 'default',
+    // maxLength: undefined,
+    // modelValue: '',
+    // prefixIcon: undefined,
+    // suffixIcon: undefined,
+    // prefixText: undefined,
+    // suffixText: undefined,
+    // showCounter: false,
+    // classes: '',
+    // style: ''
 })
 
 const emit = defineEmits<{
@@ -61,18 +63,18 @@ const emit = defineEmits<{
 }>()
 
 const hasError = computed(() => !!props.error)
-const hasHint = computed(() => !!props.hint)
-const hasCounter = computed(() => props.showCounter && props.maxLength)
-const currentLength = computed(() => {
-    if (typeof props.modelValue === 'string') {
-        return props.modelValue.length
-    }
-    return 0
-})
-const isCounterExceeded = computed(() => {
-    if (!props.maxLength) return false
-    return currentLength.value > props.maxLength
-})
+// const hasHint = computed(() => !!props.hint)
+// const hasCounter = computed(() => props.showCounter && props.maxLength)
+// const currentLength = computed(() => {
+//     if (typeof props.modelValue === 'string') {
+//         return props.modelValue.length
+//     }
+//     return 0
+// })
+// const isCounterExceeded = computed(() => {
+//     if (!props.maxLength) return false
+//     return currentLength.value > props.maxLength
+// })
 
 const handleFocus = () => emit('focus')
 const handleBlur = () => emit('blur')
@@ -83,18 +85,18 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
     <div
         class="form-field"
         :class="[
-            `form-field--${variant}`,
-            `form-field--${size}`,
+            // `form-field--${variant}`,
+            // `form-field--${size}`,
             {
                 'form-field--error': hasError,
-                'form-field--disabled': disabled,
-                'form-field--readonly': readonly,
-                'form-field--focused': focused
+                // 'form-field--disabled': disabled,
+                // 'form-field--readonly': readonly,
+                // 'form-field--focused': focused
             },
-            classes
+            // classes
         ]"
-        :style="style"
     >
+        <!-- :style="style" -->
         <!-- Лейбл (атом) -->
         <!-- <Label
             v-if="label"
@@ -158,7 +160,11 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
         </div>
 
         <!-- Сообщение об ошибке (атом) -->
-        <div class="form-field__input-error">
+        <div
+            class="form-field__input-error"
+            :class="{ 'form-field__input-error--multiline': errorLines }"
+            :style="errorLines ? { '--error-lines': errorLines } : undefined"
+        >
             <ErrorMessage
                 severity="error"
                 variant="simple"
@@ -183,7 +189,10 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
     </div>
 </template>
 
-<style scoped lang="scss">
+<style
+    scoped
+    lang="scss"
+>
 .form-field {
     min-width: 0;
     overflow: hidden;
@@ -220,19 +229,20 @@ const handleIconClick = (position: 'prefix' | 'suffix') => emit('iconClick', pos
             justify-content: start;
         }
 
-        :deep([data-pc-section="text"]) {
+        :deep(.text) {
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
             min-width: 0;
             white-space: nowrap;
+        }
 
-            /* TODO: сделать генерацию стилей для нескольких строк */
-            /* display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
+        &--multiline :deep(.text) {
+            white-space: normal;
+            display: -webkit-box;
             -webkit-box-orient: vertical;
-            white-space: normal; */
+            -webkit-line-clamp: var(--error-lines, 2);
+            line-clamp: var(--error-lines, 2);
         }
     }
 }
