@@ -10,15 +10,21 @@ interface Props {
     size?: 'sm' | 'md' | 'lg'
     placeholder?: string,
     invalid?: boolean
-    fluid?: boolean
+    fluid?: boolean,
+    variant?: 'filled'
+    disabled?: boolean
+    loading?: boolean
 }
 
-// TODO: filled, disabled, floatLabel (молекула), loading
+// TODO: floatLabel (молекула), loading
 const props = withDefaults(defineProps<Props>(), {
     size: 'md',
     placeholder: undefined,
     invalid: undefined,
-    fluid: undefined
+    fluid: undefined,
+    variant: undefined,
+    disabled: undefined,
+    loading: undefined
 })
 
 // TODO: эмиты событий focus, blur, value-change, update:modelValue
@@ -29,18 +35,19 @@ const props = withDefaults(defineProps<Props>(), {
 const inputClasses = computed(() => ([
     'input-text',
     `input-text--${props.size}`,
+    props.variant && `input-text--${props.variant}`,
+    props.disabled && `input-text--${props.disabled}`,
     {
         'input-text--invalid': props.invalid === true,
-        'input-text--fluid': props.fluid === true
+        'input-text--fluid': props.fluid === true,
     }
 ]))
 </script>
 
 <template>
-    <!--
-    :loading="loading"
-    :disabled="disabled || loading" -->
+    <!-- :loading="loading" -->
     <input
+        :disabled="disabled || loading"
         :placeholder="placeholder"
         :class="inputClasses"
     >
@@ -88,7 +95,7 @@ const inputClasses = computed(() => ([
 
     color: var(--text-primary);
     background: var(--bg-primary);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--surface-300);
     border-radius: 0.5rem;
     outline-color: transparent;
     appearance: none;
@@ -105,13 +112,20 @@ const inputClasses = computed(() => ([
         }
     }
 
-    // &--disabled {
-    //     opacity: 60%;
-    //     cursor: default;
-    // }
-
     &--fluid {
         width: 100%;
+    }
+    
+    &--filled {
+        background-color: var(--surface-50);
+    }
+    
+    &--disabled,
+    &:disabled {
+        opacity: 1;
+        background-color: var(--surface-200);
+        color: var(--surface-500);
+        cursor: default;
     }
 
     &--invalid {

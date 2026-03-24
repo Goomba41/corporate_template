@@ -22,6 +22,10 @@
     "label": {
       "default": "Input Text"
     },
+    "variants": {
+      "filled": "Filled",
+      "disabled": "Disabled"
+    },
     "sizes": {
       "sm": "Small",
       "md": "Medium",

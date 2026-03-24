@@ -449,26 +449,52 @@ const hideMessage = () => {
 
     <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 p-2 items-center">
-      <InputText :placeholder="$t('input-text.label.default')"/>
+      <InputText :placeholder="$t('input-text.label.default')" />
 
-      <InputText fluid :placeholder="$t('input-text.sizes.fluid')"/>
+      <InputText
+        fluid
+        :placeholder="$t('input-text.sizes.fluid')"
+      />
 
-      <div class="flex gap-2 items-center">
+      <div class="flex gap-2 items-center w-full">
         <InputText
+          class="w-1/3"
+          variant="filled"
+          :placeholder="$t('input-text.variants.filled')"
+        />
+        <InputText
+          class="w-1/3"
+          disabled
+          :placeholder="$t('input-text.variants.disabled')"
+        />
+        <InputText
+          class="w-1/3"
+          value="Filled and disabled"
+          disabled
+          variant="filled"
+          :placeholder="`${$t('input-text.variants.filled')} ${$t('input-text.variants.disabled')}`"
+        />
+      </div>
+
+      <div class="flex gap-2 items-center w-full">
+        <InputText
+          class="w-1/3"
           :placeholder="$t('input-text.sizes.sm')"
           size="sm"
         />
         <InputText
+          class="w-1/3"
           :placeholder="$t('input-text.sizes.md')"
           size="md"
         />
         <InputText
+          class="w-1/3"
           :placeholder="$t('input-text.sizes.lg')"
           size="lg"
         />
       </div>
 
-      <div class="flex gap-2 items-start ">
+      <div class="flex gap-2 items-start w-full">
         <FormField
           class="w-1/4"
           error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
@@ -492,6 +518,11 @@ const hideMessage = () => {
               :invalid="invalid"
               size="md"
             />
+          </template>
+        </FormField>
+        <FormField class="w-1/4">
+          <template #input>
+            <InputText :placeholder="$t('input-text.sizes.md')" />
           </template>
         </FormField>
         <FormField class="w-1/4">
