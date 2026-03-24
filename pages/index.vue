@@ -50,6 +50,16 @@ const showMessage = () => {
 const hideMessage = () => {
   console.log('Message visibility state now is: hidden')
 }
+
+const inputTextValue = ref<string>('')
+
+const testModelEvent = (event?: string) => {
+  console.log('Text input value updated! ', event)
+}
+
+const testInputChange = (event: string) => {
+  console.log('Text input value updated through change! ', event)
+}
 </script>
 
 <template>
@@ -449,7 +459,15 @@ const hideMessage = () => {
 
     <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 p-2 items-center">
-      <InputText :placeholder="$t('input-text.label.default')" />
+      <div class="flex gap-2 items-center w-full">
+        <InputText
+          v-model="inputTextValue"
+          :placeholder="$t('input-text.label.default')"
+          @update:modelValue="testModelEvent($event)"
+          @input-change="testInputChange"
+        />
+        Значение: {{ inputTextValue }}
+      </div>
 
       <InputText
         fluid
@@ -527,9 +545,32 @@ const hideMessage = () => {
         </FormField>
         <FormField class="w-1/4">
           <template #input>
-            <InputText :placeholder="$t('input-text.sizes.md')" />
+            <InputText
+              v-model="inputTextValue"
+              :loading="loading"
+              :placeholder="$t('input-text.sizes.md')"
+            >
+              <template #loadingIcon>
+                <Spinner
+                  height="1.25em"
+                  width="1.25em"
+                />
+              </template>
+            </InputText>
           </template>
         </FormField>
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <InputText
+          :loading="true"
+          :placeholder="$t('input-text.sizes.md')"
+        />
+        <InputText
+          v-model="inputTextValue"
+          :loading="true"
+          :placeholder="$t('input-text.sizes.md')"
+        />
       </div>
 
       <div class="flex gap-2 items-center">

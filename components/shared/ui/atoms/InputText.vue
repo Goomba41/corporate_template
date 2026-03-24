@@ -2,9 +2,9 @@
     setup
     lang="ts"
 >
-import { computed, useSlots } from 'vue'
+import { computed } from 'vue'
 
-// import Spinner from '~/assets/icons/spinnerDefault.svg?component';
+import Spinner from '~/assets/icons/spinnerDefault.svg?component';
 
 interface Props {
     size?: 'sm' | 'md' | 'lg'
@@ -16,151 +16,188 @@ interface Props {
     loading?: boolean
 }
 
-// TODO: floatLabel (молекула), loading
 const props = withDefaults(defineProps<Props>(), {
-    size: 'md',
-    placeholder: undefined,
-    invalid: undefined,
-    fluid: undefined,
-    variant: undefined,
-    disabled: undefined,
-    loading: undefined
+    size: 'md'
 })
 
-// TODO: эмиты событий focus, blur, value-change, update:modelValue
-// const emit = defineEmits<{ click: [] }>()
+const emit = defineEmits<{ 'input-change': [value: string] }>()
 
-// const slots = useSlots()
+const handleChange = (e: Event) => {
+    const value = (e.target as HTMLInputElement).value
+    emit('input-change', value)
+}
+
+const model = defineModel<string>()
 
 const inputClasses = computed(() => ([
     'input-text',
     `input-text--${props.size}`,
     props.variant && `input-text--${props.variant}`,
-    props.disabled && `input-text--${props.disabled}`,
     {
-        'input-text--invalid': props.invalid === true,
-        'input-text--fluid': props.fluid === true,
+        'input-text--disabled': props.disabled,
+        'input-text--loading': props.loading,
+        'input-text--invalid': props.invalid,
     }
 ]))
 </script>
 
 <template>
-    <!-- :loading="loading" -->
-    <input
-        :disabled="disabled || loading"
-        :placeholder="placeholder"
-        :class="inputClasses"
+    <div
+        class="input-text__wrapper"
+        :class="{ 'input-text__wrapper--fluid': props.fluid }"
     >
-    <!-- <template #default>
-            <slot />
-        </template>
+        <input
+            v-model="model"
+            type="text"
+            :disabled="disabled || loading"
+            :placeholder="placeholder"
+            :class="inputClasses"
+            @change="handleChange"
+        >
 
-<template #loadingicon>
+        <Transition
+            name="fade"
+            mode="out-in"
+        >
             <div
-                v-if="$slots.loadingIcon"
-                :class="['icon', `${iconPos}`]"
+                v-if="loading"
+                class="input-text__loading-icon"
             >
-                <slot name="loadingIcon"></slot>
+                <slot name="loadingIcon">
+                    <Spinner />
+                </slot>
             </div>
-            <div
-                v-else
-                :class="['icon', `${iconPos}`]"
-            >
-                <Spinner />
-            </div>
-        </template>
-
-<template
-    v-if="$slots.icon"
-    #icon
->
-            <div :class="['icon', `${iconPos}`]">
-                <slot name="icon"></slot>
-            </div>
-        </template> -->
-    </input>
+        </Transition>
+    </div>
 </template>
 
 <style
     scoped
     lang="scss"
 >
-.input-text {
-    display: block;
-    box-sizing: border-box;
+@use "sass:math";
 
-    font-family: inherit;
-    font-feature-settings: inherit;
-    font-size: 1rem;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
 
-    color: var(--text-primary);
-    background: var(--bg-primary);
-    border: 1px solid var(--surface-300);
-    border-radius: 0.5rem;
-    outline-color: transparent;
-    appearance: none;
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
 
-    &:not(:disabled) {
-        &:hover {
-            border-color: var(--border-secondary);
-            outline: 1px var(--p-inputtext-focus-ring-style) var(--primary-500);
-        }
-
-        &:focus {
-            border-color: var(--primary-500);
-            outline: 1px solid var(--primary-500);
-        }
-    }
+.input-text__wrapper {
+    display: flex;
+    position: relative;
 
     &--fluid {
         width: 100%;
     }
-    
-    &--filled {
-        background-color: var(--surface-50);
-    }
-    
-    &--disabled,
-    &:disabled {
-        opacity: 1;
-        background-color: var(--surface-200);
-        color: var(--surface-500);
-        cursor: default;
-    }
 
-    &--invalid {
-        border-color: var(--accent-error);
+    .input-text {
+        width: 100%;
 
-        &:hover {
-            border-color: color-mix(in srgb, var(--accent-error) 90%, var(--text-primary) 10%);
-        }
+        display: block;
+        box-sizing: border-box;
 
-        &::placeholder {
-            color: var(--accent-error);
-        }
-    }
-
-    &--sm {
-        line-height: normal;
-        font-size: 0.875rem;
-        padding-inline: calc(var(--spacing) * 2.5); // px
-        padding-block: calc(var(--spacing) * 1.5); // py
-    }
-
-    &--md {
-        line-height: normal;
+        font-family: inherit;
+        font-feature-settings: inherit;
         font-size: 1rem;
-        padding-inline: calc(var(--spacing) * 3); // px
-        padding-block: calc(var(--spacing) * 2); // py
-    }
 
-    &--lg {
-        line-height: normal;
-        font-size: 1.125rem;
-        padding-inline: calc(var(--spacing) * 3.5); // px
-        padding-block: calc(var(--spacing) * 2.5); // py
+        color: var(--text-primary);
+        background: var(--bg-primary);
+        border: 1px solid var(--surface-300);
+        border-radius: 0.5rem;
+        outline-color: transparent;
+        appearance: none;
+
+        &:not(:disabled) {
+            &:hover {
+                border-color: var(--border-secondary);
+                outline: 1px solid var(--primary-500);
+            }
+
+            &:focus {
+                border-color: var(--primary-500);
+                outline: 1px solid var(--primary-500);
+            }
+        }
+
+        &--filled {
+            background-color: var(--surface-50);
+        }
+
+        &--disabled,
+        &:disabled {
+            opacity: 1;
+            background-color: var(--surface-200);
+            color: var(--surface-500);
+            cursor: default;
+        }
+
+        &--disabled~.input-text__loading-icon,
+        &:disabled~.input-text__loading-icon {
+            background-color: var(--surface-200);
+        }
+
+        &--invalid {
+            border-color: var(--accent-error);
+
+            &:hover {
+                border-color: color-mix(in srgb, var(--accent-error) 90%, var(--text-primary) 10%);
+            }
+
+            &::placeholder {
+                color: var(--accent-error);
+            }
+        }
+
+        &--sm {
+            line-height: normal;
+            font-size: 0.875rem;
+            padding-inline: calc(var(--spacing) * 2.5); // px
+            padding-block: calc(var(--spacing) * 1.5); // py
+        }
+
+        &--md {
+            line-height: normal;
+            font-size: 1rem;
+            padding-inline: calc(var(--spacing) * 3); // px
+            padding-block: calc(var(--spacing) * 2); // py
+        }
+
+        &--lg {
+            line-height: normal;
+            font-size: 1.125rem;
+            padding-inline: calc(var(--spacing) * 3.5); // px
+            padding-block: calc(var(--spacing) * 2.5); // py
+        }
+
+        $loading-icon-padding: 2rem;
+        $loading-icon-width: 1.25rem;
+
+        &--loading {
+            padding-right: $loading-icon-padding;
+        }
+
+        &__loading-icon {
+            position: absolute;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+
+            top: 50%;
+            transform: translateY(-50%);
+            right: math.div($loading-icon-padding - $loading-icon-width, 2);
+
+            svg {
+                width: $loading-icon-width;
+            }
+        }
     }
 }
+
 
 .mode-dark {
     .input-text {
