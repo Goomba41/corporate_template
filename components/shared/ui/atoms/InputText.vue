@@ -10,41 +10,41 @@ interface Props {
     size?: 'sm' | 'md' | 'lg'
     placeholder?: string,
     invalid?: boolean
+    fluid?: boolean
 }
 
-// TODO: fluid, filled, disabled, invalid
+// TODO: filled, disabled, floatLabel (молекула), loading
 const props = withDefaults(defineProps<Props>(), {
     size: 'md',
     placeholder: undefined,
-    invalid: undefined
+    invalid: undefined,
+    fluid: undefined
 })
 
-// TODO: эмиты событий
+// TODO: эмиты событий focus, blur, value-change, update:modelValue
 // const emit = defineEmits<{ click: [] }>()
 
 // const slots = useSlots()
 
-const inputClasses = computed(() => ({
-    'input-text': true,
-
-    'input-text-sm': props.size === 'sm',
-    'input-text-md': props.size === 'md',
-    'input-text-lg': props.size === 'lg',
-
-    'input-text-invalid': props.invalid === true
-}))
+const inputClasses = computed(() => ([
+    'input-text',
+    `input-text--${props.size}`,
+    {
+        'input-text--invalid': props.invalid === true,
+        'input-text--fluid': props.fluid === true
+    }
+]))
 </script>
 
 <template>
-    <!-- :label="label"
-    :icon-pos="iconPos"
+    <!--
     :loading="loading"
     :disabled="disabled || loading" -->
-    <PrimeInputText
+    <input
         :placeholder="placeholder"
         :class="inputClasses"
     >
-        <!-- <template #default>
+    <!-- <template #default>
             <slot />
         </template>
 
@@ -71,14 +71,13 @@ const inputClasses = computed(() => ({
                 <slot name="icon"></slot>
             </div>
         </template> -->
-    </PrimeInputText>
+    </input>
 </template>
 
 <style
     scoped
     lang="scss"
 >
-// TODO: БЭМ
 .input-text {
     display: block;
     box-sizing: border-box;
@@ -106,12 +105,16 @@ const inputClasses = computed(() => ({
         }
     }
 
-    // &.input-text-disabled {
+    // &--disabled {
     //     opacity: 60%;
     //     cursor: default;
     // }
 
-    &.input-text-invalid {
+    &--fluid {
+        width: 100%;
+    }
+
+    &--invalid {
         border-color: var(--accent-error);
 
         &:hover {
@@ -123,21 +126,21 @@ const inputClasses = computed(() => ({
         }
     }
 
-    &.input-text-sm {
+    &--sm {
         line-height: normal;
         font-size: 0.875rem;
         padding-inline: calc(var(--spacing) * 2.5); // px
         padding-block: calc(var(--spacing) * 1.5); // py
     }
 
-    &.input-text-md {
+    &--md {
         line-height: normal;
         font-size: 1rem;
         padding-inline: calc(var(--spacing) * 3); // px
         padding-block: calc(var(--spacing) * 2); // py
     }
 
-    &.input-text-lg {
+    &--lg {
         line-height: normal;
         font-size: 1.125rem;
         padding-inline: calc(var(--spacing) * 3.5); // px
@@ -146,8 +149,10 @@ const inputClasses = computed(() => ({
 }
 
 .mode-dark {
-    .input-text-invalid:not(:disabled):hover {
-        border-color: color-mix(in srgb, var(--accent-error) 80%, var(--text-primary) 20%);
+    .input-text {
+        &--invalid:not(:disabled):hover {
+            border-color: color-mix(in srgb, var(--accent-error) 80%, var(--text-primary) 20%);
+        }
     }
 }
 </style>

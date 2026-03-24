@@ -19,10 +19,14 @@
     }
   },
   "input-text": {
+    "label": {
+      "default": "Input Text"
+    },
     "sizes": {
       "sm": "Small",
       "md": "Medium",
-      "lg": "Large"
+      "lg": "Large",
+      "fluid": "Fluid"
     }
   }
 }

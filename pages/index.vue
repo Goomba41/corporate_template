@@ -449,7 +449,9 @@ const hideMessage = () => {
 
     <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 p-2 items-center">
-      <InputText />
+      <InputText :placeholder="$t('input-text.label.default')"/>
+
+      <InputText fluid :placeholder="$t('input-text.sizes.fluid')"/>
 
       <div class="flex gap-2 items-center">
         <InputText
@@ -497,6 +499,18 @@ const hideMessage = () => {
             <InputText :placeholder="$t('input-text.sizes.md')" />
           </template>
         </FormField>
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <div class="flex flex-col gap-1">
+          <label for="username">Username</label>
+          <InputText id="username" />
+          <Message
+            size="sm"
+            severity="secondary"
+            variant="simple"
+          >Enter your username to reset your password.</Message>
+        </div>
       </div>
     </div>
 
