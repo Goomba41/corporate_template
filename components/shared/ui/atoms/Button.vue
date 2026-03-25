@@ -4,10 +4,6 @@
 >
 import { computed, useSlots } from 'vue'
 
-import Badge from './Badge.vue';
-
-import Spinner from '~/assets/icons/spinnerDefault.svg?component';
-
 interface Props {
     severity?: 'primary' | 'secondary' | 'danger' | 'success' | 'info' | 'warning' | 'help'
     variant?: "outlined" | "text"
@@ -88,7 +84,7 @@ const buttonClasses = computed(() => ({
                 v-else
                 :class="['button__icon', `button__icon--${iconPos}`]"
             >
-                <Spinner />
+                <IconUiSpinnerDefault />
             </div>
         </template>
 
@@ -99,13 +95,13 @@ const buttonClasses = computed(() => ({
         </template>
 
         <!-- Бейдж -->
-        <Badge
+        <AtomBadge
             v-if="!loading && badge"
             class="button__badge"
             :value="badge"
             :severity="badgeSeverity"
             :circle="true"
-        ></Badge>
+        ></AtomBadge>
     </button>
 </template>
 

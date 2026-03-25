@@ -2,20 +2,8 @@
   setup
   lang="ts"
 >
-import Badge from '~/components/shared/ui/atoms/Badge.vue';
-import Button from '~/components/shared/ui/atoms/Button.vue';
-import Message from '~/components/shared/ui/atoms/Message.vue';
-import InputText from '~/components/shared/ui/atoms/InputText.vue';
-
-import FormField from '~/components/shared/ui/molecules/FormField.vue';
-import ButtonGroup from '~/components/shared/ui/molecules/ButtonGroup.vue';
-
 import { useTheme } from '~/composables/app/useTheme';
 import { useLocale } from '~/composables/app/useLocale';
-
-import Finn from '~/assets/icons/finnTheHumanDuotone.svg?component';
-import Logo from '~/assets/icons/logo.svg?component';
-import Spinner from '~/assets/icons/spinnerResize.svg?component';
 
 const {
   colorSurface,
@@ -68,64 +56,64 @@ const testInputChange = (event: string) => {
 
       <!-- Кнопки -->
       <div class="flex gap-2">
-        <Button :label="$t('button.severities.primary')" />
-        <Button
+        <AtomButton :label="$t('button.severities.primary')" />
+        <AtomButton
           :label="$t('button.severities.secondary')"
           severity="secondary"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.success')"
           severity="success"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.info')"
           severity="info"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.warning')"
           severity="warning"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.help')"
           severity="help"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.danger')"
           severity="danger"
         />
       </div>
 
       <div class="flex gap-2">
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           variant="outlined"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.secondary')"
           severity="secondary"
           variant="outlined"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.success')"
           severity="success"
           variant="outlined"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.info')"
           severity="info"
           variant="outlined"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.warning')"
           severity="warning"
           variant="outlined"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.help')"
           severity="help"
           variant="outlined"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.danger')"
           severity="danger"
           variant="outlined"
@@ -133,36 +121,36 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2">
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           variant="text"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.secondary')"
           severity="secondary"
           variant="text"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.success')"
           severity="success"
           variant="text"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.info')"
           severity="info"
           variant="text"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.warning')"
           severity="warning"
           variant="text"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.help')"
           severity="help"
           variant="text"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.danger')"
           severity="danger"
           variant="text"
@@ -170,28 +158,28 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2">
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           badge="5"
           badge-severity="info"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           :loading="loading"
           badge="555"
           badge-severity="info"
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           :loading="loading"
           badge="5"
           badge-severity="success"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :label="$t('button.severities.primary')"
           :loading="loading"
           icon-pos="right"
@@ -199,57 +187,57 @@ const testInputChange = (event: string) => {
           badge-severity="help"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
+        </AtomButton>
       </div>
 
       <div class="flex gap-2">
-        <ButtonGroup>
-          <Button :label="$t('button.severities.primary')">
+        <MoleculeButtonGroup>
+          <AtomButton :label="$t('button.severities.primary')">
             <template #icon>
-              <Finn />
+              <IconFinnTheHumanDuotone />
             </template>
-          </Button>
-          <Button
+          </AtomButton>
+          <AtomButton
             :label="$t('button.severities.primary')"
             disabled
           />
-          <Button
+          <AtomButton
             :label="$t('button.severities.primary')"
             :loading="loading"
           />
-        </ButtonGroup>
+        </MoleculeButtonGroup>
       </div>
 
       <div class="flex gap-2">
-        <ButtonGroup>
-          <Button
+        <MoleculeButtonGroup>
+          <AtomButton
             :label="$t('button.severities.primary')"
             severity="success"
           />
-          <Button
+          <AtomButton
             :label="$t('button.severities.primary')"
             variant="outlined"
           />
-          <Button
+          <AtomButton
             :label="$t('button.severities.primary')"
             rounded
           />
-        </ButtonGroup>
+        </MoleculeButtonGroup>
       </div>
 
       <div class="flex gap-2">
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           rounded
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           variant="outlined"
           rounded
         />
-        <Button
+        <AtomButton
           :label="$t('button.severities.primary')"
           variant="text"
           rounded
@@ -257,17 +245,17 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2 items-center">
-        <Button
+        <AtomButton
           :label="$t('button.sizes.sm')"
           size="sm"
           @click="click"
         />
-        <Button
+        <AtomButton
           :label="$t('button.sizes.md')"
           size="md"
           @click="click"
         />
-        <Button
+        <AtomButton
           :label="$t('button.sizes.lg')"
           size="lg"
           @click="click"
@@ -275,29 +263,29 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2 items-center">
-        <Button
+        <AtomButton
           :label="$t('button.label.default')"
           @click="click"
           disabled
         />
-        <Button
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           @click="load"
         />
-        <Button
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           @click="load"
         >
           <template #loadingIcon>
-            <Spinner
+            <IconUiSpinnerResize
               height="1.25em"
               width="1.25em"
             />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           size="sm"
@@ -306,114 +294,114 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2 items-center">
-        <Button
+        <AtomButton
           :loading="loading"
           @click="load"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           @click="load"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           icon-pos="right"
           @click="load"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
+        </AtomButton>
       </div>
 
       <div class="flex gap-2 items-center">
-        <Button
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           icon-pos="top"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :label="$t('button.label.default')"
           :loading="loading"
           icon-pos="bottom"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
+        </AtomButton>
       </div>
 
       <div class="flex gap-2 items-center">
-        <Button
+        <AtomButton
           :loading="loading"
           rounded
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :loading="loading"
           severity="secondary"
           rounded
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :loading="loading"
           severity="success"
           size="sm"
           rounded
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :loading="loading"
           severity="info"
           rounded
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :loading="loading"
           severity="warning"
           size="lg"
           rounded
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :loading="loading"
           severity="help"
           variant="outlined"
           rounded
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
-        <Button
+        </AtomButton>
+        <AtomButton
           :loading="loading"
           severity="danger"
           variant="text"
@@ -421,47 +409,48 @@ const testInputChange = (event: string) => {
           @click="showMessage"
         >
           <template #icon>
-            <Finn />
+            <IconFinnTheHumanDuotone />
           </template>
-        </Button>
+        </AtomButton>
       </div>
 
       <!-- Лого -->
-      <Logo
+      <IconBrandLogo
         width="2.875rem"
         height="2.875rem"
       />
 
       <!-- Бэйджи -->
       <div class="flex gap-2 items-center">
-        <Badge
+        <AtomBadge
           value="88"
           size="xl"
           severity="success"
           circle
-        ></Badge>
-        <Badge
+        ></AtomBadge>
+        <AtomBadge
           value="6"
           size="lg"
           severity="warning"
           circle
-        ></Badge>
-        <Badge
+        ></AtomBadge>
+        <AtomBadge
           value="4"
           severity="info"
-        ></Badge>
-        <Badge
+        ></AtomBadge>
+        <AtomBadge
           value="2"
           size="sm"
-        ></Badge>
+        ></AtomBadge>
       </div>
     </div>
 
     <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 p-2 items-center">
       <div class="flex gap-2 items-center w-full">
-        <InputText
+        <AtomInputText
           v-model="inputTextValue"
+          :variant="inputTextValue.length ? 'filled' : undefined"
           :placeholder="$t('input-text.label.default')"
           @update:modelValue="testModelEvent($event)"
           @input-change="testInputChange"
@@ -469,23 +458,23 @@ const testInputChange = (event: string) => {
         Значение: {{ inputTextValue }}
       </div>
 
-      <InputText
+      <AtomInputText
         fluid
         :placeholder="$t('input-text.sizes.fluid')"
       />
 
       <div class="flex gap-2 items-center w-full">
-        <InputText
+        <AtomInputText
           class="w-1/3"
           variant="filled"
           :placeholder="$t('input-text.variants.filled')"
         />
-        <InputText
+        <AtomInputText
           class="w-1/3"
           disabled
           :placeholder="$t('input-text.variants.disabled')"
         />
-        <InputText
+        <AtomInputText
           class="w-1/3"
           value="Filled and disabled"
           disabled
@@ -495,17 +484,17 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2 items-center w-full">
-        <InputText
+        <AtomInputText
           class="w-1/3"
           :placeholder="$t('input-text.sizes.sm')"
           size="sm"
         />
-        <InputText
+        <AtomInputText
           class="w-1/3"
           :placeholder="$t('input-text.sizes.md')"
           size="md"
         />
-        <InputText
+        <AtomInputText
           class="w-1/3"
           :placeholder="$t('input-text.sizes.lg')"
           size="lg"
@@ -513,158 +502,275 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2 items-start w-full">
-        <FormField
+        <MoleculeFormField
           class="w-1/4"
           error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
         >
           <template #input="{ invalid }">
-            <InputText
+            <AtomInputText
               :placeholder="$t('input-text.sizes.md')"
               :invalid="invalid"
               size="md"
             />
           </template>
-        </FormField>
-        <FormField
+        </MoleculeFormField>
+        <MoleculeFormField
           class="w-1/4"
           error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
           :error-lines="2"
         >
           <template #input="{ invalid }">
-            <InputText
+            <AtomInputText
               :placeholder="$t('input-text.sizes.md')"
               :invalid="invalid"
               size="md"
             />
           </template>
-        </FormField>
-        <FormField class="w-1/4">
+        </MoleculeFormField>
+        <MoleculeFormField class="w-1/4">
           <template #input>
-            <InputText :placeholder="$t('input-text.sizes.md')" />
+            <AtomInputText :placeholder="$t('input-text.sizes.md')" />
           </template>
-        </FormField>
-        <FormField class="w-1/4">
+        </MoleculeFormField>
+        <MoleculeFormField class="w-1/4">
           <template #input>
-            <InputText
+            <AtomInputText
               v-model="inputTextValue"
               :loading="loading"
               :placeholder="$t('input-text.sizes.md')"
             >
               <template #loadingIcon>
-                <Spinner
+                <IconUiSpinnerResize
                   height="1.25em"
                   width="1.25em"
                 />
               </template>
-            </InputText>
+            </AtomInputText>
           </template>
-        </FormField>
+        </MoleculeFormField>
       </div>
 
       <div class="flex gap-2 items-center">
-        <InputText
+        <AtomInputText
           :loading="true"
           :placeholder="$t('input-text.sizes.md')"
         />
-        <InputText
+        <AtomInputText
           v-model="inputTextValue"
           :loading="true"
           :placeholder="$t('input-text.sizes.md')"
         />
       </div>
 
+      <div class="flex gap-2 items-center w-full">
+        <MoleculeInputGroup class="w-full">
+
+          <AtomInputGroupAddon>
+            L
+          </AtomInputGroupAddon>
+
+          <AtomInputText
+            class="w-1/3"
+            :placeholder="$t('input-text.sizes.md')"
+          />
+
+          <AtomInputGroupAddon>
+            <IconFinnTheHumanDuotone
+              width="1.125rem"
+              height="1.125rem"
+            />
+          </AtomInputGroupAddon>
+
+          <AtomInputText
+            class="w-1/3"
+            :placeholder="$t('input-text.sizes.md')"
+          />
+
+          <AtomInputGroupAddon>
+            $
+          </AtomInputGroupAddon>
+          <AtomInputGroupAddon>
+            M
+          </AtomInputGroupAddon>
+
+          <AtomInputText
+            v-model="inputTextValue"
+            class="w-1/3"
+            :loading="loading"
+            :placeholder="$t('input-text.sizes.md')"
+          >
+            <template #loadingIcon>
+              <IconUiSpinnerResize
+                height="1.25em"
+                width="1.25em"
+              />
+            </template>
+          </AtomInputText>
+
+          <AtomInputGroupAddon>
+            R
+          </AtomInputGroupAddon>
+        </MoleculeInputGroup>
+      </div>
+
+      <div class="flex gap-2 items-center w-full">
+        <MoleculeInputGroup class="w-full">
+
+          <AtomInputGroupAddon>
+            L
+          </AtomInputGroupAddon>
+
+          <AtomInputText
+            class="w-1/3"
+            :placeholder="$t('input-text.sizes.lg')"
+            size="lg"
+          />
+
+          <AtomInputGroupAddon>
+            <IconFinnTheHumanDuotone
+              width="1.125rem"
+              height="1.125rem"
+            />
+          </AtomInputGroupAddon>
+        </MoleculeInputGroup>
+      </div>
+
+      <div class="flex gap-2 items-center w-full">
+        <MoleculeInputGroup class="w-full">
+
+          <AtomButton label="Search" />
+
+          <AtomInputText
+            class="w-1/3"
+            :placeholder="$t('input-text.sizes.md')"
+          />
+
+          <AtomInputGroupAddon>
+            <AtomButton
+              label="m"
+              severity="secondary"
+              variant="text"
+            />
+          </AtomInputGroupAddon>
+
+          <AtomInputText
+            v-model="inputTextValue"
+            class="w-1/3"
+            :loading="loading"
+            :placeholder="$t('input-text.sizes.md')"
+          >
+            <template #loadingIcon>
+              <IconUiSpinnerResize
+                height="1.25em"
+                width="1.25em"
+              />
+            </template>
+          </AtomInputText>
+
+          <AtomInputGroupAddon>
+            <AtomButton
+              label="r"
+              severity="secondary"
+            />
+          </AtomInputGroupAddon>
+        </MoleculeInputGroup>
+      </div>
+
       <div class="flex gap-2 items-center">
         <div class="flex flex-col gap-1">
-          <label for="username">Username</label>
-          <InputText id="username" />
-          <Message
+          <AtomLabel
+            for="username"
+            :required="true"
+          >Username</AtomLabel>
+          <AtomInputText id="username" />
+          <AtomMessage
             size="sm"
             severity="secondary"
             variant="simple"
-          >Enter your username to reset your password.</Message>
+          >Enter your username to reset your password.</AtomMessage>
         </div>
       </div>
     </div>
 
     <!-- Сообщения -->
     <div class="flex flex-col gap-2 p-2 items-center">
-      <Message>Привет</Message>
+      <AtomMessage>Привет</AtomMessage>
 
       <div class="flex gap-2 items-center">
-        <Message size="sm">Small</Message>
-        <Message size="md">Medium</Message>
-        <Message size="lg">Large</Message>
+        <AtomMessage size="sm">Small</AtomMessage>
+        <AtomMessage size="md">Medium</AtomMessage>
+        <AtomMessage size="lg">Large</AtomMessage>
       </div>
 
       <div class="flex gap-2 items-center">
-        <Message severity="primary">Привет</Message>
-        <Message severity="secondary">Привет</Message>
-        <Message severity="success">Привет</Message>
-        <Message severity="info">Привет</Message>
-        <Message severity="warning">Привет</Message>
-        <Message severity="help">Привет</Message>
-        <Message severity="danger">Привет</Message>
+        <AtomMessage severity="primary">Привет</AtomMessage>
+        <AtomMessage severity="secondary">Привет</AtomMessage>
+        <AtomMessage severity="success">Привет</AtomMessage>
+        <AtomMessage severity="info">Привет</AtomMessage>
+        <AtomMessage severity="warning">Привет</AtomMessage>
+        <AtomMessage severity="help">Привет</AtomMessage>
+        <AtomMessage severity="danger">Привет</AtomMessage>
       </div>
 
       <div class="flex gap-2 items-center">
-        <Message
+        <AtomMessage
           severity="primary"
           variant="outlined"
-        >Привет</Message>
-        <Message
+        >Привет</AtomMessage>
+        <AtomMessage
           severity="secondary"
           variant="outlined"
-        >Привет</Message>
-        <Message
+        >Привет</AtomMessage>
+        <AtomMessage
           severity="success"
           variant="outlined"
-        >Привет</Message>
+        >Привет</AtomMessage>
       </div>
 
       <div class="flex gap-6 items-center">
-        <Message
+        <AtomMessage
           severity="primary"
           variant="simple"
-        >Привет</Message>
-        <Message
+        >Привет</AtomMessage>
+        <AtomMessage
           severity="secondary"
           variant="simple"
           size="sm"
-        >Привет</Message>
-        <Message
+        >Привет</AtomMessage>
+        <AtomMessage
           severity="success"
           variant="simple"
-        >Привет</Message>
-        <Message
+        >Привет</AtomMessage>
+        <AtomMessage
           severity="error"
           variant="simple"
           size="lg"
-        >Привет</Message>
+        >Привет</AtomMessage>
       </div>
 
       <div class="flex gap-2 items-center">
-        <Message severity="success">
+        <AtomMessage severity="success">
           <template #icon>
-            <Finn
+            <IconFinnTheHumanDuotone
               width="1.25rem"
               height="1.25rem"
             />
           </template>
           Привет
-        </Message>
-        <Message severity="info">
+        </AtomMessage>
+        <AtomMessage severity="info">
           <template #icon>
-            <Finn
+            <IconFinnTheHumanDuotone
               width="3rem"
               height="3rem"
             />
           </template>
           Привет
-        </Message>
+        </AtomMessage>
       </div>
 
       <div class="flex gap-2 items-center">
-        <Message
+        <AtomMessage
           severity="info"
           appearance="right"
           :life="5000"
@@ -672,9 +778,9 @@ const testInputChange = (event: string) => {
           @life-end="hideMessage"
         >
           Привет
-        </Message>
+        </AtomMessage>
 
-        <Message
+        <AtomMessage
           severity="info"
           appearance="top-bottom"
           :life="5000"
@@ -682,7 +788,7 @@ const testInputChange = (event: string) => {
           @life-end="hideMessage"
         >
           Привет
-        </Message>
+        </AtomMessage>
       </div>
 
     </div>

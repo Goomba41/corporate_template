@@ -4,8 +4,6 @@
 >
 import { computed } from 'vue'
 
-import Spinner from '~/assets/icons/spinnerDefault.svg?component';
-
 interface Props {
     size?: 'sm' | 'md' | 'lg'
     placeholder?: string,
@@ -64,7 +62,7 @@ const inputClasses = computed(() => ([
                 class="input-text__loading-icon"
             >
                 <slot name="loadingIcon">
-                    <Spinner />
+                    <IconUiSpinnerDefault />
                 </slot>
             </div>
         </Transition>
@@ -90,6 +88,7 @@ const inputClasses = computed(() => ([
 .input-text__wrapper {
     display: flex;
     position: relative;
+    border-radius: 0.5rem;
 
     &--fluid {
         width: 100%;
@@ -108,7 +107,7 @@ const inputClasses = computed(() => ([
         color: var(--text-primary);
         background: var(--bg-primary);
         border: 1px solid var(--surface-300);
-        border-radius: 0.5rem;
+        border-radius: inherit;
         outline-color: transparent;
         appearance: none;
 
@@ -136,21 +135,17 @@ const inputClasses = computed(() => ([
             cursor: default;
         }
 
-        &--disabled~.input-text__loading-icon,
-        &:disabled~.input-text__loading-icon {
-            background-color: var(--surface-200);
-        }
-
         &--invalid {
             border-color: var(--accent-error);
+
+            &:not(:hover):not(:focus)::placeholder {
+                color: var(--accent-error);
+            }
 
             &:hover {
                 border-color: color-mix(in srgb, var(--accent-error) 90%, var(--text-primary) 10%);
             }
 
-            &::placeholder {
-                color: var(--accent-error);
-            }
         }
 
         &--sm {
@@ -203,6 +198,16 @@ const inputClasses = computed(() => ([
     .input-text {
         &--invalid:not(:disabled):hover {
             border-color: color-mix(in srgb, var(--accent-error) 80%, var(--text-primary) 20%);
+        }
+
+        &--filled {
+            background-color: var(--surface-800);
+        }
+
+        &--disabled,
+        &:disabled {
+            // color: 
+            background-color: var(--surface-700);
         }
     }
 }

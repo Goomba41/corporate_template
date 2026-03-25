@@ -13,6 +13,19 @@ export default defineNuxtConfig({
     'nuxt-svgo',
   ],
 
+  components: {
+    dirs: [
+      // Путь по умолчанию
+      {
+        path: '~/components',
+        pathPrefix: false, // Не добавлять префикс пути к имени
+      },
+      { path: '~/components/shared/ui/atoms', prefix: 'Atom' },
+      { path: '~/components/shared/ui/molecules', prefix: 'Molecule' },
+      { path: '~/components/shared/ui/organisms', prefix: 'Organism' },
+    ],
+  },
+
   app: {
     head: {
       link: [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]
@@ -21,6 +34,20 @@ export default defineNuxtConfig({
 
   svgo: {
     dts: true,
+    defaultImport: 'component',
+    componentPrefix: 'Icon',
+    svgoConfig: {
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              removeViewBox: false,
+            }
+          }
+        }
+      ],
+    },
   },
 
   vite: {
