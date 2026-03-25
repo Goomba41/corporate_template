@@ -17,7 +17,7 @@ export const colorThemes = [
     'violet',
     'yellow',
 ] as const;
-export const colorSurfaces = ['gray', 'neutral', 'ocean', 'slate', 'soho', 'stone', 'viva', 'ocean']
+export const colorSurfaces = ['gray', 'neutral', 'ocean', 'slate', 'soho', 'stone', 'viva', 'zinc']
 
 export type ColorTheme = typeof colorThemes[number];
 export type ColorSurface = typeof colorSurfaces[number]
