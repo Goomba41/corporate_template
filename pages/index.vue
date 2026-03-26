@@ -48,7 +48,7 @@ const testInputChange = (event: string) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-2 items-start">
+  <div class="demo-grid grid grid-cols-3 gap-2 items-start">
     <!-- Кнопки -->
     <div class="flex flex-col gap-2 p-2 items-center">
       <div class="flex gap-2 flex-wrap">
@@ -972,3 +972,25 @@ const testInputChange = (event: string) => {
     <button @click="cycleAppLocale">Язык: {{ appLocaleName }}</button>
   </div>
 </template>
+
+<style lang="scss">
+.demo-grid {
+  display: grid;
+  gap: var(--hh-spacing-md, 1rem);
+  align-items: start;
+  
+  // Mobile-first: по умолчанию 1 колонка
+  grid-template-columns: 1fr;
+  
+  // Планшеты
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--hh-spacing-lg, 1.5rem);
+  }
+  
+  // Десктоп
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+</style>
