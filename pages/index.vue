@@ -789,6 +789,93 @@ const testInputChange = (event: string) => {
       </div>
 
     </div>
+
+    <div class="flex flex-col gap-2 p-2 items-center">
+
+      <h5>Rectangle</h5>
+      <AtomSkeleton class="mb-2" animation="wave"></AtomSkeleton>
+      <AtomSkeleton
+        width="10rem"
+        class="mb-2"
+        animation="wave"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        width="5rem"
+        class="mb-2"
+        animation="wave"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        height="2rem"
+        class="mb-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        width="10rem"
+        height="4rem"
+        animation="pulse"
+      ></AtomSkeleton>
+
+      <h5>Rounded</h5>
+      <AtomSkeleton
+        class="mb-2"
+        borderRadius="16px"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        width="10rem"
+        class="mb-2"
+        borderRadius="16px"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        width="5rem"
+        borderRadius="16px"
+        class="mb-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        height="2rem"
+        class="mb-2"
+        borderRadius="16px"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        width="10rem"
+        height="4rem"
+        borderRadius="16px"
+      ></AtomSkeleton>
+
+      <h5 class="mt-4">Square</h5>
+      <AtomSkeleton
+        size="2rem"
+        class="mr-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        size="3rem"
+        class="mr-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        size="4rem"
+        class="mr-2"
+      ></AtomSkeleton>
+      <AtomSkeleton size="5rem"></AtomSkeleton>
+
+      <h5 class="mt-4">Circle</h5>
+      <AtomSkeleton
+        shape="circle"
+        size="2rem"
+        class="mr-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        shape="circle"
+        size="3rem"
+        class="mr-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        shape="circle"
+        size="4rem"
+        class="mr-2"
+      ></AtomSkeleton>
+      <AtomSkeleton
+        shape="circle"
+        size="5rem"
+      ></AtomSkeleton>
+    </div>
   </div>
 
   <div class="flex flex-col items-center justify-center mt-6">
