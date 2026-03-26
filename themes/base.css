@@ -54,7 +54,7 @@
 
 /* Глобальные стили с переменными */
 body {
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     color: var(--text-primary);
     transition:
         background-color 0.2s ease-in-out,

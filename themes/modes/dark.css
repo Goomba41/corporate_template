@@ -1,7 +1,7 @@
 .mode-dark {
     /* Цвета режима - темный */
-    --bg-primary: var(--surface-950);
-    --bg-secondary: var(--surface-900);
+    --bg-primary: var(--surface-900);
+    --bg-secondary: var(--surface-950);
     --bg-tertiary: var(--surface-800);
 
     --text-primary: var(--surface-50);

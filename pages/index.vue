@@ -48,10 +48,9 @@ const testInputChange = (event: string) => {
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="grid grid-cols-3 gap-2 items-start">
+    <!-- Кнопки -->
     <div class="flex flex-col gap-2 p-2 items-center">
-
-      <!-- Кнопки -->
       <div class="flex gap-2">
         <AtomButton :label="$t('button.severities.primary')" />
         <AtomButton
@@ -410,36 +409,6 @@ const testInputChange = (event: string) => {
           </template>
         </AtomButton>
       </div>
-
-      <!-- Лого -->
-      <IconBrandLogo
-        width="2.875rem"
-        height="2.875rem"
-      />
-
-      <!-- Бэйджи -->
-      <div class="flex gap-2 items-center">
-        <AtomBadge
-          value="88"
-          size="xl"
-          severity="success"
-          circle
-        ></AtomBadge>
-        <AtomBadge
-          value="6"
-          size="lg"
-          severity="warning"
-          circle
-        ></AtomBadge>
-        <AtomBadge
-          value="4"
-          severity="info"
-        ></AtomBadge>
-        <AtomBadge
-          value="2"
-          size="sm"
-        ></AtomBadge>
-      </div>
     </div>
 
     <!-- Поля ввода и формы -->
@@ -699,7 +668,7 @@ const testInputChange = (event: string) => {
         <AtomMessage size="lg">Large</AtomMessage>
       </div>
 
-      <div class="flex gap-2 items-center">
+      <div class="flex flex-wrap gap-2 items-center">
         <AtomMessage severity="primary">{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage severity="secondary">{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage severity="success">{{ $t('placeholder') }}</AtomMessage>
@@ -790,95 +759,213 @@ const testInputChange = (event: string) => {
 
     </div>
 
-    <div class="flex flex-col gap-2 p-2 items-center">
+    <!-- Скелетоны -->
+    <div class="grid grid-cols-2 gap-2 p-2 items-center">
+      <div class="flex flex-col gap-2">
+        <h5>Rectangle</h5>
+        <AtomSkeleton animation="wave"></AtomSkeleton>
+        <AtomSkeleton
+          width="10rem"
+          animation="wave"
+        ></AtomSkeleton>
+        <AtomSkeleton
+          width="5rem"
+          animation="wave"
+        ></AtomSkeleton>
+        <AtomSkeleton height="2rem"></AtomSkeleton>
+        <AtomSkeleton
+          width="10rem"
+          height="4rem"
+          animation="pulse"
+        ></AtomSkeleton>
+      </div>
 
-      <h5>Rectangle</h5>
-      <AtomSkeleton class="mb-2" animation="wave"></AtomSkeleton>
+      <div class="flex flex-col gap-2">
+        <h5>Rounded</h5>
+        <AtomSkeleton borderRadius="16px"></AtomSkeleton>
+        <AtomSkeleton
+          width="10rem"
+          borderRadius="16px"
+        ></AtomSkeleton>
+        <AtomSkeleton
+          width="5rem"
+          borderRadius="16px"
+        ></AtomSkeleton>
+        <AtomSkeleton
+          height="2rem"
+          borderRadius="16px"
+        ></AtomSkeleton>
+        <AtomSkeleton
+          width="10rem"
+          height="4rem"
+          borderRadius="16px"
+        ></AtomSkeleton>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h5>Square</h5>
+        <div class="flex gap-2 items-center">
+          <AtomSkeleton size="2rem"></AtomSkeleton>
+          <AtomSkeleton size="3rem"></AtomSkeleton>
+          <AtomSkeleton size="4rem"></AtomSkeleton>
+          <AtomSkeleton size="5rem"></AtomSkeleton>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h5>Circle</h5>
+        <div class="flex gap-2 items-center">
+          <AtomSkeleton
+            shape="circle"
+            size="2rem"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            shape="circle"
+            size="3rem"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            shape="circle"
+            size="4rem"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            shape="circle"
+            size="5rem"
+          ></AtomSkeleton>
+        </div>
+      </div>
+    </div>
+
+    <!-- Пример карточки -->
+    <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
+      <div class="flex mb-4">
+        <AtomSkeleton
+          shape="circle"
+          size="4rem"
+          class="mr-2"
+        ></AtomSkeleton>
+        <div>
+          <AtomSkeleton
+            width="10rem"
+            class="mb-2"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            width="5rem"
+            class="mb-2"
+          ></AtomSkeleton>
+          <AtomSkeleton height=".5rem"></AtomSkeleton>
+        </div>
+      </div>
       <AtomSkeleton
-        width="10rem"
-        class="mb-2"
-        animation="wave"
+        width="100%"
+        height="150px"
       ></AtomSkeleton>
+      <div class="flex justify-between mt-4">
+        <AtomSkeleton
+          width="4rem"
+          height="2rem"
+        ></AtomSkeleton>
+        <AtomSkeleton
+          width="4rem"
+          height="2rem"
+        ></AtomSkeleton>
+      </div>
+    </div>
+
+    <!-- Пример пульсирующей карточки -->
+    <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
+      <div class="flex mb-4">
+        <AtomSkeleton
+          shape="circle"
+          animation="pulse"
+          size="4rem"
+          class="mr-2"
+        ></AtomSkeleton>
+        <div>
+          <AtomSkeleton
+            width="10rem"
+            animation="pulse"
+            class="mb-2"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            width="5rem"
+            animation="pulse"
+            class="mb-2"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            height=".5rem"
+            animation="pulse"
+          ></AtomSkeleton>
+        </div>
+      </div>
       <AtomSkeleton
-        width="5rem"
-        class="mb-2"
-        animation="wave"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        height="2rem"
-        class="mb-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        width="10rem"
-        height="4rem"
+        width="100%"
+        height="150px"
         animation="pulse"
       ></AtomSkeleton>
-
-      <h5>Rounded</h5>
-      <AtomSkeleton
-        class="mb-2"
-        borderRadius="16px"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        width="10rem"
-        class="mb-2"
-        borderRadius="16px"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        width="5rem"
-        borderRadius="16px"
-        class="mb-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        height="2rem"
-        class="mb-2"
-        borderRadius="16px"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        width="10rem"
-        height="4rem"
-        borderRadius="16px"
-      ></AtomSkeleton>
-
-      <h5 class="mt-4">Square</h5>
-      <AtomSkeleton
-        size="2rem"
-        class="mr-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        size="3rem"
-        class="mr-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        size="4rem"
-        class="mr-2"
-      ></AtomSkeleton>
-      <AtomSkeleton size="5rem"></AtomSkeleton>
-
-      <h5 class="mt-4">Circle</h5>
-      <AtomSkeleton
-        shape="circle"
-        size="2rem"
-        class="mr-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        shape="circle"
-        size="3rem"
-        class="mr-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        shape="circle"
-        size="4rem"
-        class="mr-2"
-      ></AtomSkeleton>
-      <AtomSkeleton
-        shape="circle"
-        size="5rem"
-      ></AtomSkeleton>
+      <div class="flex justify-between mt-4">
+        <AtomSkeleton
+          width="4rem"
+          height="2rem"
+          animation="pulse"
+        ></AtomSkeleton>
+        <AtomSkeleton
+          width="4rem"
+          height="2rem"
+          animation="pulse"
+        ></AtomSkeleton>
+      </div>
     </div>
+
+    <AtomCard class="flex shrink">
+      <template #title>{{ $t('placeholder') }}</template>
+      <template #content>
+        <p class="m-0">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
+          deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+          neque
+          quas!
+        </p>
+      </template>
+    </AtomCard>
+
+    <AtomCard style="width: 25rem; overflow: hidden">
+      <template #header>
+        <div class="w-full flex justify-center items-center">
+          <img
+            alt="user header"
+            src="/Hippopotamus.png"
+          />
+        </div>
+      </template>
+      <template #title>{{ $t('placeholder') }}</template>
+      <template #subtitle>{{ $t('placeholder') }}</template>
+      <template #content>
+        <p class="m-0">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
+          deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+          neque
+          quas!
+        </p>
+      </template>
+      <template #footer>
+        <div class="flex gap-4 mt-1">
+          <AtomButton
+            :label="$t('button.label.default')"
+            severity="secondary"
+            variant="outlined"
+            class="w-full"
+          />
+          <AtomButton
+            :label="$t('button.label.default')"
+            class="w-full"
+          />
+        </div>
+      </template>
+    </AtomCard>
   </div>
 
-  <div class="flex flex-col items-center justify-center mt-6">
+
+  <div class="flex items-center justify-center mt-6 gap-4">
     <button @click="cycleColorSurface">Поверхность: {{ colorSurface }}</button>
     <button @click="cycleColorTheme">Тема: {{ colorTheme }}</button>
     <button @click="toggleDisplayMode">Режим: {{ displayMode }}</button>
