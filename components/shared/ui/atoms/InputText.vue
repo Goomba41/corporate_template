@@ -196,6 +196,8 @@ const inputClasses = computed(() => ([
 
 .mode-dark {
     .input-text {
+        border: 1px solid var(--surface-500);
+
         &--invalid:not(:disabled):hover {
             border-color: color-mix(in srgb, var(--accent-error) 80%, var(--text-primary) 20%);
         }
