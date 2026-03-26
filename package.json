@@ -29,6 +29,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/ph": "^1.2.2",
     "@nuxt/test-utils": "^4.0.0",
+    "@oxc-parser/binding-win32-x64-msvc": "^0.121.0",
     "@primevue/nuxt-module": "^4.5.4",
     "@unocss/nuxt": "^66.6.0",
     "@vue/test-utils": "^2.4.6",

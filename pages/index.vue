@@ -51,7 +51,7 @@ const testInputChange = (event: string) => {
   <div class="grid grid-cols-3 gap-2 items-start">
     <!-- Кнопки -->
     <div class="flex flex-col gap-2 p-2 items-center">
-      <div class="flex gap-2">
+      <div class="flex gap-2 flex-wrap">
         <AtomButton :label="$t('button.severities.primary')" />
         <AtomButton
           :label="$t('button.severities.secondary')"
@@ -79,7 +79,7 @@ const testInputChange = (event: string) => {
         />
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 flex-wrap">
         <AtomButton
           :label="$t('button.severities.primary')"
           variant="outlined"
@@ -116,7 +116,7 @@ const testInputChange = (event: string) => {
         />
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 flex-wrap">
         <AtomButton
           :label="$t('button.severities.primary')"
           variant="text"
@@ -153,7 +153,7 @@ const testInputChange = (event: string) => {
         />
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 flex-wrap">
         <AtomButton
           :label="$t('button.severities.primary')"
           badge="5"
@@ -188,7 +188,7 @@ const testInputChange = (event: string) => {
         </AtomButton>
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 flex-wrap">
         <MoleculeButtonGroup>
           <AtomButton :label="$t('button.severities.primary')">
             <template #icon>

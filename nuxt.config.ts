@@ -85,9 +85,6 @@ export default defineNuxtConfig({
     components: {
       prefix: 'Prime', // Префикс для компонентов, чтобы избежать конфликтов
       include: [ // Явно указываем нужные компоненты для оптимизации
-        'Button',
-        'InputText',
-        'Message'
       ]
     },
   },
