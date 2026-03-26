@@ -5,9 +5,9 @@ export default defineNuxtConfig({
 
   modules: [
     '@primevue/nuxt-module',
-    '@unocss/nuxt',
-    '@nuxtjs/i18n',
     '@nuxt/icon',
+    '@nuxtjs/i18n',
+    '@unocss/nuxt',
     '@nuxt/test-utils/module',
     'nuxt-zod-i18n',
     'nuxt-svgo',
@@ -26,8 +26,22 @@ export default defineNuxtConfig({
     ],
   },
 
+  imports: {
+    autoImport: true,
+    imports: [
+      // Например, функции из VueUse
+      // { from: 'vueuse/core', imports: ['useFetch'] },
+    ],
+    dirs: [
+      'composables/shared',
+      'composables/features',
+      'composables/app'
+    ],
+  },
+
   app: {
     head: {
+      title: 'Hidden Hippo',
       link: [{ rel: 'icon', type: 'image/svg', href: '/favicon.svg' }]
     }
   },

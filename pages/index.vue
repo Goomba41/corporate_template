@@ -2,9 +2,6 @@
   setup
   lang="ts"
 >
-import { useTheme } from '~/composables/app/useTheme';
-import { useLocale } from '~/composables/app/useLocale';
-
 const {
   colorSurface,
   colorTheme,
