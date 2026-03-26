@@ -1,7 +1,9 @@
 {
+  "placeholder": "Hippus Incognitus",
   "button": {
     "label": {
-      "default": "Кнопка"
+      "default": "Actio Incognita",
+      "search": "Поиск"
     },
     "sizes": {
       "sm": "Маленькая",
@@ -20,7 +22,7 @@
   },
   "input-text": {
     "label": {
-      "default": "Текстовое поле ввода"
+      "default": "Scriptum Incognitum"
     },
     "variants": {
       "filled": "Заполненное",

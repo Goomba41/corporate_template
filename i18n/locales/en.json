@@ -1,7 +1,9 @@
 {
+  "placeholder": "Hippus Incognitus",
   "button": {
     "label": {
-      "default": "Button"
+      "default": "Actio Incognita",
+      "search": "Search"
     },
     "sizes": {
       "sm": "Small",
@@ -20,7 +22,7 @@
   },
   "input-text": {
     "label": {
-      "default": "Input Text"
+      "default": "Scriptum Incognitum"
     },
     "variants": {
       "filled": "Filled",

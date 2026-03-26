@@ -635,7 +635,7 @@ const testInputChange = (event: string) => {
       <div class="flex gap-2 items-center w-full">
         <MoleculeInputGroup class="w-full">
 
-          <AtomButton label="Search" />
+          <AtomButton :label="$t('button.label.search')" />
 
           <AtomInputText
             class="w-1/3"
@@ -691,7 +691,7 @@ const testInputChange = (event: string) => {
 
     <!-- Сообщения -->
     <div class="flex flex-col gap-2 p-2 items-center">
-      <AtomMessage>Привет</AtomMessage>
+      <AtomMessage>{{ $t('placeholder') }}</AtomMessage>
 
       <div class="flex gap-2 items-center">
         <AtomMessage size="sm">Small</AtomMessage>
@@ -700,49 +700,49 @@ const testInputChange = (event: string) => {
       </div>
 
       <div class="flex gap-2 items-center">
-        <AtomMessage severity="primary">Привет</AtomMessage>
-        <AtomMessage severity="secondary">Привет</AtomMessage>
-        <AtomMessage severity="success">Привет</AtomMessage>
-        <AtomMessage severity="info">Привет</AtomMessage>
-        <AtomMessage severity="warning">Привет</AtomMessage>
-        <AtomMessage severity="help">Привет</AtomMessage>
-        <AtomMessage severity="danger">Привет</AtomMessage>
+        <AtomMessage severity="primary">{{ $t('placeholder') }}</AtomMessage>
+        <AtomMessage severity="secondary">{{ $t('placeholder') }}</AtomMessage>
+        <AtomMessage severity="success">{{ $t('placeholder') }}</AtomMessage>
+        <AtomMessage severity="info">{{ $t('placeholder') }}</AtomMessage>
+        <AtomMessage severity="warning">{{ $t('placeholder') }}</AtomMessage>
+        <AtomMessage severity="help">{{ $t('placeholder') }}</AtomMessage>
+        <AtomMessage severity="danger">{{ $t('placeholder') }}</AtomMessage>
       </div>
 
       <div class="flex gap-2 items-center">
         <AtomMessage
           severity="primary"
           variant="outlined"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage
           severity="secondary"
           variant="outlined"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage
           severity="success"
           variant="outlined"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
       </div>
 
       <div class="flex gap-6 items-center">
         <AtomMessage
           severity="primary"
           variant="simple"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage
           severity="secondary"
           variant="simple"
           size="sm"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage
           severity="success"
           variant="simple"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
         <AtomMessage
           severity="error"
           variant="simple"
           size="lg"
-        >Привет</AtomMessage>
+        >{{ $t('placeholder') }}</AtomMessage>
       </div>
 
       <div class="flex gap-2 items-center">
@@ -753,7 +753,7 @@ const testInputChange = (event: string) => {
               height="1.25rem"
             />
           </template>
-          Привет
+          {{ $t('placeholder') }}
         </AtomMessage>
         <AtomMessage severity="info">
           <template #icon>
@@ -762,7 +762,7 @@ const testInputChange = (event: string) => {
               height="3rem"
             />
           </template>
-          Привет
+          {{ $t('placeholder') }}
         </AtomMessage>
       </div>
 
@@ -774,7 +774,7 @@ const testInputChange = (event: string) => {
           v-model:visible="visible"
           @life-end="hideMessage"
         >
-          Привет
+          {{ $t('placeholder') }}
         </AtomMessage>
 
         <AtomMessage
@@ -784,7 +784,7 @@ const testInputChange = (event: string) => {
           v-model:visible="visible"
           @life-end="hideMessage"
         >
-          Привет
+          {{ $t('placeholder') }}
         </AtomMessage>
       </div>
 
