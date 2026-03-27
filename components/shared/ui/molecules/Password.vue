@@ -3,14 +3,14 @@
     lang="ts"
 >
 import { computed } from 'vue'
+import { validatePassword } from '~/core/application/use-cases/validatePassword';
 
 import type { InputProps } from '~/types/input-props';
 
 interface Props {
     toggleMask?: boolean,
     feedback?: boolean,
-    // mediumRegex
-    // strongRegex
+    // validationState
     // weakLabel
     // mediumLabel
     // strongLabel
@@ -42,6 +42,16 @@ const passwordClasses = computed(() => ([
 const isVisible = ref<boolean>(false)
 
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
+const testP = async () => {
+    if (model.value) console.log(await validatePassword(model.value, {
+        policy: {
+            minLength: 1,
+            requireUppercase: false,
+            requireNumbers: false,
+            requireSpecialChars: false,
+        }, pwnCheck: { enabled: true, fetchFn: fetch }
+    }))
+}
 </script>
 
 <template>
@@ -63,6 +73,7 @@ const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 
                 @input-change="handleChange"
             />
 
+            <button @click="testP">test</button>
             <!-- TODO: слоты maskIcon, unmaskIcon -->
             <!-- TODO: popover со слотами header, content, footer -->
         </div>
@@ -73,5 +84,4 @@ const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 
     scoped
     lang="scss"
 >
-// .input-password {}
-</style>
+// .input-password {}</style>
