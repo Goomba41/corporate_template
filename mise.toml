@@ -1,6 +1,8 @@
 [env]
 NUXT_HOST = "0.0.0.0"
 NUXT_PORT = "3000"
+NUXT_SSL_CERT = "./.cert/cert.pem"
+NUXT_SSL_KEY = "./.cert/key.pem"
 
 [tools]
 node = "latest"
