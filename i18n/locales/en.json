@@ -34,5 +34,34 @@
       "lg": "Large",
       "fluid": "Fluid"
     }
+  },
+  "password": {
+    "errors": {
+      "PASSWORD_INSECURE": "Password does not meet system security requirements",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_TOO_SHORT": "Password must be at least {minLength} characters long",
+      "PASSWORD_NO_LOWERCASE": "Add lowercase letters (a–z)",
+      "PASSWORD_NO_UPPERCASE": "Add uppercase letters (A–Z)",
+      "PASSWORD_NO_NUMBERS": "Add numbers (0–9)",
+      "PASSWORD_NO_SPECIAL_CHARS": "Add a special character",
+      "PASSWORD_EXPOSED": "This password was compromised in a data breach. Please choose another",
+      "PASSWORD_TOP_10": "This password is among the 10 most vulnerable. Create a more unique one",
+      "PASSWORD_TOP_100": "This password is among the 100 most vulnerable. Choose a stronger one",
+      "PASSWORD_COMMON": "Password is too common. Use a more unique combination",
+      "PASSWORD_SIMILIAR": "Password resembles a commonly used one. Modify it for better security",
+      "PASSWORD_IN_DICTIONARY": "Password contains a dictionary word. Add numbers or symbols",
+      "PASSWORD_HUMAN_NAME": "Avoid using names or surnames in your password",
+      "PASSWORD_DATE": "Avoid using dates (birthdays, years) in your password",
+      "PASSWORD_REPEATS": "Avoid repeated characters (e.g., «aaa» or «111»)",
+      "PASSWORD_KEYBOARD_PATTERN": "Avoid keyboard sequences (e.g., «qwerty» or «1234»)",
+      "PASSWORD_EXCESSIVE": "Password is long enough — special characters are optional"
+    },
+    "levels": {
+      "very_weak": "Very weak",
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "very_strong": "Very strong"
+    }
   }
 }
