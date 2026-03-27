@@ -4,18 +4,11 @@
 >
 import { computed } from 'vue'
 
-interface Props {
-    size?: 'sm' | 'md' | 'lg'
-    placeholder?: string,
-    invalid?: boolean
-    fluid?: boolean,
-    variant?: 'filled'
-    disabled?: boolean
-    loading?: boolean
-}
+import type { InputProps as Props } from '~/types/input-props'
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 'md'
+    size: 'md',
+    type: 'text'
 })
 
 const emit = defineEmits<{ 'input-change': [value: string] }>()
@@ -46,7 +39,7 @@ const inputClasses = computed(() => ([
     >
         <input
             v-model="model"
-            type="text"
+            :type="type"
             :disabled="disabled || loading"
             :placeholder="placeholder"
             :class="inputClasses"
@@ -110,6 +103,17 @@ const inputClasses = computed(() => ([
         border-radius: inherit;
         outline-color: transparent;
         appearance: none;
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px var(--bg-primary) inset !important;
+            /* Цвет вашего фона */
+            -webkit-text-fill-color: var(--text-primary);
+            /* Цвет вашего текста */
+            transition: background-color 5000s ease-in-out 0s;
+        }
 
         &:not(:disabled) {
             &:hover {

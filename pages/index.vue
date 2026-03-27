@@ -45,12 +45,14 @@ const testModelEvent = (event?: string) => {
 const testInputChange = (event: string) => {
   console.log('Text input value updated through change! ', event)
 }
+
+const passwordValue = ref<string>('')
 </script>
 
 <template>
-  <div class="demo-grid grid grid-cols-3 gap-2 items-start">
+  <div class="demo-grid grid grid-cols-3 gap-2 items-start p-6">
     <!-- Кнопки -->
-    <div class="flex flex-col gap-2 p-2 items-center">
+    <div class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 flex-wrap">
         <AtomButton :label="$t('button.severities.primary')" />
         <AtomButton
@@ -412,7 +414,7 @@ const testInputChange = (event: string) => {
     </div>
 
     <!-- Поля ввода и формы -->
-    <div class="flex flex-col gap-2 p-2 items-center">
+    <div class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 items-center w-full">
         <AtomInputText
           v-model="inputTextValue"
@@ -659,7 +661,7 @@ const testInputChange = (event: string) => {
     </div>
 
     <!-- Сообщения -->
-    <div class="flex flex-col gap-2 p-2 items-center">
+    <div class="flex flex-col gap-2 items-center">
       <AtomMessage>{{ $t('placeholder') }}</AtomMessage>
 
       <div class="flex gap-2 items-center">
@@ -760,7 +762,7 @@ const testInputChange = (event: string) => {
     </div>
 
     <!-- Скелетоны -->
-    <div class="grid grid-cols-2 gap-2 p-2 items-center">
+    <div class="grid grid-cols-2 gap-2 items-center">
       <div class="flex flex-col gap-2">
         <h5>Rectangle</h5>
         <AtomSkeleton animation="wave"></AtomSkeleton>
@@ -916,7 +918,7 @@ const testInputChange = (event: string) => {
       </div>
     </div>
 
-    <AtomCard class="flex shrink">
+    <AtomCard>
       <template #title>{{ $t('placeholder') }}</template>
       <template #content>
         <p class="m-0">
@@ -962,10 +964,43 @@ const testInputChange = (event: string) => {
         </div>
       </template>
     </AtomCard>
+
+    <div class="flex flex-col gap-2 items-center">
+      <h5>Passwords</h5>
+
+      <div class="flex gap-2 items-center w-full">
+        <MoleculePassword
+          placeholder="Password"
+          class="w-1/3"
+        />
+        <MoleculePassword
+          disabled
+          placeholder="Password"
+          class="w-1/3"
+        />
+        <MoleculePassword
+          :loading="true"
+          placeholder="Password"
+          class="w-1/3"
+        />
+      </div>
+      <div class="flex gap-2 items-center w-full">
+        <MoleculePassword
+          v-model="passwordValue"
+          toggleMask
+          placeholder="Password"
+          class="w-1/3"
+          @input-change="testInputChange"
+        />
+        <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
+        <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
+      </div>
+      {{ passwordValue }}
+    </div>
   </div>
 
 
-  <div class="flex items-center justify-center mt-6 gap-4">
+  <div class="flex items-center justify-center mb-6 gap-4">
     <button @click="cycleColorSurface">Поверхность: {{ colorSurface }}</button>
     <button @click="cycleColorTheme">Тема: {{ colorTheme }}</button>
     <button @click="toggleDisplayMode">Режим: {{ displayMode }}</button>
@@ -978,16 +1013,16 @@ const testInputChange = (event: string) => {
   display: grid;
   gap: var(--hh-spacing-md, 1rem);
   align-items: start;
-  
+
   // Mobile-first: по умолчанию 1 колонка
   grid-template-columns: 1fr;
-  
+
   // Планшеты
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--hh-spacing-lg, 1.5rem);
   }
-  
+
   // Десктоп
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
