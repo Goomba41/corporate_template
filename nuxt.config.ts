@@ -28,10 +28,6 @@ export default defineNuxtConfig({
 
   imports: {
     autoImport: true,
-    imports: [
-      // Например, функции из VueUse
-      // { from: 'vueuse/core', imports: ['useFetch'] },
-    ],
     dirs: [
       'composables/shared',
       'composables/features',
