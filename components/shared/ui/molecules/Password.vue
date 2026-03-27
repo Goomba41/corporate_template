@@ -5,6 +5,7 @@
 import { computed } from 'vue'
 import { validatePassword } from '~/core/application/use-cases/validatePassword';
 
+const { isOnline, isHttps } = useNetwork();
 import type { InputProps } from '~/types/input-props';
 
 interface Props {
@@ -42,15 +43,27 @@ const passwordClasses = computed(() => ([
 const isVisible = ref<boolean>(false)
 
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
+
+// TODO: вынести логику в composable
+const { t } = useI18n();
 const testP = async () => {
-    if (model.value) console.log(await validatePassword(model.value, {
-        policy: {
-            minLength: 1,
-            requireUppercase: false,
-            requireNumbers: false,
-            requireSpecialChars: false,
-        }, pwnCheck: { enabled: true, fetchFn: fetch }
-    }))
+    if (model.value) {
+        const validationResult = await validatePassword(model.value, {
+            policy: {
+                minLength: 1,
+                requireLowercase: false,
+                requireUppercase: false,
+                requireNumbers: false,
+                requireSpecialChars: false,
+            }
+            , pwnCheck: isOnline.value && isHttps.value ? { enabled: true, fetchFn: fetch } : undefined
+        })
+
+        validationResult.errors.forEach((error) => {
+            console.error(t(`password.errors.${error.code}`, error.params || {}))
+        })
+        console.info(`password strength is: ${t(`password.levels.${validationResult.level}`)}`)
+    }
 }
 </script>
 
