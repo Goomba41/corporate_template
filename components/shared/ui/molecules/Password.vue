@@ -2,16 +2,12 @@
     setup
     lang="ts"
 >
-import { computed } from 'vue'
-import { validatePassword } from '~/core/application/use-cases/validatePassword';
-
-const { isOnline, isHttps } = useNetwork();
 import type { InputProps } from '~/types/input-props';
 
 interface Props {
     toggleMask?: boolean,
     feedback?: boolean,
-    // validationState
+    validationState
     // weakLabel
     // mediumLabel
     // strongLabel
@@ -43,28 +39,6 @@ const passwordClasses = computed(() => ([
 const isVisible = ref<boolean>(false)
 
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
-
-// TODO: вынести логику в composable
-const { t } = useI18n();
-const testP = async () => {
-    if (model.value) {
-        const validationResult = await validatePassword(model.value, {
-            policy: {
-                minLength: 1,
-                requireLowercase: false,
-                requireUppercase: false,
-                requireNumbers: false,
-                requireSpecialChars: false,
-            }
-            , pwnCheck: isOnline.value && isHttps.value ? { enabled: true, fetchFn: fetch } : undefined
-        })
-
-        validationResult.errors.forEach((error) => {
-            console.error(t(`password.errors.${error.code}`, error.params || {}))
-        })
-        console.info(`password strength is: ${t(`password.levels.${validationResult.level}`)}`)
-    }
-}
 </script>
 
 <template>
@@ -85,8 +59,6 @@ const testP = async () => {
                 :type="inputType"
                 @input-change="handleChange"
             />
-
-            <button @click="testP">test</button>
             <!-- TODO: слоты maskIcon, unmaskIcon -->
             <!-- TODO: popover со слотами header, content, footer -->
         </div>

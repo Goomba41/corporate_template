@@ -30,7 +30,7 @@ export type PasswordStrengthScoreCode =
 
 export interface PasswordValidationResult {
     score: PasswordStrengthScore;
-    level: string;
+    level: PasswordStrengthScoreCode;
     errors: PasswordValidationError[];
     isValid: boolean;
 }

@@ -47,6 +47,8 @@ const testInputChange = (event: string) => {
 }
 
 const passwordValue = ref<string>('')
+
+const { validationState, isChecking } = usePasswordStrength(passwordValue)
 </script>
 
 <template>
@@ -987,10 +989,8 @@ const passwordValue = ref<string>('')
       <div class="flex gap-2 items-center w-full">
         <MoleculePassword
           v-model="passwordValue"
-          toggleMask
           placeholder="Password"
           class="w-1/3"
-          @input-change="testInputChange"
         />
         <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
         <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
