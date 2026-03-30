@@ -15,7 +15,7 @@ export function useNetwork() {
             console.warn('App is now offline')
         }
         isOnline.value = navigator.onLine;
-        isHttps.value = window.crypto?.subtle && window.isSecureContext
+        isHttps.value = !!window.crypto?.subtle && window.isSecureContext
     };
 
     // Подписка только на клиенте
