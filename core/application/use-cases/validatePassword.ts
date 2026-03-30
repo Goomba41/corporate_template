@@ -19,9 +19,6 @@ export async function validatePassword(
 
     const policyOnlineRequired = Object.keys(policy).some((p) => isZxcvbnOnlineWarningCode(p))
 
-    if (policyOnlineRequired && !zxcvbnOptions.matchers['pwned'])
-        zxcvbnOptions.addMatcher('pwned', matcherPwnedFactory(fetch, zxcvbnOptions))
-
     const errors: PasswordValidationError[] = [];
     const warnings: PasswordValidationError[] = [];
 

@@ -54,7 +54,8 @@
       "PASSWORD_DATE": "Avoid using dates (birthdays, years) in your password",
       "PASSWORD_REPEATS": "Avoid repeated characters (e.g., «aaa» or «111»)",
       "PASSWORD_KEYBOARD_PATTERN": "Avoid keyboard sequences (e.g., «qwerty» or «1234»)",
-      "PASSWORD_EXCESSIVE": "Password is long enough — special characters are optional"
+      "PASSWORD_EXCESSIVE": "Password is long enough — special characters are optional",
+      "validation_failed": "Password validation is failed — see console"
     },
     "levels": {
       "very_weak": "Very weak",

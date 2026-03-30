@@ -53,6 +53,7 @@ export type PasswordBaseErrorCode =
     | 'PASSWORD_NO_UPPERCASE' // Нет заглавных букв
     | 'PASSWORD_NO_NUMBERS' // Нет чисел
     | 'PASSWORD_NO_SPECIAL_CHARS' // Нет специальных символов
+    | 'PASSWORD_VALIDATION_ERROR' // Ошибка валидации
 
 /**
  * Коды предупреждений от анализатора zxcvbn (офлайн-проверки).

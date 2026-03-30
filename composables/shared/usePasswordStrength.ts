@@ -18,8 +18,10 @@ export function usePasswordStrength(
     const isChecking = ref(false)
     const { t } = useI18n()
 
+    const policyRef = shallowRef(policy) // Не отслеживать глубокие изменения
+
     const filteredPolicies = computed<PasswordPolicy>(() =>
-        Object.entries(policy).reduce<PasswordPolicy>((acc, [key, value]) => {
+        Object.entries(policyRef.value).reduce<PasswordPolicy>((acc, [key, value]) => {
             const policyOnlineRequired = isZxcvbnOnlineWarningCode(key)
             if (
                 value.enabled && (
@@ -78,7 +80,21 @@ export function usePasswordStrength(
                 feedback: t(`password.levels.${validationResult.level}`)
             }
         } catch (error) {
-            throw error
+            console.error('[usePasswordStrength] Validation failed:', error)
+            state.value = {
+                score: 0,
+                level: 'very_weak',
+                errors: [{
+                    code: 'PASSWORD_VALIDATION_ERROR',
+                    severity: 'error',
+                    message: t('password.errors.validation_failed')
+                }],
+                warnings: [],
+                isValid: false,
+                feedback: t('password.errors.validation_failed')
+            }
+
+            if (import.meta.dev) throw error
         } finally {
             isChecking.value = false;
         }
@@ -91,6 +107,6 @@ export function usePasswordStrength(
 
     return {
         validationState,
-        isChecking: computed(() => isChecking.value)
+        isChecking: shallowReadonly(isChecking)
     };
 }

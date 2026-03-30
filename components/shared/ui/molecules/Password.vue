@@ -19,7 +19,12 @@ const props = withDefaults(defineProps<Props & Omit<InputProps, 'type'>>(), {
     size: 'md',
 })
 
-const emit = defineEmits<{ 'input-change': [value: string] }>()
+const emit = defineEmits<{
+  /** Срабатывает при каждом изменении значения (для валидации) */
+  'update:modelValue': [value: string]
+  /** Срабатывает при "завершённом" вводе: blur, enter, change */
+  'input-change': [value: string]
+}>()
 
 const handleChange = (value: string) => {
     emit('input-change', value)
