@@ -1,38 +1,64 @@
-// composables/shared/usePasswordStrength.ts
 import { ref, computed, watch, type Ref } from 'vue';
 
 import { useDebounceFn } from '@vueuse/core';
-import { useI18n } from 'vue-i18n';
 
 import { validatePassword } from '~/core/application/use-cases/validatePassword';
-import type { PasswordPolicy, PasswordValidationResult, PasswordValidationError } from '~/core/domain/types/password';
+import type { PasswordPolicy, PasswordValidationResult } from '~/core/domain/types/password';
+import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
 
 export function usePasswordStrength(
     passwordRef: Ref<string>,
     policy: PasswordPolicy = { minLength: 10, requireUppercase: true, requireNumbers: true, requireLowercase: true, requireSpecialChars: false },
-    options: {
+    options?: {
         debounceMs?: number
     }
 ) {
-    const { debounceMs = 300 } = options;
+    const debounceMs = options ? options.debounceMs : 500;
     const { isOnline, isHttps } = useNetwork()
     const isChecking = ref(false)
+    const { t } = useI18n()
 
-    const state = ref<PasswordValidationResult>({
+    const state = ref<DisplayablePasswordValidationResult>({
         score: 0,
         level: 'very_weak',
         errors: [],
-        isValid: false
+        isValid: false,
+        feedback: t(`password.levels.very_weak`)
     });
+
+    const validationState = computed((): Readonly<DisplayablePasswordValidationResult> =>
+        readonly({
+            score: state.value.score,
+            level: state.value.level,
+            errors: readonly([...state.value.errors]),
+            isValid: state.value.isValid,
+            feedback: state.value.feedback
+        })
+    );
 
     const validate = async (pwd: string) => {
         isChecking.value = true; // Включаем спиннер
 
         try {
-            return await validatePassword(pwd, {
+            const validationResult = await validatePassword(pwd, {
                 policy,
                 pwnCheck: isOnline.value && isHttps.value ? { enabled: true, fetchFn: fetch } : undefined
             })
+
+            state.value = {
+                ...validationResult,
+                errors: validationResult.errors.map((error) => ({
+                    ...error,
+                    message: t(`password.errors.${error.code}`, error.params
+                        ? {
+                            ...error.params,
+                            count: error.params?.minLength,
+                        }
+                        : {}
+                    )
+                })),
+                feedback: t(`password.levels.${validationResult.level}`)
+            }
         } catch (error) {
             throw error
         } finally {
@@ -42,13 +68,11 @@ export function usePasswordStrength(
 
     const debouncedValidate = useDebounceFn((pwd: string) => validate(pwd), debounceMs)
 
-    // Магия debounce: валидация запустится только через 300мс после прекращения ввода
-    watch(passwordRef, (newVal) => {
-        debouncedValidate(newVal);
-    });
+    // Валидация запустится только через заданное количество миллисекунд после прекращения ввода
+    watch(passwordRef, (newVal) => debouncedValidate(newVal));
 
     return {
-        validationState: computed(() => state.value),
+        validationState,
         isChecking: computed(() => isChecking.value)
     };
 }

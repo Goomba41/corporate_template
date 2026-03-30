@@ -143,6 +143,7 @@ export const useTheme = () => {
 
     return {
         // Состояние
+        // TODO: сделать computed
         colorSurface,
         colorTheme,
         displayMode,

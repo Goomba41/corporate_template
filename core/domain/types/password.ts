@@ -29,13 +29,14 @@ export type PasswordStrengthScoreCode =
     | 'very_strong'
 
 export interface PasswordValidationResult {
-    score: PasswordStrengthScore;
-    level: PasswordStrengthScoreCode;
-    errors: PasswordValidationError[];
-    isValid: boolean;
+    readonly score: PasswordStrengthScore;
+    readonly level: PasswordStrengthScoreCode;
+    readonly errors: readonly PasswordValidationError[];
+    readonly isValid: boolean;
 }
 
 export interface PasswordPolicy {
+    // TODO: сделать уровень ошибки: блокирующая ошибка или просто предупреждение, влияет на параметр isValid
     minLength: number;
     requireUppercase: boolean;
     requireLowercase: boolean;
@@ -59,7 +60,7 @@ export const ZXCVBN_WARNING_MAP: Record<string, PasswordErrorCode> = {
     'This is a top-10 common password.': 'PASSWORD_TOP_10',
     'This is a top-100 common password.': 'PASSWORD_TOP_100',
     'This is a very common password.': 'PASSWORD_COMMON',
-    'This is similar to a commonly used password.': 'PASSWORD_SIMILIAR',
+    'This is similar to a commonly used password.': 'PASSWORD_SIMILAR',
     'A word by itself is easy to guess.': 'PASSWORD_IN_DICTIONARY',
     'Names and surnames by themselves are easy to guess.': 'PASSWORD_HUMAN_NAME',
     'Common names and surnames are easy to guess.': 'PASSWORD_HUMAN_NAME',
@@ -84,7 +85,7 @@ export type PasswordErrorCode =
     | 'PASSWORD_TOP_10' // Пароль в топ 10 утёкших паролей
     | 'PASSWORD_TOP_100' // Пароль в топ 100 утёкших паролей
     | 'PASSWORD_COMMON' // Очень популярный пароль
-    | 'PASSWORD_SIMILIAR' // Похож на очень популярный пароль
+    | 'PASSWORD_SIMILAR' // Похож на очень популярный пароль
     | 'PASSWORD_IN_DICTIONARY' // Одиночное словарное слово
     | 'PASSWORD_HUMAN_NAME' // Имена, фамилии
     | 'PASSWORD_DATE' // Похож на дату
@@ -94,6 +95,6 @@ export type PasswordErrorCode =
 
 // TODO: разбить на ошибки и warning
 export interface PasswordValidationError {
-    code: PasswordErrorCode;
-    params?: Record<string, string | number>; // Для динамической подстановки (например, мин. длина)
+    readonly code: PasswordErrorCode;
+    readonly params?: Record<string, string | number>; // Для динамической подстановки (например, мин. длина)
 }

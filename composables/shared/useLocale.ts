@@ -62,6 +62,7 @@ export const useLocale = () => {
 
     return {
         // Состояние
+        // TODO: сделать computed
         appLocale,
         appLocaleName,
         availableLocales,

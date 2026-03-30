@@ -33,6 +33,7 @@ export function useNetwork() {
     }
 
     return {
+        // TODO: сделать computed
         isOnline,
         isOffline,
         isHttp,

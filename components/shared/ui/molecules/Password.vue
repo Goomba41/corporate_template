@@ -3,11 +3,12 @@
     lang="ts"
 >
 import type { InputProps } from '~/types/input-props';
+import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
 
 interface Props {
     toggleMask?: boolean,
     feedback?: boolean,
-    validationState
+    validationState?: DisplayablePasswordValidationResult
     // weakLabel
     // mediumLabel
     // strongLabel
@@ -28,7 +29,7 @@ const model = defineModel<string>()
 
 defineSlots<{
     header?(): unknown;
-    content(): unknown;
+    content?(): unknown;
     footer?(): unknown;
 }>();
 
@@ -39,6 +40,8 @@ const passwordClasses = computed(() => ([
 const isVisible = ref<boolean>(false)
 
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
+
+// TODO: перед loading запоминать состояние фокусировки и возвращать его обратно после завершения loading
 </script>
 
 <template>
@@ -60,7 +63,19 @@ const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 
                 @input-change="handleChange"
             />
             <!-- TODO: слоты maskIcon, unmaskIcon -->
+
             <!-- TODO: popover со слотами header, content, footer -->
+
+            <!-- TODO: добавить к условиям проверку состояния фокусировки (vueUse?) -->
+            <div v-if="model !== undefined && model.length && validationState !== undefined">
+                <!-- TODO: popover атом (или молекула, но скорее атом) -->
+                {{ model }} <br /><br />
+                {{ validationState.feedback }} <br /><br />
+                <div v-for="error in validationState.errors" :key="error.code">
+                    {{ error.message }}
+                </div>
+                <!-- TODO: вывод перевода уровня сложности пароля, вывод ошибок и их перевода -->
+            </div>
         </div>
     </div>
 </template>

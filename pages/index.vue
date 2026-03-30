@@ -991,11 +991,12 @@ const { validationState, isChecking } = usePasswordStrength(passwordValue)
           v-model="passwordValue"
           placeholder="Password"
           class="w-1/3"
+          :validation-state="validationState"
+          :loading="isChecking"
         />
         <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
         <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
       </div>
-      {{ passwordValue }}
     </div>
   </div>
 
