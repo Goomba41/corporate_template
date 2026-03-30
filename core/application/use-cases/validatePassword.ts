@@ -1,36 +1,89 @@
 import { zxcvbnAsync, zxcvbnOptions } from '@zxcvbn-ts/core'
 import { matcherPwnedFactory } from '@zxcvbn-ts/matcher-pwned'
 
-import { type PasswordValidationResult, type PasswordValidationConfig, type PasswordPolicy, PasswordStrengthScore, PasswordStrengthLevel, type PasswordValidationError, ZXCVBN_WARNING_MAP } from '~/core/domain/types/password';
+import { type PasswordValidationResult, type PasswordPolicy, PasswordStrengthScore, PasswordStrengthLevel, type PasswordValidationError, ZXCVBN_WARNING_MAP, PolicyRule, type PasswordErrorCode, type PasswordPolicyRule, ZxcvbnOnlineWarningCodes, isZxcvbnOnlineWarningCode } from '~/core/domain/types/password';
 
 export async function validatePassword(
     password: string,
-    config: PasswordValidationConfig
+    policy: PasswordPolicy
 ): Promise<PasswordValidationResult> {
     if (!password) {
         return {
             score: PasswordStrengthScore.VeryWeak,
             level: PasswordStrengthLevel[PasswordStrengthScore.VeryWeak],
-            errors: [{ code: 'PASSWORD_REQUIRED' }],
+            errors: [{ code: 'PASSWORD_REQUIRED', severity: 'error' }],
+            warnings: [],
             isValid: false
         };
     }
 
-    if (config.pwnCheck?.enabled && config.pwnCheck?.fetchFn && !zxcvbnOptions.matchers['pwned'])
-        zxcvbnOptions.addMatcher('pwned', matcherPwnedFactory(config.pwnCheck.fetchFn, zxcvbnOptions))
+    const policyOnlineRequired = Object.keys(policy).some((p) => isZxcvbnOnlineWarningCode(p))
 
-    const { policy } = config
-    const errors = validatePasswordPolicy(password, policy);
+    if (policyOnlineRequired && !zxcvbnOptions.matchers['pwned'])
+        zxcvbnOptions.addMatcher('pwned', matcherPwnedFactory(fetch, zxcvbnOptions))
 
+    const errors: PasswordValidationError[] = [];
+    const warnings: PasswordValidationError[] = [];
+
+    const addValidationResult = (
+        rule: PasswordPolicyRule,
+        code: PasswordErrorCode,
+        failed: boolean,
+        params?: Record<string, any>
+    ) => {
+        if (!rule.enabled || !failed) return
+
+        const entry: PasswordValidationError = { code, severity: rule.severity, params }
+        if (rule.severity === 'error') {
+            errors.push(entry)
+        } else {
+            warnings.push(entry)
+        }
+    }
+
+    // 1. Проверка минимальной длины
+    if (policy.PASSWORD_TOO_SHORT?.enabled && password.length < policy.PASSWORD_TOO_SHORT.value!)
+        addValidationResult(
+            policy.PASSWORD_TOO_SHORT,
+            'PASSWORD_TOO_SHORT',
+            true,
+            { minLength: policy.PASSWORD_TOO_SHORT.value }
+        )
+
+    // 2. Проверка требований к составу символов
+    if (policy.PASSWORD_NO_UPPERCASE?.enabled && !/[A-Z]/.test(password))
+        addValidationResult(policy.PASSWORD_NO_UPPERCASE, 'PASSWORD_NO_UPPERCASE', true)
+
+    if (policy.PASSWORD_NO_LOWERCASE?.enabled && !/[a-z]/.test(password))
+        addValidationResult(policy.PASSWORD_NO_LOWERCASE, 'PASSWORD_NO_LOWERCASE', true)
+
+    if (policy.PASSWORD_NO_NUMBERS?.enabled && !/[0-9]/.test(password))
+        addValidationResult(policy.PASSWORD_NO_NUMBERS, 'PASSWORD_NO_NUMBERS', true)
+
+    if (policy.PASSWORD_NO_SPECIAL_CHARS?.enabled && !/[!@#$%^&*]/.test(password))
+        addValidationResult(policy.PASSWORD_NO_SPECIAL_CHARS, 'PASSWORD_NO_SPECIAL_CHARS', true)
+
+    // 3. Оценка силы пароля (энтропия, словари, паттерны и пр.)
     const zxcvbnResult = await zxcvbnAsync(password);
-    const isPassedMinLevel = zxcvbnResult.score >= (policy.minThreshold ?? 0);
-    const isValid = isPassedMinLevel && errors.length === 0
+
+    // 4. Проверка порога надёжности
+    if (policy.PASSWORD_INSECURE?.enabled && zxcvbnResult.score < (policy.PASSWORD_INSECURE.value ?? 0))
+        addValidationResult(
+            policy.PASSWORD_INSECURE,
+            'PASSWORD_INSECURE',
+            true,
+            { minThreshold: policy.PASSWORD_INSECURE.value }
+        )
 
     const warningKey = zxcvbnResult.feedback.warning;
     if (warningKey) {
-        const errorCode = ZXCVBN_WARNING_MAP[warningKey] || 'PASSWORD_INSECURE';
-        errors.push({ code: errorCode });
+        const errorCode = ZXCVBN_WARNING_MAP[warningKey];
+        if (errorCode !== undefined && policy[errorCode]) {
+            addValidationResult(policy[errorCode], errorCode, true)
+        }
     }
+
+    const isValid = errors.length === 0
 
     const toPasswordStrengthScore = (score: number): PasswordStrengthScore => {
         if (score >= 0 && score <= 4) return score as PasswordStrengthScore;
@@ -40,32 +93,8 @@ export async function validatePassword(
     return {
         score: toPasswordStrengthScore(zxcvbnResult.score),
         level: PasswordStrengthLevel[zxcvbnResult.score],
-        errors,
+        errors: Object.freeze(errors),
+        warnings: Object.freeze(warnings),
         isValid
     };
-}
-
-export function validatePasswordPolicy(
-    password: string,
-    policy: PasswordPolicy
-): PasswordValidationError[] {
-    const errors: PasswordValidationError[] = [];
-
-    if (policy.minLength && password.length < policy.minLength) {
-        errors.push({ code: 'PASSWORD_TOO_SHORT', params: { minLength: policy.minLength } });
-    }
-    if (policy.requireUppercase && !/[A-Z]/.test(password)) {
-        errors.push({ code: 'PASSWORD_NO_UPPERCASE' });
-    }
-    if (policy.requireLowercase && !/[a-z]/.test(password)) {
-        errors.push({ code: 'PASSWORD_NO_LOWERCASE' });
-    }
-    if (policy.requireNumbers && !/[0-9]/.test(password)) {
-        errors.push({ code: 'PASSWORD_NO_NUMBERS' });
-    }
-    if (policy.requireSpecialChars && !/[!@#$%^&*]/.test(password)) {
-        errors.push({ code: 'PASSWORD_NO_SPECIAL_CHARS' });
-    }
-
-    return errors;
 }

@@ -2,6 +2,8 @@
   setup
   lang="ts"
 >
+import { PolicyRule } from '~/core/domain/types/password';
+
 const {
   colorSurface,
   colorTheme,
@@ -48,7 +50,13 @@ const testInputChange = (event: string) => {
 
 const passwordValue = ref<string>('')
 
-const { validationState, isChecking } = usePasswordStrength(passwordValue)
+const { validationState, isChecking } = usePasswordStrength(passwordValue, {
+  'PASSWORD_TOO_SHORT': PolicyRule.error(15),
+  'PASSWORD_EXPOSED': PolicyRule.warning(),
+  'PASSWORD_TOP_10': PolicyRule.warning(),
+  'PASSWORD_REPEATS': PolicyRule.warning(),
+  'PASSWORD_COMMON': PolicyRule.warning()
+})
 </script>
 
 <template>

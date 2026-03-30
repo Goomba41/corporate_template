@@ -69,12 +69,25 @@ const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 
             <!-- TODO: добавить к условиям проверку состояния фокусировки (vueUse?) -->
             <div v-if="model !== undefined && model.length && validationState !== undefined">
                 <!-- TODO: popover атом (или молекула, но скорее атом) -->
-                {{ model }} <br /><br />
-                {{ validationState.feedback }} <br /><br />
-                <div v-for="error in validationState.errors" :key="error.code">
-                    {{ error.message }}
-                </div>
-                <!-- TODO: вывод перевода уровня сложности пароля, вывод ошибок и их перевода -->
+                {{ validationState.feedback }}
+                <template v-if="validationState.errors.length">
+                    <h5 class="mt-4 mb-4 text-red">Ошибки:</h5>
+                    <div
+                        v-for="error in validationState.errors"
+                        :key="error.code"
+                    >
+                        {{ error.message }}
+                    </div>
+                </template>
+                <template v-if="validationState.warnings.length">
+                    <h5 class="mt-4 mb-4 text-warning">Предупреждения:</h5>
+                    <div
+                        v-for="warning in validationState.warnings"
+                        :key="warning.code"
+                    >
+                        {{ warning.message }}
+                    </div>
+                </template>
             </div>
         </div>
     </div>

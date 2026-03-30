@@ -27,4 +27,9 @@ export interface DisplayablePasswordValidationResult extends PasswordValidationR
      * Ошибки с текстовыми переводами
      */
     readonly errors: readonly DisplayablePasswordError[];
+
+    /**
+     * Предупреждения с текстовыми переводами
+     */
+    readonly warnings: readonly DisplayablePasswordError[];
 }
