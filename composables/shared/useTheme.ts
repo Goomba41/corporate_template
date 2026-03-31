@@ -143,10 +143,9 @@ export const useTheme = () => {
 
     return {
         // Состояние
-        // TODO: сделать computed
-        colorSurface,
-        colorTheme,
-        displayMode,
+        colorSurface: shallowReadonly(colorSurface),
+        colorTheme: shallowReadonly(colorTheme),
+        displayMode: shallowReadonly(displayMode),
 
         // Методы
         setColorTheme,

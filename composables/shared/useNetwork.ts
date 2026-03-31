@@ -33,10 +33,9 @@ export function useNetwork() {
     }
 
     return {
-        // TODO: сделать computed
-        isOnline,
-        isOffline,
-        isHttp,
-        isHttps
+        isOnline: shallowRef(isOnline),
+        isOffline: shallowRef(isOffline),
+        isHttp: shallowRef(isHttp),
+        isHttps: shallowRef(isHttps)
     };
 }

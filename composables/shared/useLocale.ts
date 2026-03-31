@@ -62,10 +62,9 @@ export const useLocale = () => {
 
     return {
         // Состояние
-        // TODO: сделать computed
-        appLocale,
-        appLocaleName,
-        availableLocales,
+        appLocale: shallowReadonly(appLocale),
+        appLocaleName: shallowReadonly(appLocaleName),
+        availableLocales: shallowReadonly(availableLocales),
 
         // Методы
         setAppLocale,
