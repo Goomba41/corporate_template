@@ -999,6 +999,7 @@ const { validationState, isChecking } = usePasswordStrength(passwordValue, {
           v-model="passwordValue"
           placeholder="Password"
           class="w-1/3"
+          toggleMask
           :validation-state="validationState"
           :loading="isChecking"
         />
