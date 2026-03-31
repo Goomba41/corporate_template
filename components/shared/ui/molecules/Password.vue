@@ -2,6 +2,10 @@
     setup
     lang="ts"
 >
+import type { AtomInputText } from '#components';
+
+import { useFocus } from '@vueuse/core';
+
 import type { InputProps } from '~/types/input-props';
 import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
 
@@ -20,10 +24,10 @@ const props = withDefaults(defineProps<Props & Omit<InputProps, 'type'>>(), {
 })
 
 const emit = defineEmits<{
-  /** Срабатывает при каждом изменении значения (для валидации) */
-  'update:modelValue': [value: string]
-  /** Срабатывает при "завершённом" вводе: blur, enter, change */
-  'input-change': [value: string]
+    /** Срабатывает при каждом изменении значения (для валидации) */
+    'update:modelValue': [value: string]
+    /** Срабатывает при "завершённом" вводе: blur, enter, change */
+    'input-change': [value: string]
 }>()
 
 const handleChange = (value: string) => {
@@ -46,7 +50,15 @@ const isVisible = ref<boolean>(false)
 
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
 
-// TODO: перед loading запоминать состояние фокусировки и возвращать его обратно после завершения loading
+const input = ref<InstanceType<typeof AtomInputText> | null>(null)
+
+watch(() => props.loading, async (newValue, oldValue) => {
+    if (oldValue && !newValue) {
+        await nextTick()
+        
+        input.value?.focus()
+    }
+}, { flush: 'post' })
 </script>
 
 <template>
@@ -56,6 +68,7 @@ const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 
             :class="passwordClasses"
         >
             <AtomInputText
+                ref="input"
                 v-model="model"
                 :disabled="disabled || loading"
                 :placeholder="placeholder"

@@ -18,6 +18,14 @@ const handleChange = (e: Event) => {
     emit('input-change', value)
 }
 
+const input = ref<HTMLInputElement | null>(null)
+
+defineExpose({
+    internalInput: input,
+    focus: () => input.value?.focus(),
+    blur: () => input.value?.blur()
+})
+
 const model = defineModel<string>()
 
 const inputClasses = computed(() => ([
@@ -38,6 +46,7 @@ const inputClasses = computed(() => ([
         :class="{ 'input-text__wrapper--fluid': props.fluid }"
     >
         <input
+            ref="input"
             v-model="model"
             :type="type"
             :disabled="disabled || loading"
