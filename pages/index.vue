@@ -1012,6 +1012,27 @@ const { validationState: secondValidation, isChecking: secondIsChecking } = useP
           :validation-state="firstValidation"
           :loading="firstIsChecking"
         >
+          <template #header>
+            <div class="font-semibold text-xm mb-4">Set Password for user</div>
+          </template>
+          <template #footer>
+            <ul v-if="!!firstValidation.errors.length" class="my-0 leading-normal text-sm text-error mt-4">
+              <li
+                v-for="(item, index) in firstValidation.errors"
+                :key="index"
+              >
+                {{ item.message }}
+              </li>
+            </ul>
+            <ul v-if="!!firstValidation.warnings.length" class="my-0 leading-normal text-sm text-warning mt-4">
+              <li
+                v-for="(item, index) in firstValidation.warnings"
+                :key="index"
+              >
+                {{ item.message }}
+              </li>
+            </ul>
+          </template>
         </MoleculePassword>
         <MoleculePassword
           v-model="passwordValue2"
@@ -1021,7 +1042,6 @@ const { validationState: secondValidation, isChecking: secondIsChecking } = useP
           :validation-state="secondValidation"
           :loading="secondIsChecking"
         />
-        
         <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
         <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
       </div>
