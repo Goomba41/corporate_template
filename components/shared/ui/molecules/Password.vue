@@ -142,7 +142,14 @@ const cssPadding = computed(() => {
 
 <template>
     <div class="input-password__wrapper">
-        <div :class="passwordClasses">
+        <div
+            :class="passwordClasses"
+            :style="{
+                '--input-icon-width': `${INPUT_PASSWORD_METRICS.ICON_WIDTH}rem`,
+                '--input-icon-gap': `${INPUT_PASSWORD_METRICS.ICON_GAP}rem`,
+                '--input-edge-padding': `${INPUT_PASSWORD_METRICS.EDGE_PADDING}rem`,
+            }"
+        >
             <AtomInputText
                 ref="input"
                 v-model="model"
@@ -159,7 +166,6 @@ const cssPadding = computed(() => {
 
             <Transition
                 name="fade"
-                mode="out-in"
             >
                 <div
                     v-if="showClear && model?.length && !disabled && !loading"
@@ -190,7 +196,7 @@ const cssPadding = computed(() => {
                 >
                     <Transition
                         name="fade"
-                        mode="in-out"
+                        mode="out-in"
                     >
                         <IconUiEyeSlash v-if="isVisible" />
                         <IconUiEye v-else />
@@ -242,9 +248,6 @@ const cssPadding = computed(() => {
 }
 
 .input-password__wrapper {
-    $toggle-icon-padding: 2rem;
-    $toggle-icon-width: 1.25rem;
-
     display: flex;
     position: relative;
     border-radius: 0.5rem;
@@ -263,14 +266,10 @@ const cssPadding = computed(() => {
 
             top: 50%;
             transform: translateY(-50%);
-            right: $toggle-icon-width + (math.div($toggle-icon-padding - $toggle-icon-width, 2) * 2);
+            right: calc(var(--input-edge-padding) + var(--input-icon-width) + var(--input-icon-gap));
 
             &:hover {
                 color: var(--text-secondary);
-            }
-
-            :deep(svg) {
-                width: $toggle-icon-width;
             }
         }
 
@@ -283,7 +282,7 @@ const cssPadding = computed(() => {
 
             top: 50%;
             transform: translateY(-50%);
-            right: math.div($toggle-icon-padding - $toggle-icon-width, 2);
+            right: var(--input-edge-padding);
 
 
             &:hover {
@@ -297,10 +296,10 @@ const cssPadding = computed(() => {
                     color: var(--primary-700);
                 }
             }
+        }
 
-            :deep(svg) {
-                width: $toggle-icon-width;
-            }
+        :deep(svg) {
+            width: var(--input-icon-width);
         }
 
         :where(.mode-dark) & {
