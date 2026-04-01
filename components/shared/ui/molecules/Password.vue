@@ -69,10 +69,16 @@ defineSlots<{
     header?(): unknown;
     content?(): unknown;
     footer?(): unknown;
+    maskIcon?(props: { isVisible: boolean }): unknown;
+    unmaskIcon?(props: { isVisible: boolean }): unknown;
+    clearIcon?(): unknown;
 }>();
 
 const passwordClasses = computed(() => ([
     'input-password',
+    {
+        'input-password--has-actions': props.toggleMask || props.showClear,
+    }
 ]))
 
 /** Локальное состояние видимости пароля (текст/точки) */
@@ -109,14 +115,34 @@ watch(() => props.loading, async (newValue, oldValue) => {
     if (!oldValue && newValue) isVisible.value = false
 }, { flush: 'post' })
 
+// 🔽 Расчёт отступов для кнопок
+
+const INPUT_PASSWORD_METRICS = {
+    ICON_WIDTH: 1.25,    // ширина, rem
+    ICON_GAP: 0.375,     // ширина пространства между иконками
+    EDGE_PADDING: 0.375, // ширина пространства от края поля до первой иконки
+    BASE_PADDING: 0.75,  // отступ справа, когда нет кнопок
+}
+
+const actionCount = computed(() =>
+    (props.toggleMask ? 1 : 0) + (props.showClear ? 1 : 0)
+)
+
+const cssPadding = computed(() => {
+    if (actionCount.value === 0) {
+        return `${INPUT_PASSWORD_METRICS.BASE_PADDING}rem`;
+    }
+
+    const { ICON_WIDTH, ICON_GAP, EDGE_PADDING } = INPUT_PASSWORD_METRICS;
+    const total = EDGE_PADDING * 2 + actionCount.value * ICON_WIDTH + (actionCount.value - 1) * ICON_GAP;
+
+    return `${total}rem`;
+});
 </script>
 
 <template>
     <div class="input-password__wrapper">
-        <div
-            class="input-password"
-            :class="passwordClasses"
-        >
+        <div :class="passwordClasses">
             <AtomInputText
                 ref="input"
                 v-model="model"
@@ -130,12 +156,47 @@ watch(() => props.loading, async (newValue, oldValue) => {
                 :type="inputType"
                 @input-change="handleChange"
             />
-            <!-- TODO: кнопка очистки рядом с скрытием/открытием пароля -->
-            <!-- TODO: слоты maskIcon, unmaskIcon -->
-            <button
-                v-if="toggleMask"
+
+            <Transition
+                name="fade"
+                mode="out-in"
+            >
+                <div
+                    v-if="showClear && model?.length && !disabled && !loading"
+                    :class="[
+                        'input-password__clear',
+                    ]"
+                    @click="model = ''"
+                >
+                    <slot name="clearIcon">
+                        <IconUiXCircle />
+                    </slot>
+                </div>
+            </Transition>
+
+            <div
+                v-if="toggleMask && !disabled && !loading"
+                :class="[
+                    'input-password__toggle',
+                    {
+                        'input-password__toggle--password-visible': isVisible
+                    }
+                ]"
                 @click="isVisible = !isVisible"
-            >toggle vis</button>
+            >
+                <slot
+                    :name="isVisible ? 'maskIcon' : 'unmaskIcon'"
+                    :is-visible="isVisible"
+                >
+                    <Transition
+                        name="fade"
+                        mode="in-out"
+                    >
+                        <IconUiEyeSlash v-if="isVisible" />
+                        <IconUiEye v-else />
+                    </Transition>
+                </slot>
+            </div>
 
             <!-- TODO: атом popover, в default слот которого помещаются
               слотамы header, content, footer пароля -->
@@ -167,4 +228,90 @@ watch(() => props.loading, async (newValue, oldValue) => {
 <style
     scoped
     lang="scss"
-></style>
+>
+@use "sass:math";
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.input-password__wrapper {
+    $toggle-icon-padding: 2rem;
+    $toggle-icon-width: 1.25rem;
+
+    display: flex;
+    position: relative;
+    border-radius: 0.5rem;
+
+    .input-password {
+        &--has-actions :deep(input) {
+            padding-right: v-bind(cssPadding);
+        }
+
+        &__clear {
+            color: var(--text-tertiary);
+            position: absolute;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+
+            top: 50%;
+            transform: translateY(-50%);
+            right: $toggle-icon-width + (math.div($toggle-icon-padding - $toggle-icon-width, 2) * 2);
+
+            &:hover {
+                color: var(--text-secondary);
+            }
+
+            :deep(svg) {
+                width: $toggle-icon-width;
+            }
+        }
+
+        &__toggle {
+            color: var(--text-tertiary);
+            position: absolute;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+
+            top: 50%;
+            transform: translateY(-50%);
+            right: math.div($toggle-icon-padding - $toggle-icon-width, 2);
+
+
+            &:hover {
+                color: var(--text-secondary);
+            }
+
+            &--password-visible {
+                color: var(--primary-500);
+
+                &:hover {
+                    color: var(--primary-700);
+                }
+            }
+
+            :deep(svg) {
+                width: $toggle-icon-width;
+            }
+        }
+
+        :where(.mode-dark) & {
+            &__toggle--password-visible {
+                color: var(--primary-700);
+
+                &:hover {
+                    color: var(--primary-500);
+                }
+            }
+        }
+    }
+}
+</style>

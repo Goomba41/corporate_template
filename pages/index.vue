@@ -982,7 +982,12 @@ const { validationState, isChecking } = usePasswordStrength(passwordValue, {
         <MoleculePassword
           placeholder="Password"
           class="w-1/3"
-        />
+          showClear
+        >
+          <template #unmaskIcon>
+            <IconFinnTheHumanDuotone />
+          </template>
+        </MoleculePassword>
         <MoleculePassword
           disabled
           placeholder="Password"
@@ -999,10 +1004,18 @@ const { validationState, isChecking } = usePasswordStrength(passwordValue, {
           v-model="passwordValue"
           placeholder="Password"
           class="w-1/3"
-          toggleMask
           :validation-state="validationState"
           :loading="isChecking"
         />
+        <MoleculePassword
+          v-model="passwordValue"
+          placeholder="Password"
+          class="w-1/3"
+          :toggle-mask="false"
+          :validation-state="validationState"
+          :loading="isChecking"
+        />
+        
         <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
         <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
       </div>
