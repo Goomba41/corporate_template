@@ -64,5 +64,8 @@
       "strong": "Strong",
       "very_strong": "Very strong"
     }
+  },
+  "system": {
+    "composable_same_ref": "⚠️ Composable «{ name }»: Same model ref used in { count } instances.\nThis can cause state races. Use a separate ref for each field."
   }
 }
