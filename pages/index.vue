@@ -62,6 +62,27 @@ const { validationState: firstValidation, isChecking: firstIsChecking } = usePas
 const { validationState: secondValidation, isChecking: secondIsChecking } = usePasswordStrength(passwordValue2, {
   'PASSWORD_TOO_SHORT': PolicyRule.error(5)
 })
+
+const progress = ref(0)
+
+setInterval(() => {
+  if (progress.value !== 100) {
+    progress.value += 10
+  } else {
+    progress.value = 0
+  }
+}, 3000)
+
+const maxPasswordScore = 4
+const passwordScore = ref(0)
+
+setInterval(() => {
+  if (passwordScore.value !== 4) {
+    passwordScore.value += 1
+  } else {
+    passwordScore.value = 0
+  }
+}, 3000)
 </script>
 
 <template>
@@ -1016,7 +1037,10 @@ const { validationState: secondValidation, isChecking: secondIsChecking } = useP
             <div class="font-semibold text-xm mb-4">Set Password for user</div>
           </template>
           <template #footer>
-            <ul v-if="!!firstValidation.errors.length" class="my-0 leading-normal text-sm text-error mt-4">
+            <ul
+              v-if="!!firstValidation.errors.length"
+              class="my-0 leading-normal text-sm text-error mt-4"
+            >
               <li
                 v-for="(item, index) in firstValidation.errors"
                 :key="index"
@@ -1024,7 +1048,10 @@ const { validationState: secondValidation, isChecking: secondIsChecking } = useP
                 {{ item.message }}
               </li>
             </ul>
-            <ul v-if="!!firstValidation.warnings.length" class="my-0 leading-normal text-sm text-warning mt-4">
+            <ul
+              v-if="!!firstValidation.warnings.length"
+              class="my-0 leading-normal text-sm text-warning mt-4"
+            >
               <li
                 v-for="(item, index) in firstValidation.warnings"
                 :key="index"
@@ -1045,6 +1072,41 @@ const { validationState: secondValidation, isChecking: secondIsChecking } = useP
         <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
         <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
       </div>
+    </div>
+
+    <div class="flex flex-col gap-2 items-center">
+      <h5>Progress</h5>
+
+    <AtomCard class="w-full">
+      <template #title>Basic</template>
+      <template #content>
+        <AtomProgressBar :value="50"></AtomProgressBar>
+      </template>
+    </AtomCard>
+
+    <AtomCard class="w-full">
+      <template #title>Dynamic</template>
+      <template #content>
+        <AtomProgressBar :value="progress"></AtomProgressBar>
+      </template>
+    </AtomCard>
+
+    <AtomCard class="w-full">
+      <template #title>With custom maximum value and no caption</template>
+      <template #content>
+        <AtomProgressBar :value="passwordScore" :max="4" :show-value="false"></AtomProgressBar>
+      </template>
+    </AtomCard>
+
+    <AtomCard class="w-full">
+      <template #title>With custom template</template>
+      <template #content>
+        <AtomProgressBar :value="passwordScore" :max="maxPasswordScore" :show-value="false">
+          {{ passwordScore }}/{{ maxPasswordScore }}
+        </AtomProgressBar>
+      </template>
+    </AtomCard>
+
     </div>
   </div>
 
