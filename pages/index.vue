@@ -49,13 +49,18 @@ const testInputChange = (event: string) => {
 }
 
 const passwordValue = ref<string>('')
+const passwordValue2 = ref<string>('')
 
-const { validationState, isChecking } = usePasswordStrength(passwordValue, {
+const { validationState: firstValidation, isChecking: firstIsChecking } = usePasswordStrength(passwordValue, {
   'PASSWORD_TOO_SHORT': PolicyRule.error(15),
   'PASSWORD_EXPOSED': PolicyRule.warning(),
   'PASSWORD_TOP_10': PolicyRule.warning(),
   'PASSWORD_REPEATS': PolicyRule.warning(),
   'PASSWORD_COMMON': PolicyRule.warning()
+})
+
+const { validationState: secondValidation, isChecking: secondIsChecking } = usePasswordStrength(passwordValue2, {
+  'PASSWORD_TOO_SHORT': PolicyRule.error(5)
 })
 </script>
 
@@ -1004,16 +1009,17 @@ const { validationState, isChecking } = usePasswordStrength(passwordValue, {
           v-model="passwordValue"
           placeholder="Password"
           class="w-1/3"
-          :validation-state="validationState"
-          :loading="isChecking"
-        />
+          :validation-state="firstValidation"
+          :loading="firstIsChecking"
+        >
+        </MoleculePassword>
         <MoleculePassword
-          v-model="passwordValue"
+          v-model="passwordValue2"
           placeholder="Password"
           class="w-1/3"
           :toggle-mask="false"
-          :validation-state="validationState"
-          :loading="isChecking"
+          :validation-state="secondValidation"
+          :loading="secondIsChecking"
         />
         
         <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
