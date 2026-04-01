@@ -86,6 +86,13 @@ const isVisible = ref<boolean>(false)
 /** Вычисляемый тип input: переключается между 'password' и 'text' */
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
 
+// 🔽 Управление popover
+
+const inputWrapper = ref<HTMLElement | null>(null)
+
+// TODO: по наведению на валидацию она не должна скрываться
+const isOpenValidation = computed(() => isFocused.value && model.value !== undefined && !!model.value.length && props.validationState !== undefined)
+
 // 🔽 Управление фокусом
 
 /** Ссылка на экземпляр атома InputText */
@@ -141,7 +148,10 @@ const cssPadding = computed(() => {
 </script>
 
 <template>
-    <div class="input-password__wrapper">
+    <div
+        class="input-password__wrapper"
+        ref="inputWrapper"
+    >
         <div
             :class="passwordClasses"
             :style="{
@@ -164,9 +174,7 @@ const cssPadding = computed(() => {
                 @input-change="handleChange"
             />
 
-            <Transition
-                name="fade"
-            >
+            <Transition name="fade">
                 <div
                     v-if="showClear && model?.length && !disabled && !loading"
                     :class="[
@@ -204,29 +212,20 @@ const cssPadding = computed(() => {
                 </slot>
             </div>
 
-            <!-- TODO: атом popover, в default слот которого помещаются
-              слотамы header, content, footer пароля -->
-            <div v-if="isFocused && model !== undefined && model.length && validationState !== undefined">
-                {{ validationState.feedback }}
-                <template v-if="validationState.errors.length">
-                    <h5 class="mt-4 mb-4 text-red">Ошибки:</h5>
-                    <div
-                        v-for="error in validationState.errors"
-                        :key="error.code"
-                    >
-                        {{ error.message }}
+            <AtomPopover
+                :target-ref="inputWrapper"
+                :is-open="isOpenValidation"
+            >
+                <!-- TODO: Максимальная ширина как у родителя-->
+                <slot name="header" />
+                <slot name="content">
+                    <div v-if="validationState" class="flex flex-col">
+                        <!-- TODO: progressbar -->
+                        {{ validationState.feedback }}
                     </div>
-                </template>
-                <template v-if="validationState.warnings.length">
-                    <h5 class="mt-4 mb-4 text-warning">Предупреждения:</h5>
-                    <div
-                        v-for="warning in validationState.warnings"
-                        :key="warning.code"
-                    >
-                        {{ warning.message }}
-                    </div>
-                </template>
-            </div>
+                </slot>
+                <slot name="footer" />
+            </AtomPopover>
         </div>
     </div>
 </template>
