@@ -87,8 +87,7 @@ const isVisible = ref<boolean>(false)
 /** Вычисляемый тип input: переключается между 'password' и 'text' */
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
 
-// 🔽 Управление popover
-
+// #region 🔽 Управление popover
 const inputWrapper = ref<HTMLElement | null>(null)
 
 // TODO: не только hover, но и сброс фокуса с поля при клике на popover не должен сбрасывать
@@ -99,9 +98,9 @@ const isOpenValidation = computed(() => {
     const hasValidation = !!props.validationState;
     return hasContent && hasValidation && (isFocused.value || isHoveringPopover.value);
 })
+// #endregion
 
-// 🔽 Управление фокусом
-
+// #region 🔽 Управление фокусом
 /** Ссылка на экземпляр атома InputText */
 const input = ref<InstanceType<typeof AtomInputText> | null>(null)
 
@@ -128,9 +127,9 @@ watch(() => props.loading, async (newValue, oldValue) => {
 
     if (!oldValue && newValue) isVisible.value = false
 }, { flush: 'post' })
+// #endregion
 
-// 🔽 Расчёт отступов для кнопок
-
+// #region 🔽 Расчёт отступов для кнопок
 const INPUT_PASSWORD_METRICS = {
     ICON_WIDTH: 1.25,    // ширина, rem
     ICON_GAP: 0.375,     // ширина пространства между иконками
@@ -152,10 +151,24 @@ const cssPadding = computed(() => {
 
     return `${total}rem`;
 });
+// #endregion
 
+// #region 🔽 Расчёт текущего цвета прогресса в зависимости от силы пароля
+/** Вычисляемая максимальная сила проля */
 const maxPasswordScore = computed(() => {
-    console.log(Object.keys(PasswordStrengthScore))
+    const numericValues = Object.values(PasswordStrengthScore)
+        .filter((v): v is number => typeof v === 'number');
+    return Math.max(...numericValues)
 })
+
+const stregthColorMap: Record<PasswordStrengthScore, string> = {
+    0: 'var(--accent-error)',
+    1: 'var(--accent-error)',
+    2: 'var(--accent-warning)',
+    3: 'var(--accent-success)',
+    4: 'linear-gradient(90deg, #D4AF37, #F9E07F)',
+}
+// #endregion
 </script>
 
 <template>
@@ -163,7 +176,6 @@ const maxPasswordScore = computed(() => {
         class="input-password__wrapper"
         ref="inputWrapper"
     >
-        <!-- {{ maxPasswordScore }} -->
         <div
             :class="passwordClasses"
             :style="{
@@ -237,12 +249,18 @@ const maxPasswordScore = computed(() => {
                         v-if="validationState"
                         class="flex flex-col text-sm items-center"
                     >
-                        <!-- TODO: переопределение цветов в зависимости от силы пароля -->
                         <AtomProgressBar
-                            style="height: 0.5rem"
-                            class="mb-1 w-full"
+                            :style="[
+                                'height: 0.5rem',
+                                {
+                                    '--pb-fill-bg': stregthColorMap[validationState.score]
+                                }
+                            ]"
+                            :class="['mb-2', 'w-full', {
+                                'password-progress--gold': validationState.score === maxPasswordScore
+                            }]"
                             :value="validationState.score"
-                            :max="4"
+                            :max="maxPasswordScore"
                             :show-value="false"
                         />
                         {{ validationState.feedback }}
@@ -268,6 +286,34 @@ const maxPasswordScore = computed(() => {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+.password-progress--gold {
+    box-shadow: 0 0 6px #D4AF37, 0 0 12px #F9E07F; 
+
+    :deep(.progress-bar__value) {
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            25% {
+                left: 200%;
+            }
+
+            25.1% {
+                /* Мгновенный «перескок» для бесшовного цикла */
+                left: -200%;
+            }
+        }
+    }
 }
 
 .input-password__wrapper {

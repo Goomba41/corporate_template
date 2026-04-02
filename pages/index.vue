@@ -2,7 +2,7 @@
   setup
   lang="ts"
 >
-import { PolicyRule } from '~/core/domain/types/password';
+import { PolicyRule, PasswordStrengthScore } from '~/core/domain/types/password';
 
 const {
   colorSurface,
@@ -73,8 +73,12 @@ setInterval(() => {
   }
 }, 3000)
 
-const maxPasswordScore = 4
 const passwordScore = ref(0)
+const maxPasswordScore = computed(() => {
+  const numericValues = Object.values(PasswordStrengthScore)
+    .filter((v): v is number => typeof v === 'number');
+  return Math.max(...numericValues)
+})
 
 setInterval(() => {
   if (passwordScore.value !== 4) {
@@ -83,6 +87,14 @@ setInterval(() => {
     passwordScore.value = 0
   }
 }, 3000)
+
+const stregthColorMap: Record<PasswordStrengthScore, string> = {
+  0: 'var(--accent-error)',
+  1: 'var(--accent-error)',
+  2: 'var(--accent-warning)',
+  3: 'var(--accent-success)',
+  4: 'linear-gradient(90deg, #D4AF37, #F9E07F)',
+}
 </script>
 
 <template>
@@ -874,85 +886,89 @@ setInterval(() => {
     </div>
 
     <!-- Пример карточки -->
-    <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
-      <div class="flex mb-4">
-        <AtomSkeleton
-          shape="circle"
-          size="4rem"
-          class="mr-2"
-        ></AtomSkeleton>
-        <div>
+    <AtomCard>
+      <template #content>
+        <div class="flex mb-4">
           <AtomSkeleton
-            width="10rem"
-            class="mb-2"
+            shape="circle"
+            size="4rem"
+            class="mr-2"
           ></AtomSkeleton>
-          <AtomSkeleton
-            width="5rem"
-            class="mb-2"
-          ></AtomSkeleton>
-          <AtomSkeleton height=".5rem"></AtomSkeleton>
+          <div>
+            <AtomSkeleton
+              width="10rem"
+              class="mb-2"
+            ></AtomSkeleton>
+            <AtomSkeleton
+              width="5rem"
+              class="mb-2"
+            ></AtomSkeleton>
+            <AtomSkeleton height=".5rem"></AtomSkeleton>
+          </div>
         </div>
-      </div>
-      <AtomSkeleton
-        width="100%"
-        height="150px"
-      ></AtomSkeleton>
-      <div class="flex justify-between mt-4">
         <AtomSkeleton
-          width="4rem"
-          height="2rem"
+          width="100%"
+          height="150px"
         ></AtomSkeleton>
-        <AtomSkeleton
-          width="4rem"
-          height="2rem"
-        ></AtomSkeleton>
-      </div>
-    </div>
+        <div class="flex justify-between mt-4">
+          <AtomSkeleton
+            width="4rem"
+            height="2rem"
+          ></AtomSkeleton>
+          <AtomSkeleton
+            width="4rem"
+            height="2rem"
+          ></AtomSkeleton>
+        </div>
+      </template>
+    </AtomCard>
 
     <!-- Пример пульсирующей карточки -->
-    <div class="rounded border border-surface-200 dark:border-surface-700 p-6 bg-surface-0 dark:bg-surface-900">
-      <div class="flex mb-4">
+    <AtomCard>
+      <template #content>
+        <div class="flex mb-4">
+          <AtomSkeleton
+            shape="circle"
+            animation="pulse"
+            size="4rem"
+            class="mr-2"
+          ></AtomSkeleton>
+          <div>
+            <AtomSkeleton
+              width="10rem"
+              animation="pulse"
+              class="mb-2"
+            ></AtomSkeleton>
+            <AtomSkeleton
+              width="5rem"
+              animation="pulse"
+              class="mb-2"
+            ></AtomSkeleton>
+            <AtomSkeleton
+              height=".5rem"
+              animation="pulse"
+            ></AtomSkeleton>
+          </div>
+        </div>
         <AtomSkeleton
-          shape="circle"
+          width="100%"
+          height="150px"
           animation="pulse"
-          size="4rem"
-          class="mr-2"
         ></AtomSkeleton>
-        <div>
+        <div class="flex justify-between mt-4">
           <AtomSkeleton
-            width="10rem"
+            width="4rem"
+            height="2rem"
             animation="pulse"
-            class="mb-2"
           ></AtomSkeleton>
           <AtomSkeleton
-            width="5rem"
-            animation="pulse"
-            class="mb-2"
-          ></AtomSkeleton>
-          <AtomSkeleton
-            height=".5rem"
+            width="4rem"
+            height="2rem"
             animation="pulse"
           ></AtomSkeleton>
         </div>
-      </div>
-      <AtomSkeleton
-        width="100%"
-        height="150px"
-        animation="pulse"
-      ></AtomSkeleton>
-      <div class="flex justify-between mt-4">
-        <AtomSkeleton
-          width="4rem"
-          height="2rem"
-          animation="pulse"
-        ></AtomSkeleton>
-        <AtomSkeleton
-          width="4rem"
-          height="2rem"
-          animation="pulse"
-        ></AtomSkeleton>
-      </div>
-    </div>
+      </template>
+    </AtomCard>
 
     <AtomCard>
       <template #title>{{ $t('placeholder') }}</template>
@@ -1100,9 +1116,13 @@ setInterval(() => {
         <template #content>
           <AtomProgressBar
             :value="passwordScore"
-            :max="4"
+            :max="maxPasswordScore"
             :show-value="false"
-          ></AtomProgressBar>
+            :style="{
+                '--pb-fill-bg': stregthColorMap[passwordScore]
+              }
+              "
+          />
         </template>
       </AtomCard>
 
@@ -1130,6 +1150,25 @@ setInterval(() => {
         </template>
       </AtomCard>
 
+      <AtomCard class="w-full">
+        <template #title>Custom content</template>
+        <template #content>
+          <AtomProgressBar
+            :value="passwordScore"
+            :max="maxPasswordScore"
+          >
+            <template #custom="{ progress }">
+              <div class="flex gap-1">
+                <IconUiStar
+                  v-for="i in (progress + 1)"
+                  :key="i"
+                  :class="{ 'text-amber-500': true }"
+                />
+              </div>
+            </template>
+          </AtomProgressBar>
+        </template>
+      </AtomCard>
     </div>
   </div>
 

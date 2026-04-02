@@ -1,21 +1,29 @@
 <template>
+    <div class="progress-bar-wrapper">
+    <slot
+        name="custom"
+        :progress="normalizedValue"
+        :value="value"
+    >
     <div :class="progressClasses">
-        <div
-            class="progress-bar__value"
-            :style="{ 'width': mode === 'determinate' ? currentProgress : undefined }"
-        >
             <div
-                v-if="mode === 'determinate' && (props.showValue || $slots.default !== undefined)"
-                class="progress-bar__label"
+                class="progress-bar__value"
+                :style="{ 'width': mode === 'determinate' ? currentProgress : undefined }"
             >
-                <template v-if="!$slots.default">
-                    {{ currentProgress }}
-                </template>
-                <slot v-else>
-                </slot>
+                <div
+                    v-if="mode === 'determinate' && (props.showValue || $slots.default !== undefined)"
+                    class="progress-bar__label"
+                >
+                    <template v-if="!$slots.default">
+                        {{ currentProgress }}
+                    </template>
+                    <slot v-else>
+                    </slot>
+                </div>
             </div>
         </div>
-    </div>
+    </slot>
+</div>
 </template>
 
 <script
@@ -81,77 +89,83 @@ const normalizedValue = computed(() => Math.min(props.max, props.value ?? 0))
     lang="scss"
     scoped
 >
-.progress-bar {
-    display: block;
-    position: relative;
-    overflow: hidden;
+.progress-bar-wrapper {
+    --pb-fill-bg: var(--primary-500);
     height: 1.25rem;
-    background: var(--border-primary);
     border-radius: 0.5rem;
 
-    &__value {
-        margin: 0;
-        background: var(--primary-500);
-    }
-
-    &__label {
-        color: var(--text-inverse);
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-inline: 0.5rem;
-        max-width: 100%;
+    .progress-bar {
+        border-radius: inherit;
+        display: block;
+        position: relative;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    &--determinate & {
+        background: var(--border-primary);
+        height: 100%;
+    
         &__value {
-            height: 100%;
-            width: 0%;
-            position: absolute;
-            // display: none; не понятно зачем
-            display: flex;
-            align-items: center;
-            justify-content: end;
-            overflow: hidden;
-            transition: width 1s ease-in-out;
-            min-width: fit-content;
+            margin: 0;
+            background: var(--pb-fill-bg);
         }
-
+    
         &__label {
-            display: inline-flex;
+            color: var(--text-inverse);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-inline: 0.5rem;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-    }
-
-    &--indeterminate & {
-        &__value {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 40%;
-            animation: progress-slide 2.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    
+        &--determinate {
+            .progress-bar__value {
+                height: 100%;
+                width: 0%;
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                overflow: hidden;
+                transition: width 1s ease-in-out, background-color 2.1s ease-in-out;
+                min-width: fit-content;
+            }
+    
+            .progress-bar__label {
+                display: inline-flex;
+            }
         }
-    }
-
-    @keyframes progress-slide {
-        0% {
-            transform: translateX(-100%);
+    
+        &--indeterminate {
+            .progress-bar__value {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 40%;
+                animation: progress-slide 2.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
         }
-
-        50% {
-            transform: translateX(250%);
-        }
-
-        50.1% {
-            /* Мгновенный «перескок» для бесшовного цикла */
-            transform: translateX(-100%);
-        }
-
-        100% {
-            transform: translateX(250%);
+    
+        @keyframes progress-slide {
+            0% {
+                transform: translateX(-100%);
+            }
+    
+            50% {
+                transform: translateX(250%);
+            }
+    
+            50.1% {
+                /* Мгновенный «перескок» для бесшовного цикла */
+                transform: translateX(-100%);
+            }
+    
+            100% {
+                transform: translateX(250%);
+            }
         }
     }
 }
+
 </style>
