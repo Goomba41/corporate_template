@@ -264,7 +264,7 @@ const normalizedValue = computed(() => {
 
     &__value {
         margin: 0;
-        background-color: var(--pb-fill-bg);
+        background: var(--pb-fill-bg);
     }
 
     &__label {
