@@ -71,7 +71,6 @@ const popoverRef = ref<HTMLElement | null>(null);
 const floatingArrow = ref(null);
 
 const { floatingStyles, middlewareData } = useFloating(resolvedTarget, popoverRef, {
-    strategy: 'fixed',
     middleware: [arrow({ element: floatingArrow })],
 });
 </script>
