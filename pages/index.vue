@@ -966,40 +966,44 @@ setInterval(() => {
       </template>
     </AtomCard>
 
-    <AtomCard style="width: 25rem; overflow: hidden">
-      <template #header>
-        <div class="w-full flex justify-center items-center">
-          <img
-            alt="user header"
-            src="/Hippopotamus.png"
-          />
-        </div>
-      </template>
-      <template #title>{{ $t('placeholder') }}</template>
-      <template #subtitle>{{ $t('placeholder') }}</template>
-      <template #content>
-        <p class="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
-          deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-          neque
-          quas!
-        </p>
-      </template>
-      <template #footer>
-        <div class="flex gap-4 mt-1">
-          <AtomButton
-            :label="$t('button.label.default')"
-            severity="secondary"
-            variant="outlined"
-            class="w-full"
-          />
-          <AtomButton
-            :label="$t('button.label.default')"
-            class="w-full"
-          />
-        </div>
-      </template>
-    </AtomCard>
+    <div class="flex flex-col items-center">
+      <AtomCard style="width: 25rem; overflow: hidden">
+        <template #header>
+          <div class="w-full flex justify-center items-center">
+            <img
+              alt="user header"
+              src="/Hippopotamus.png"
+            />
+          </div>
+        </template>
+        <template #title>{{ $t('placeholder') }}</template>
+        <template #subtitle>{{ $t('placeholder') }}</template>
+        <template #content>
+          <p class="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae
+            numquam
+            deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse,
+            cupiditate
+            neque
+            quas!
+          </p>
+        </template>
+        <template #footer>
+          <div class="flex gap-4 mt-1">
+            <AtomButton
+              :label="$t('button.label.default')"
+              severity="secondary"
+              variant="outlined"
+              class="w-full"
+            />
+            <AtomButton
+              :label="$t('button.label.default')"
+              class="w-full"
+            />
+          </div>
+        </template>
+      </AtomCard>
+    </div>
 
     <div class="flex flex-col gap-2 items-center">
       <h5>Passwords</h5>
@@ -1077,35 +1081,54 @@ setInterval(() => {
     <div class="flex flex-col gap-2 items-center">
       <h5>Progress</h5>
 
-    <AtomCard class="w-full">
-      <template #title>Basic</template>
-      <template #content>
-        <AtomProgressBar :value="50"></AtomProgressBar>
-      </template>
-    </AtomCard>
+      <AtomCard class="w-full">
+        <template #title>Basic</template>
+        <template #content>
+          <AtomProgressBar :value="50"></AtomProgressBar>
+        </template>
+      </AtomCard>
 
-    <AtomCard class="w-full">
-      <template #title>Dynamic</template>
-      <template #content>
-        <AtomProgressBar :value="progress"></AtomProgressBar>
-      </template>
-    </AtomCard>
+      <AtomCard class="w-full">
+        <template #title>Dynamic</template>
+        <template #content>
+          <AtomProgressBar :value="progress"></AtomProgressBar>
+        </template>
+      </AtomCard>
 
-    <AtomCard class="w-full">
-      <template #title>With custom maximum value and no caption</template>
-      <template #content>
-        <AtomProgressBar :value="passwordScore" :max="4" :show-value="false"></AtomProgressBar>
-      </template>
-    </AtomCard>
+      <AtomCard class="w-full">
+        <template #title>With custom maximum value, no caption and colors</template>
+        <template #content>
+          <AtomProgressBar
+            :value="passwordScore"
+            :max="4"
+            :show-value="false"
+          ></AtomProgressBar>
+        </template>
+      </AtomCard>
 
-    <AtomCard class="w-full">
-      <template #title>With custom template</template>
-      <template #content>
-        <AtomProgressBar :value="passwordScore" :max="maxPasswordScore" :show-value="false">
-          {{ passwordScore }}/{{ maxPasswordScore }}
-        </AtomProgressBar>
-      </template>
-    </AtomCard>
+      <AtomCard class="w-full">
+        <template #title>With custom template</template>
+        <template #content>
+          <AtomProgressBar
+            style="height: 1rem"
+            :value="passwordScore"
+            :max="maxPasswordScore"
+            :show-value="false"
+          >
+            <span style="font-size: 0.625rem;">{{ passwordScore }}/{{ maxPasswordScore }}</span>
+          </AtomProgressBar>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Indeterminate</template>
+        <template #content>
+          <AtomProgressBar
+            style="height: 0.5rem"
+            mode="indeterminate"
+          />
+        </template>
+      </AtomCard>
 
     </div>
   </div>

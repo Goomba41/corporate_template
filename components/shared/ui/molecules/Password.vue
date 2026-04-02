@@ -5,6 +5,7 @@
 import type { AtomInputText } from '#components';
 import { useFocus } from '@vueuse/core';
 
+import { PasswordStrengthScore } from '~/core/domain/types/password';
 import type { InputProps } from '~/types/input-props';
 import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
 
@@ -90,8 +91,14 @@ const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 
 
 const inputWrapper = ref<HTMLElement | null>(null)
 
-// TODO: по наведению на валидацию она не должна скрываться
-const isOpenValidation = computed(() => isFocused.value && model.value !== undefined && !!model.value.length && props.validationState !== undefined)
+// TODO: не только hover, но и сброс фокуса с поля при клике на popover не должен сбрасывать
+const isHoveringPopover = ref(false);
+
+const isOpenValidation = computed(() => {
+    const hasContent = model.value !== undefined && model.value.length > 0;
+    const hasValidation = !!props.validationState;
+    return hasContent && hasValidation && (isFocused.value || isHoveringPopover.value);
+})
 
 // 🔽 Управление фокусом
 
@@ -145,6 +152,10 @@ const cssPadding = computed(() => {
 
     return `${total}rem`;
 });
+
+const maxPasswordScore = computed(() => {
+    console.log(Object.keys(PasswordStrengthScore))
+})
 </script>
 
 <template>
@@ -152,6 +163,7 @@ const cssPadding = computed(() => {
         class="input-password__wrapper"
         ref="inputWrapper"
     >
+        <!-- {{ maxPasswordScore }} -->
         <div
             :class="passwordClasses"
             :style="{
@@ -215,12 +227,24 @@ const cssPadding = computed(() => {
             <AtomPopover
                 :target-ref="inputWrapper"
                 :is-open="isOpenValidation"
+                @mouseenter="isHoveringPopover = true"
+                @mouseleave="isHoveringPopover = false"
             >
                 <!-- TODO: Максимальная ширина как у родителя-->
                 <slot name="header" />
                 <slot name="content">
-                    <div v-if="validationState" class="flex flex-col">
-                        <!-- TODO: progressbar -->
+                    <div
+                        v-if="validationState"
+                        class="flex flex-col text-sm items-center"
+                    >
+                        <!-- TODO: переопределение цветов в зависимости от силы пароля -->
+                        <AtomProgressBar
+                            style="height: 0.5rem"
+                            class="mb-1 w-full"
+                            :value="validationState.score"
+                            :max="4"
+                            :show-value="false"
+                        />
                         {{ validationState.feedback }}
                     </div>
                 </slot>
