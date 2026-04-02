@@ -322,6 +322,8 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
     border-radius: 0.5rem;
 
     .input-password {
+        width: 100%;
+
         &--has-actions :deep(input) {
             padding-right: v-bind(cssPadding);
         }

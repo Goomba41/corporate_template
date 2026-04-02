@@ -73,7 +73,7 @@ setInterval(() => {
   }
 }, 3000)
 
-const passwordScore = ref(0)
+const passwordScore = ref<PasswordStrengthScore>(PasswordStrengthScore.VeryWeak)
 const maxPasswordScore = computed(() => {
   const numericValues = Object.values(PasswordStrengthScore)
     .filter((v): v is number => typeof v === 'number');
@@ -1021,81 +1021,98 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
       </AtomCard>
     </div>
 
-    <div class="flex flex-col gap-2 items-center">
+    <div class="flex flex-col gap-4 items-center">
       <h5>Passwords</h5>
 
-      <div class="flex gap-2 items-center w-full">
-        <MoleculePassword
-          placeholder="Password"
-          class="w-1/3"
-          showClear
-        >
-          <template #unmaskIcon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </MoleculePassword>
-        <MoleculePassword
-          disabled
-          placeholder="Password"
-          class="w-1/3"
-        />
-        <MoleculePassword
-          :loading="true"
-          placeholder="Password"
-          class="w-1/3"
-        />
-      </div>
-      <div class="flex gap-2 items-center w-full">
-        <MoleculePassword
-          v-model="passwordValue"
-          placeholder="Password"
-          class="w-1/3"
-          :validation-state="firstValidation"
-          :loading="firstIsChecking"
-        >
-          <template #header>
-            <div class="font-semibold text-xm mb-4">Set Password for user</div>
-          </template>
-          <template #footer>
-            <ul
-              v-if="!!firstValidation.errors.length"
-              class="my-0 leading-normal text-sm text-error mt-4"
+      <AtomCard class="w-full">
+        <template #title>Disabled and loading states</template>
+        <template #content>
+          <div class="flex gap-2 items-center w-full mt-5">
+            <MoleculePassword
+              disabled
+              placeholder="Password"
+              class="w-1/2"
+            />
+            <MoleculePassword
+              :loading="true"
+              placeholder="Password"
+              class="w-1/2"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Clear icon and custom toggle icon</template>
+        <template #content>
+          <div class="flex gap-2 justify-center w-full mt-5">
+            <MoleculePassword
+              placeholder="Password"
+              class="w-1/2"
+              showClear
             >
-              <li
-                v-for="(item, index) in firstValidation.errors"
-                :key="index"
-              >
-                {{ item.message }}
-              </li>
-            </ul>
-            <ul
-              v-if="!!firstValidation.warnings.length"
-              class="my-0 leading-normal text-sm text-warning mt-4"
+              <template #unmaskIcon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </MoleculePassword>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Validity states and custom template</template>
+        <template #content>
+          <div class="flex gap-2 items-center w-full mt-5">
+            <MoleculePassword
+              v-model="passwordValue"
+              placeholder="Password"
+              class="w-1/2"
+              :validation-state="firstValidation"
+              :loading="firstIsChecking"
             >
-              <li
-                v-for="(item, index) in firstValidation.warnings"
-                :key="index"
-              >
-                {{ item.message }}
-              </li>
-            </ul>
-          </template>
-        </MoleculePassword>
-        <MoleculePassword
-          v-model="passwordValue2"
-          placeholder="Password"
-          class="w-1/3"
-          :toggle-mask="false"
-          :validation-state="secondValidation"
-          :loading="secondIsChecking"
-        />
-        <!-- <MoleculePassword disabled placeholder="Password" class="w-1/3"/>
-        <MoleculePassword :loading="true" placeholder="Password" class="w-1/3"/> -->
-      </div>
+              <template #header>
+                <div class="font-semibold text-xm mb-4">Set Password for user</div>
+              </template>
+              <template #footer>
+                <ul
+                  v-if="!!firstValidation.errors.length"
+                  class="my-0 leading-normal text-sm text-error mt-4"
+                >
+                  <li
+                    v-for="(item, index) in firstValidation.errors"
+                    :key="index"
+                  >
+                    {{ item.message }}
+                  </li>
+                </ul>
+                <ul
+                  v-if="!!firstValidation.warnings.length"
+                  class="my-0 leading-normal text-sm text-warning mt-4"
+                >
+                  <li
+                    v-for="(item, index) in firstValidation.warnings"
+                    :key="index"
+                  >
+                    {{ item.message }}
+                  </li>
+                </ul>
+              </template>
+            </MoleculePassword>
+            <MoleculePassword
+              v-model="passwordValue2"
+              placeholder="Password"
+              class="w-1/2"
+              :toggle-mask="false"
+              :validation-state="secondValidation"
+              :loading="secondIsChecking"
+            />
+          </div>
+        </template>
+      </AtomCard>
     </div>
 
-    <div class="flex flex-col gap-2 items-center">
-      <h5>Progress</h5>
+    <div class="flex flex-col gap-4 items-center">
+      <h2>Progress</h2>
 
       <AtomCard class="w-full">
         <template #title>Basic</template>
@@ -1119,8 +1136,8 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
             :max="maxPasswordScore"
             :show-value="false"
             :style="{
-                '--pb-fill-bg': stregthColorMap[passwordScore]
-              }
+              '--pb-fill-bg': stregthColorMap[passwordScore]
+            }
               "
           />
         </template>
