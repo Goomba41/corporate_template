@@ -9,36 +9,37 @@ Emits:
 
 <template>
     <Teleport to="body">
-        <!-- TODO: transition -->
-        <div
-            v-if="isOpen"
-            ref="popoverRef"
-            class="popover"
-            :style="floatingStyles"
-        >
-            <!-- TODO: стрелку, возможно prop для показа стрелки -->
+        <Transition name="fade">
             <div
-                ref="floatingArrow"
-                :style="{
-                    width: 10,
-                    height: 10,
-                    background: 'aqua',
-                    position: 'absolute',
-                    left:
-                        middlewareData.arrow?.x != null
-                            ? `${middlewareData.arrow.x}px`
-                            : '',
-                    top:
-                        middlewareData.arrow?.y != null
-                            ? `${middlewareData.arrow.y}px`
-                            : '',
-                }"
+                v-if="isOpen"
+                ref="popoverRef"
+                class="popover"
+                :style="floatingStyles"
             >
+                <!-- TODO: стрелку, возможно prop для показа стрелки -->
+                <div
+                    ref="floatingArrow"
+                    :style="{
+                        width: 10,
+                        height: 10,
+                        background: 'aqua',
+                        position: 'absolute',
+                        left:
+                            middlewareData.arrow?.x != null
+                                ? `${middlewareData.arrow.x}px`
+                                : '',
+                        top:
+                            middlewareData.arrow?.y != null
+                                ? `${middlewareData.arrow.y}px`
+                                : '',
+                    }"
+                >
+                </div>
+                <div class="popover__content">
+                    <slot />
+                </div>
             </div>
-            <div class="popover__content">
-                <slot />
-            </div>
-        </div>
+        </Transition>
     </Teleport>
 </template>
 
@@ -76,6 +77,16 @@ const { floatingStyles, middlewareData } = useFloating(resolvedTarget, popoverRe
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
 .popover {
     margin-block-start: 0.5rem;
     background: var(--bg-primary);
