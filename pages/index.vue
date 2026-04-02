@@ -1158,11 +1158,11 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
             :max="maxPasswordScore"
           >
             <template #custom="{ progress }">
-              <div class="flex gap-1">
+              <div class="flex gap-1 h-full">
                 <IconUiStar
                   v-for="i in (progress + 1)"
                   :key="i"
-                  :class="{ 'text-amber-500': true }"
+                  :class="['h-full w-fit', { 'text-amber-500': true }]"
                 />
               </div>
             </template>
