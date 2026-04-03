@@ -2,11 +2,11 @@
     <Teleport to="body">
         <Transition name="fade">
             <div
-                v-if="isOpen"
+                v-if="isVisible"
                 ref="popoverRef"
                 tabindex="0"
-                class="popover"
-                :style="floatingStyles"
+                :class="['popover', props.class]"
+                :style="[floatingStyles, style]"
             >
                 <!-- TODO: стрелку, возможно prop для показа стрелки -->
                 <div
@@ -40,47 +40,99 @@
     lang="ts"
 >
 import { ref } from 'vue';
-import { arrow, useFloating } from '@floating-ui/vue';
+import { size, flip, shift, arrow, useFloating, autoUpdate } from '@floating-ui/vue';
+
+import { onClickOutside } from '@vueuse/core';
+
+import type { HintedString } from '~/types/hinted-string';
 
 const isClient = import.meta.client;
 
-const props = defineProps<{
-    // TODO: возможно убрать вообще и привязывать к родителю?
-    targetRef: MaybeRefOrGetter<HTMLElement | null>;
-    // TODO: переделать на внутреннюю логику состояния
-    isOpen: boolean;
+// TODO: сделать валидацию пропсов так, чтобы различать декларативный и императивный режимы управления видимостью
+interface Props {
+    triggerer: MaybeRefOrGetter; // declarative mode
+    open?: boolean; // declarative mode
+    dismissable?: boolean; // any mode
+    appendTo?: HTMLElement | HintedString<"body" | "self"> // any mode
+    style?: Record<string, any>;
+    class?: string | string[] | Record<string, boolean>;
+}
 
-    // dismissable: boolean: true Enables to hide the overlay when outside is clicked.
-    // appendTo: HTMLElement | HintedString<"body" | "self">: body: A valid query selector or an HTMLElement to specify where the overlay gets attached.
+const props = withDefaults(defineProps<Props>(), {
+    triggerer: null,
+    dismissable: true,
+    open: undefined,
+    appendTo: 'body',
+})
+
+defineOptions({
+    inheritAttrs: false
+});
+
+const emit = defineEmits<{
+    'update:open': [value: boolean];
+    'show': [];
+    'hide': [];
 }>();
-
-const emit = defineEmits(['show', 'hide']);
-
-watch(() => props.isOpen, (newVal) => {
-    emit(newVal ? 'show' : 'hide');
-})
-
-const resolvedTarget = computed(() => {
-    if (!isClient) return null;
-    if (typeof props.targetRef === 'function') {
-        return props.targetRef();
-    }
-    if (props.targetRef && 'value' in props.targetRef) {
-        return props.targetRef.value;
-    }
-    return props.targetRef;
-})
 
 const popoverRef = ref<HTMLElement | null>(null);
 const floatingArrow = ref(null);
+const resolvedTarget = computed(() => {
+    if (!isClient) return null;
+    return unref(props.triggerer) ?? null;
+})
 
-const { floatingStyles, middlewareData } = useFloating(resolvedTarget, popoverRef, {
-    middleware: [arrow({ element: floatingArrow })],
+const internalOpen = ref(false);
+
+const isVisible = computed({
+    get: () => props.open ?? internalOpen.value,
+    set: (val) => {
+        internalOpen.value = val;
+        emit('update:open', val);
+    }
 });
 
+const { floatingStyles, middlewareData } = useFloating(resolvedTarget, popoverRef, {
+    middleware: [
+        arrow({ element: floatingArrow }),
+        flip(),    // Переворот, если не влезает
+        shift(),
+        size({
+            apply({ availableWidth, availableHeight, elements }) {
+                Object.assign(elements.floating.style, {
+                    maxWidth: `${Math.max(0, availableWidth)}px`,
+                    maxHeight: `${Math.max(0, availableHeight)}px`,
+                });
+            },
+        }),
+    ],   // Сдвиг, если вылезает за экран],
+    whileElementsMounted: autoUpdate, // автообновление позиции при изменении размера/прокрутке окна или изменении размеров целевого элемента
+    placement: 'bottom-start',
+});
+
+watch(isVisible, async (newVal) => {
+    if (newVal) {
+        emit('show');
+    } else {
+        emit('hide');
+    }
+})
+
+onClickOutside(popoverRef, () => {
+    // Сработает и для императивного, и для декларативного режимов
+    if (props.dismissable !== false && isVisible.value) isVisible.value = false;
+}, { ignore: [resolvedTarget] });
+
 defineExpose({
-    // TODO: экспонировать методы для управления состоянием (toggle)
-    element: popoverRef
+    element: popoverRef,
+    // TODO: возможно, стоит сюда передавать и targetRef для более гибкого управления
+    // ТОЛЬКО ПРИ ИМПЕРАТИВНОМ ПОДОХОДЕ КОНТРОЛЯ ЗА ВИДИМОСТЬЮ
+    toggle: () => {
+        console.log('toggle popover');
+        isVisible.value = !isVisible.value;
+    },
+    show: () => { isVisible.value = true; },
+    hide: () => { isVisible.value = false; }
 })
 </script>
 
@@ -99,7 +151,6 @@ defineExpose({
 }
 
 .popover {
-    margin-block-start: 0.5rem;
     background: var(--bg-primary);
     color: var(--text-primary);
     border: 1px solid var(--border-primary);
