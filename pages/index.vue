@@ -95,6 +95,26 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
   3: 'var(--accent-success)',
   4: 'linear-gradient(90deg, #D4AF37, #F9E07F)',
 }
+
+const visiblePopoverFirst = ref(false)
+const visiblePopoverSecond = ref(false)
+
+const popoverBtnFirst = ref<HTMLElement | null>(null)
+const popoverBtnSecond = ref<HTMLElement | null>(null)
+
+const imperativePopoverBtnFirst = ref<HTMLElement | null>(null)
+const imperativePopoverBtnSecond = ref<HTMLElement | null>(null)
+
+const imperativePopoverFirst = ref()
+const imperativePopoverSecond = ref()
+
+const toggleFirst = () => {
+  imperativePopoverFirst.value.toggle();
+}
+
+const toggleSecond = () => {
+  imperativePopoverSecond.value.toggle();
+}
 </script>
 
 <template>
@@ -1186,6 +1206,88 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
           </AtomProgressBar>
         </template>
       </AtomCard>
+    </div>
+
+    <div class="flex flex-col gap-4 items-center">
+      <h2>Popover</h2>
+
+      <AtomCard class="w-full">
+        <template #title>Declarative control</template>
+        <template #content>
+          <div class="mt-5 flex justify-center gap-4">
+            <AtomButton
+              ref="popoverBtnFirst"
+              :label="visiblePopoverFirst ? 'Hide Popover (dismissable)' : 'Show Popover (dismissable)'"
+              @click="visiblePopoverFirst = !visiblePopoverFirst"
+            />
+            <AtomPopover
+              v-model:open="visiblePopoverFirst"
+              :triggerer="popoverBtnFirst"
+            >
+              <div class="p-4">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+
+            <AtomButton
+              ref="popoverBtnSecond"
+              :label="visiblePopoverSecond ? 'Hide Popover' : 'Show Popover'"
+              @click="visiblePopoverSecond = !visiblePopoverSecond"
+            />
+            <AtomPopover
+              v-model:open="visiblePopoverSecond"
+              :triggerer="popoverBtnSecond"
+              :dismissable="false"
+            >
+              <div class="p-4">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Imperative control</template>
+        <template #content>
+          <div class="mt-5 flex justify-center gap-4">
+            <AtomButton
+              ref="imperativePopoverBtnFirst"
+              label="Toggle popover (dismissable)"
+              @click="toggleFirst"
+            />
+            <AtomPopover
+              ref="imperativePopoverFirst"
+              :triggerer="imperativePopoverBtnFirst"
+            >
+              <div class="p-4">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+
+            <AtomButton
+              ref="imperativePopoverBtnSecond"
+              label="Toggle popover"
+              @click="toggleSecond"
+            />
+            <AtomPopover
+              ref="imperativePopoverSecond"
+              :triggerer="imperativePopoverBtnSecond"
+              :dismissable="false"
+            >
+              <div class="p-4">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+          </div>
+        </template>
+      </AtomCard>
+
     </div>
   </div>
 

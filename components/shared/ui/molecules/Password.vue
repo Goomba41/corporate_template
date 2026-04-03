@@ -162,7 +162,7 @@ const activeElement = useActiveElement()
  * Отложенная версия isOpenValidation для плавного открытия/закрытия
  * Предотвращает визуальное "мигание" при быстром переключении фокуса между инпутом и поповером
  */
-const debounced = refDebounced(isOpenValidation, 150)
+const debouncedValidationOpener = refDebounced(isOpenValidation, 150)
 // #endregion
 
 // #region 🔽 Расчёт отступов для кнопок
@@ -274,11 +274,9 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
 
             <AtomPopover
                 ref="strengthPopover"
-                :target-ref="inputWrapper"
-                :is-open="debounced"
+                :triggerer="inputWrapper"
+                :open="debouncedValidationOpener"
             >
-                <!-- TODO: Более точное позиционирование -->
-                <!-- TODO: Максимальная ширина (как у родителя?)-->
                 <slot name="header" />
                 <slot name="content">
 
