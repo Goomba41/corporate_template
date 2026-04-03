@@ -1,12 +1,3 @@
-<!-- 
-Props:
-    dismissable: boolean: true Enables to hide the overlay when outside is clicked.
-    appendTo: HTMLElement | HintedString<"body" | "self">: body: A valid query selector or an HTMLElement to specify where the overlay gets attached.
-Emits:
-    show
-    hide
--->
-
 <template>
     <Teleport to="body">
         <Transition name="fade">
@@ -54,9 +45,20 @@ import { arrow, useFloating } from '@floating-ui/vue';
 const isClient = import.meta.client;
 
 const props = defineProps<{
+    // TODO: возможно убрать вообще и привязывать к родителю?
     targetRef: MaybeRefOrGetter<HTMLElement | null>;
+    // TODO: переделать на внутреннюю логику состояния
     isOpen: boolean;
+
+    // dismissable: boolean: true Enables to hide the overlay when outside is clicked.
+    // appendTo: HTMLElement | HintedString<"body" | "self">: body: A valid query selector or an HTMLElement to specify where the overlay gets attached.
 }>();
+
+const emit = defineEmits(['show', 'hide']);
+
+watch(() => props.isOpen, (newVal) => {
+    emit(newVal ? 'show' : 'hide');
+})
 
 const resolvedTarget = computed(() => {
     if (!isClient) return null;
@@ -77,6 +79,7 @@ const { floatingStyles, middlewareData } = useFloating(resolvedTarget, popoverRe
 });
 
 defineExpose({
+    // TODO: экспонировать методы для управления состоянием (toggle)
     element: popoverRef
 })
 </script>
