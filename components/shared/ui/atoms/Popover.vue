@@ -13,6 +13,7 @@ Emits:
             <div
                 v-if="isOpen"
                 ref="popoverRef"
+                tabindex="0"
                 class="popover"
                 :style="floatingStyles"
             >
@@ -74,9 +75,16 @@ const floatingArrow = ref(null);
 const { floatingStyles, middlewareData } = useFloating(resolvedTarget, popoverRef, {
     middleware: [arrow({ element: floatingArrow })],
 });
+
+defineExpose({
+    element: popoverRef
+})
 </script>
 
-<style lang="scss" scoped>
+<style
+    lang="scss"
+    scoped
+>
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.2s ease;

@@ -2,8 +2,8 @@
     setup
     lang="ts"
 >
-import type { AtomInputText } from '#components';
-import { useFocus } from '@vueuse/core';
+import type { AtomInputText, AtomPopover } from '#components';
+import { useFocus, useActiveElement, refDebounced } from '@vueuse/core';
 
 import { PasswordStrengthScore } from '~/core/domain/types/password';
 import type { InputProps } from '~/types/input-props';
@@ -87,19 +87,6 @@ const isVisible = ref<boolean>(false)
 /** Вычисляемый тип input: переключается между 'password' и 'text' */
 const inputType = computed(() => props.toggleMask && isVisible.value ? 'text' : 'password')
 
-// #region 🔽 Управление popover
-const inputWrapper = ref<HTMLElement | null>(null)
-
-// TODO: не только hover, но и сброс фокуса с поля при клике на popover не должен сбрасывать
-const isHoveringPopover = ref(false);
-
-const isOpenValidation = computed(() => {
-    const hasContent = model.value !== undefined && model.value.length > 0;
-    const hasValidation = !!props.validationState;
-    return hasContent && hasValidation && (isFocused.value || isHoveringPopover.value);
-})
-// #endregion
-
 // #region 🔽 Управление фокусом
 /** Ссылка на экземпляр атома InputText */
 const input = ref<InstanceType<typeof AtomInputText> | null>(null)
@@ -127,6 +114,55 @@ watch(() => props.loading, async (newValue, oldValue) => {
 
     if (!oldValue && newValue) isVisible.value = false
 }, { flush: 'post' })
+// #endregion
+
+
+// #region 🔽 Управление popover
+/** Ref на обёртку инпута — используется как якорь (цель) для позиционирования поповера */
+const inputWrapper = ref<HTMLElement | null>(null)
+
+/** Ref на экземпляр атома Popover (для доступа к его внутреннему DOM-элементу) */
+const strengthPopover = ref<InstanceType<typeof AtomPopover> | null>(null)
+/**
+ * Вычисляемый ref на корневой внутренний DOM-элемент телепортированного поповера
+ * @returns HTMLElement | null — нативный элемент, в который телепортировался контент
+ */
+const strengthPopoverRef = computed(() => strengthPopover.value?.element || null);
+
+/**
+ * Проверка: находится ли фокус внутри поповера валидации
+ * 
+ * Механика:
+ *   - Сравнивает document.activeElement с корневым элементом поповера
+ *   - Благодаря tabindex="0" на контенте поповера, клик мыши устанавливает фокус на этот элемент
+ *   - Работает с Teleport, т.к. сравниваются фактические DOM-узлы, а не компоненты Vue
+ * 
+ * @returns true, если активный элемент === корневой элемент поповера
+ */
+const isPopoverFocused = computed(() => {
+    const el = strengthPopoverRef.value;
+    const active = activeElement.value;
+    return active === el;
+});
+
+/**
+ * Условие открытия поповера валидации
+ * @returns true, если: есть введённый пароль + есть результат валидации + фокус на инпуте ИЛИ поповере
+ */
+const isOpenValidation = computed(() => {
+    const hasContent = model.value !== undefined && model.value.length > 0;
+    const hasValidation = !!props.validationState;
+    return hasContent && hasValidation && (isFocused.value || isPopoverFocused.value);
+})
+
+/** Реактивный отслеживатель текущего сфокусированного элемента в документе (VueUse) */
+const activeElement = useActiveElement()
+
+/**
+ * Отложенная версия isOpenValidation для плавного открытия/закрытия
+ * Предотвращает визуальное "мигание" при быстром переключении фокуса между инпутом и поповером
+ */
+const debounced = refDebounced(isOpenValidation, 150)
 // #endregion
 
 // #region 🔽 Расчёт отступов для кнопок
@@ -237,14 +273,15 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
             </div>
 
             <AtomPopover
+                ref="strengthPopover"
                 :target-ref="inputWrapper"
-                :is-open="isOpenValidation"
-                @mouseenter="isHoveringPopover = true"
-                @mouseleave="isHoveringPopover = false"
+                :is-open="debounced"
             >
-                <!-- TODO: Максимальная ширина как у родителя-->
+                <!-- TODO: Более точное позиционирование -->
+                <!-- TODO: Максимальная ширина (как у родителя?)-->
                 <slot name="header" />
                 <slot name="content">
+
                     <div
                         v-if="validationState"
                         class="flex flex-col text-sm items-center"
@@ -289,7 +326,7 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
 }
 
 .password-progress--gold {
-    box-shadow: 0 0 6px #D4AF37, 0 0 12px #F9E07F; 
+    box-shadow: 0 0 6px #D4AF37, 0 0 12px #F9E07F;
 
     :deep(.progress-bar__value) {
         &::after {
