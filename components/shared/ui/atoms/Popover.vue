@@ -30,6 +30,50 @@
     setup
     lang="ts"
 >
+/**
+ * Atom: Popover
+ * 
+ * Универсальный компонент всплывающего окна с позиционированием.
+ * Поддерживает два режима управления видимостью:
+ * - Декларативный: через `v-model:open` + `:triggerer`
+ * - Императивный: через методы `toggle()`, `show()`, `hide()`
+ * 
+ * @features
+ * - Позиционирование через @floating-ui (flip, shift, arrow)
+ * - Teleport в body / self / custom element
+ * - Закрытие по клику вне (dismissable)
+ * - Анимация появления/исчезновения через Transition
+ * - SSR-совместимость (Nuxt)
+ * 
+ * @example Declarative mode
+ * ```vue
+ * <AtomPopover 
+ *   v-model:open="isOpen" 
+ *   :triggerer="buttonRef"
+ * >
+ *   <div>Content</div>
+ * </AtomPopover>
+ * ```
+ * 
+ * @example Imperative mode
+ * ```vue
+ * <AtomPopover ref="popoverRef">
+ *   <div>Content</div>
+ * </AtomPopover>
+ * 
+ * <button @click="popoverRef?.toggle(buttonEl)">Toggle</button>
+ * ```
+ * 
+ * @slot default - Контент попапа
+ * @event update:open - Эмит при изменении видимости (для v-model)
+ * @event show - Эмит при открытии
+ * @event hide - Эмит при закрытии
+ */
+
+// ============================================================================
+// 1️⃣ 📦 MODULE SETUP: Imports, Types, Constants
+// ============================================================================
+// #region Module Setup
 import { type CSSProperties } from 'vue';
 import { offset, size, flip, shift, arrow, useFloating, autoUpdate, type Placement } from '@floating-ui/vue';
 
@@ -39,6 +83,13 @@ import type { HintedString } from '~/types/hinted-string';
 
 const isClient = import.meta.client;
 
+// Arrow metrics (вынесены в константы для переиспользования)
+const ARROW_SIZE = 16;
+const ARROW_HALF = ARROW_SIZE / 2;
+const BORDER_WIDTH = 1;
+const PADDING = 6;
+
+// Type definitions
 type PopoverPlacement = Placement | 'auto';
 
 type PopoverBaseProps = {
@@ -71,7 +122,23 @@ export interface PopoverExposed {
     show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => void;
     hide: () => void;
 }
+// #endregion
 
+// ============================================================================
+// 2️⃣ 🎛️ COMPONENT INTERFACE: Props, Emits, Options
+// ============================================================================
+// #region Component Interface
+/**
+ * @prop {boolean} [showArrow=false] - Показать стрелку-указатель на триггер
+ * @prop {boolean} [dismissable=true] - Закрывать ли по клику вне попапа
+ * @prop {HTMLElement | 'body' | 'self'} [appendTo='body'] - Куда телепортировать контент
+ * @prop {CSSProperties | CSSProperties[]} [style] - Дополнительные инлайн-стили
+ * @prop {string | string[] | Record<string, boolean>} [class] - Дополнительные классы
+ * @prop {Placement | 'auto'} [placement='bottom-start'] - Предпочтительная позиция относительно триггера
+ * 
+ * @prop {boolean} open - (Declarative) Контроль видимости извне. Если передан — режим декларативный.
+ * @prop {MaybeRefOrGetter<HTMLElement | null>} triggerer - (Declarative) Элемент-якорь для позиционирования. Обязателен в декларативном режиме.
+ */
 const props = withDefaults(defineProps<Props>(), {
     dismissable: true,
     appendTo: 'body',
@@ -90,33 +157,28 @@ const emit = defineEmits<{
     'show': [];
     'hide': [];
 }>();
+// #endregion
 
+// ============================================================================
+// 3️⃣ 💾 INTERNAL STATE: Refs, Computed, Reactive Logic
+// ============================================================================
+// #region Internal State
+// DOM & State Refs 
 const popoverRef = ref<HTMLElement | null>(null);
 const floatingArrow = ref<HTMLElement | null>(null);
 const lastTriggerRef = ref<HTMLElement | null>(null);
-
-const isDeclarativeMode = computed(() => props.open !== undefined);
-
-const resolvedTarget = computed(() => {
-    if (!isClient) return null;
-
-    if (isDeclarativeMode.value) {
-        return toValue(props.triggerer) ?? null;
-    } else {
-        return lastTriggerRef.value;
-    }
-})
-
 const internalOpen = ref(false);
 
-const isVisible = computed({
-    get: () => props.open ?? internalOpen.value,
-    set: (val) => {
-        internalOpen.value = val;
-        emit('update:open', val);
-    }
-});
+/**
+ * Определяет режим управления: декларативный (через пропсы) или императивный (через методы)
+ */
+const isDeclarativeMode = computed(() => props.open !== undefined);
 
+// Место размещения попапа (для Teleport)
+/**
+ * Вычисляет, куда телепортировать контент попапа.
+ * Поддерживает: 'body' | 'self' | HTMLElement | CSS-селектор
+ */
 const teleportTarget = computed(() => {
     if (!isClient) return null;
 
@@ -142,15 +204,44 @@ const teleportTarget = computed(() => {
     return document.body;
 });
 
-const ARROW_SIZE = 16;
-const ARROW_HALF = ARROW_SIZE / 2;
-const BORDER_WIDTH = 1;
-const PADDING = 6;
-
+// Динамический отступ для middleware (учитывает наличие стрелки)
 const dynamicPadding = computed(() =>
     props.showArrow ? ARROW_HALF + PADDING : PADDING + BORDER_WIDTH
 );
 
+/**
+ * Вычисляет целевой элемент для позиционирования:
+ * - В декларативном режиме: берёт из пропса `triggerer`
+ * - В императивном режиме: берёт из `lastTriggerRef` (переданного в методы)
+ */
+const resolvedTarget = computed(() => {
+    if (!isClient) return null;
+
+    if (isDeclarativeMode.value) {
+        return toValue(props.triggerer) ?? null;
+    } else {
+        return lastTriggerRef.value;
+    }
+})
+
+// Логика видимости: контролируется через v-model:open или внутренне
+/**
+ * Реактивное состояние видимости с поддержкой v-model:open.
+ * Если передан проп `open` — контролируется извне, иначе — внутреннее состояние.
+ */
+const isVisible = computed({
+    get: () => props.open ?? internalOpen.value,
+    set: (val) => {
+        internalOpen.value = val;
+        emit('update:open', val);
+    }
+});
+// #endregion
+
+// ============================================================================
+// 4️⃣ 🧭 CORE FEATURE: Floating UI Positioning
+// ============================================================================
+// #region Floating UI: Positioning & Arrow
 const { floatingStyles, middlewareData, placement, update } = useFloating(resolvedTarget, popoverRef, {
     middleware: [
         arrow({ element: floatingArrow, padding: PADDING + BORDER_WIDTH }),
@@ -175,10 +266,27 @@ const { floatingStyles, middlewareData, placement, update } = useFloating(resolv
     placement: props.placement === 'auto' ? undefined : props.placement,
 });
 
+// Пересчитываем позицию при изменении отступов (например, при toggle showArrow)
 watch(dynamicPadding, () => {
     update();
-}, { flush: 'post' });
+}, { flush: 'post' })
 
+/**
+ * Возвращает угол поворота стрелки в зависимости от стороны размещения
+ */
+const getArrowRotation = (side: string) => {
+    return {
+        top: 'rotate(180deg)',   // Стрелка вниз
+        bottom: 'rotate(0deg)',  // Стрелка вверх
+        left: 'rotate(90deg)',   // Стрелка вправо
+        right: 'rotate(-90deg)', // Стрелка влево
+    }[side] || 'rotate(0deg)';
+};
+
+/**
+ * Вычисляет стили для стрелки-указателя на триггер.
+ * Учитывает текущую позицию попапа и направление стрелки.
+ */
 const arrowStyles = computed(() => {
     const { arrow: arrowData } = middlewareData.value;
     const currentPlacement = placement.value;
@@ -216,16 +324,12 @@ const arrowStyles = computed(() => {
         transform: getArrowRotation(side),
     };
 });
+// #endregion
 
-const getArrowRotation = (side: string) => {
-    return {
-        top: 'rotate(180deg)',   // Стрелка вниз
-        bottom: 'rotate(0deg)',  // Стрелка вверх
-        left: 'rotate(90deg)',   // Стрелка вправо
-        right: 'rotate(-90deg)', // Стрелка влево
-    }[side] || 'rotate(0deg)';
-};
-
+// ============================================================================
+// 5️⃣ 👁️ VISIBILITY & INTERACTIONS: Events, Dismiss, User Behavior
+// ============================================================================
+// #region Visibility & Interactions
 watch(isVisible, (newVal) => {
     if (newVal) {
         emit('show');
@@ -236,6 +340,10 @@ watch(isVisible, (newVal) => {
 
 let removeClickListener: (() => void) | undefined;
 
+/**
+ * Управляет подпиской на клик вне попапа.
+ * Слушатель активируется только когда попап видим и dismissable=true.
+ */
 watchEffect(() => {
     if (!isVisible.value || props.dismissable === false) {
         removeClickListener?.();
@@ -252,13 +360,30 @@ watchEffect(() => {
     );
 });
 
-// tryOnUnmounted безопаснее для SSR — не упадёт, если вызван на сервере
+// Очистка слушателя при анмаунте (безопасно для SSR)
 tryOnUnmounted(() => {
     removeClickListener?.();
 });
+// #endregion
 
+// ============================================================================
+// 6️⃣ 🔧 PUBLIC API + LIFECYCLE: Expose, Validation, Hooks
+// ============================================================================
+// #region Public API & Lifecycle
+/**
+ * @exposed
+ * @property {Ref<HTMLElement | null>} element - Ссылка на корневой DOM-элемент попапа (после телепортации)
+ * @method {function} toggle - Переключить видимость. Опционально принимает новый trigger-элемент (для императивного режима)
+ * @method {function} show - Принудительно открыть. Опционально принимает trigger-элемент
+ * @method {function} hide - Принудительно закрыть
+ */
 defineExpose({
     element: popoverRef,
+
+    /**
+     * Переключает видимость попапа.
+     * @param triggerElement - Опциональный элемент-триггер (для императивного режима)
+     */
     toggle: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
         if (!isClient) {
             console.warn('[Popover]: toggle method called on server-side, ignoring.');
@@ -282,6 +407,11 @@ defineExpose({
 
         isVisible.value = !isVisible.value;
     },
+
+    /**
+     * Принудительно открывает попап.
+     * @param triggerElement - Опциональный элемент-триггер
+     */
     show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
         if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
 
@@ -291,6 +421,10 @@ defineExpose({
 
         if (resolvedTarget.value) isVisible.value = true;
     },
+
+    /**
+     * Принудительно закрывает попап.
+     */
     hide: () => {
         if (isDeclarativeMode.value) {
             console.warn('[Popover]: hide() called in declarative mode. Use v-model:open instead.');
@@ -343,15 +477,15 @@ const validateProps = () => {
 onMounted(async () => {
     // 1. Ждем следующего тика, чтобы завершился текущий цикл обновления DOM
     await nextTick();
-    
+
     // 2. Небольшая задержка (0-16ms), чтобы гарантировать, что 
     // родительские компоненты успели прокинуть свои рефы вниз
     // Это решает проблему "ложных" ошибок при гидратации/маунте
     await new Promise(resolve => setTimeout(resolve, 0));
-    
+
     // 3. Только теперь запускаем валидацию, когда все рефы должны быть на месте
     validateProps();
-    
+
     // 4. Дополнительная проверка значения (опционально, для отладки)
     if (isDeclarativeMode.value && props.triggerer !== null && props.triggerer !== undefined) {
         if (toValue(props.triggerer) == null) {
@@ -360,9 +494,11 @@ onMounted(async () => {
     }
 });
 
+// Перепроверка при смене режима (open prop)
 watch(() => props.open, () => {
     validateProps();
 }, { flush: 'post' });
+// #endregion
 </script>
 
 <style
