@@ -115,6 +115,15 @@ const toggleFirst = () => {
 const toggleSecond = () => {
   imperativePopoverSecond.value.toggle();
 }
+
+const visiblePopoverAppendBody = ref(false)
+const visiblePopoverAppendSelf = ref(false)
+const visiblePopoverAppendHTML = ref(false)
+
+const popoverBtnAppendBody = ref<HTMLElement | null>(null)
+const popoverBtnAppendSelf = ref<HTMLElement | null>(null)
+const popoverBtnAppendHTML = ref<HTMLElement | null>(null)
+const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
 </script>
 
 <template>
@@ -1289,6 +1298,60 @@ const toggleSecond = () => {
         </template>
       </AtomCard>
 
+      <AtomCard class="w-full" ref="popoverCardAppendHTML">
+        <template #title>Append to</template>
+        <template #content>
+          <div class="mt-5 flex justify-center gap-4">
+            <AtomButton
+              ref="popoverBtnAppendBody"
+              :label="'To body'"
+              @click="visiblePopoverAppendBody = !visiblePopoverAppendBody"
+            />
+            <AtomPopover
+              v-model:open="visiblePopoverAppendBody"
+              :triggerer="popoverBtnAppendBody"
+              append-to="body"
+            >
+              <div class="">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+
+            <AtomButton
+              ref="popoverBtnAppendSelf"
+              :label="'To self'"
+              @click="visiblePopoverAppendSelf = !visiblePopoverAppendSelf"
+            />
+            <AtomPopover
+              v-model:open="visiblePopoverAppendSelf"
+              :triggerer="popoverBtnAppendSelf"
+              append-to="self"
+            >
+              <div class="">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+
+            <AtomButton
+              ref="popoverBtnAppendHTML"
+              :label="'To card'"
+              @click="visiblePopoverAppendHTML = !visiblePopoverAppendHTML"
+            />
+            <AtomPopover
+              v-model:open="visiblePopoverAppendHTML"
+              :triggerer="popoverBtnAppendHTML"
+              :append-to="popoverCardAppendHTML?.$el"
+            >
+              <div class="">
+                <p>This is a popover content.</p>
+                <p>You can put any content here, including forms, buttons, etc.</p>
+              </div>
+            </AtomPopover>
+          </div>
+        </template>
+      </AtomCard>
     </div>
   </div>
 

@@ -1,5 +1,5 @@
 <template>
-    <Teleport to="body">
+    <Teleport :to="teleportTarget" :disabled="teleportTarget === null">
         <Transition name="fade">
             <div
                 v-if="isVisible"
@@ -44,7 +44,6 @@ interface Props {
     triggerer?: MaybeRefOrGetter<HTMLElement | null>; // declarative mode
     open?: boolean; // declarative mode
     dismissable?: boolean; // any mode
-    // TODO: appendTo
     appendTo?: HTMLElement | HintedString<"body" | "self"> // any mode
     style?: CSSProperties | CSSProperties[];
     class?: string | string[] | Record<string, boolean>;
@@ -87,13 +86,38 @@ const isVisible = computed({
     }
 });
 
+const teleportTarget = computed(() => {
+    if (!isClient) return null;
+
+    const target = props.appendTo;
+
+    // Если строка — пробуем найти по селектору
+    if (typeof target === 'string') {
+        // 1. Если self — не телепортировать (рендерить на месте)
+        if (target === 'self') return null
+
+        return document.body;
+    }
+
+    // 3. Если HTMLElement — проверяем, что он в DOM
+    if (target instanceof HTMLElement) {
+        if (!document.contains(target)) {
+            console.warn('[Popover]: appendTo element not in DOM, falling back to body');
+            return document.body;
+        }
+        return target;
+    }
+
+    return document.body;
+});
+
 const ARROW_SIZE = 16;
 const ARROW_HALF = ARROW_SIZE / 2;
 const BORDER_WIDTH = 1;
 const PADDING = 6;
 
-const dynamicPadding = computed(() => 
-  props.showArrow ? ARROW_HALF + PADDING : PADDING + BORDER_WIDTH
+const dynamicPadding = computed(() =>
+    props.showArrow ? ARROW_HALF + PADDING : PADDING + BORDER_WIDTH
 );
 
 const { floatingStyles, middlewareData, placement, update } = useFloating(resolvedTarget, popoverRef, {
@@ -121,7 +145,7 @@ const { floatingStyles, middlewareData, placement, update } = useFloating(resolv
 });
 
 watch(dynamicPadding, () => {
-  update();
+    update();
 }, { flush: 'post' });
 
 const arrowStyles = computed(() => {
@@ -182,19 +206,19 @@ watch(isVisible, (newVal) => {
 let removeClickListener: (() => void) | undefined;
 
 watchEffect(() => {
-  if (!isVisible.value || props.dismissable === false) {
+    if (!isVisible.value || props.dismissable === false) {
+        removeClickListener?.();
+        removeClickListener = undefined;
+        return;
+    }
+
+    // Пересоздаем слушатель только если нужно
     removeClickListener?.();
-    removeClickListener = undefined;
-    return;
-  }
-  
-  // Пересоздаем слушатель только если нужно
-  removeClickListener?.();
-  removeClickListener = onClickOutside(
-    popoverRef,
-    () => { isVisible.value = false; },
-    { ignore: [resolvedTarget] }
-  );
+    removeClickListener = onClickOutside(
+        popoverRef,
+        () => { isVisible.value = false; },
+        { ignore: [resolvedTarget] }
+    );
 });
 
 // tryOnUnmounted безопаснее для SSR — не упадёт, если вызван на сервере
