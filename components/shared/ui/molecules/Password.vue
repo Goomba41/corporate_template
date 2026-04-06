@@ -5,6 +5,8 @@
 import type { AtomInputText, AtomPopover } from '#components';
 import { useFocus, useActiveElement, refDebounced } from '@vueuse/core';
 
+import type { PopoverExposed } from '../atoms/Popover.vue';
+
 import { PasswordStrengthScore } from '~/core/domain/types/password';
 import type { InputProps } from '~/types/input-props';
 import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
@@ -122,7 +124,7 @@ watch(() => props.loading, async (newValue, oldValue) => {
 const inputWrapper = ref<HTMLElement | null>(null)
 
 /** Ref на экземпляр атома Popover (для доступа к его внутреннему DOM-элементу) */
-const strengthPopover = ref<InstanceType<typeof AtomPopover> | null>(null)
+const strengthPopover = ref<PopoverExposed | null>(null)
 /**
  * Вычисляемый ref на корневой внутренний DOM-элемент телепортированного поповера
  * @returns HTMLElement | null — нативный элемент, в который телепортировался контент
@@ -275,7 +277,7 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
             <AtomPopover
                 ref="strengthPopover"
                 :triggerer="inputWrapper"
-                :open="debouncedValidationOpener"
+                v-model:open="debouncedValidationOpener"
             >
                 <slot name="header" />
                 <slot name="content">

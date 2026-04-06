@@ -41,25 +41,44 @@ const isClient = import.meta.client;
 
 type PopoverPlacement = Placement | 'auto';
 
-// TODO: сделать валидацию пропсов так, чтобы различать декларативный и императивный режимы управления видимостью
-interface Props {
+type PopoverBaseProps = {
     showArrow?: boolean;
-    triggerer?: MaybeRefOrGetter<HTMLElement | null>; // declarative mode
-    open?: boolean; // declarative mode
-    dismissable?: boolean; // any mode
-    appendTo?: HTMLElement | HintedString<"body" | "self"> // any mode
+    dismissable?: boolean;
+    appendTo?: HTMLElement | HintedString<'body' | 'self'>;
     style?: CSSProperties | CSSProperties[];
     class?: string | string[] | Record<string, boolean>;
     placement?: PopoverPlacement;
+};
+
+// Декларативный режим: ТРЕБУЕТ open + triggerer
+type PopoverDeclarativeProps = {
+    open: boolean; // обязательный
+    triggerer: MaybeRefOrGetter<HTMLElement | null>; // обязательный
+};
+
+// Императивный режим: ЗАПРЕЩАЕТ open + triggerer
+type PopoverImperativeProps = {
+    open?: never; // запрещён
+    triggerer?: never; // запрещён
+};
+
+export type Props = PopoverBaseProps &
+    (PopoverDeclarativeProps | PopoverImperativeProps);
+
+export interface PopoverExposed {
+    element: Ref<HTMLElement | null>;
+    toggle: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => void;
+    show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => void;
+    hide: () => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    triggerer: null,
     dismissable: true,
-    open: undefined,
     appendTo: 'body',
     placement: 'bottom-start',
     showArrow: false,
+    open: undefined,
+    triggerer: undefined,
 })
 
 defineOptions({
@@ -76,9 +95,16 @@ const popoverRef = ref<HTMLElement | null>(null);
 const floatingArrow = ref<HTMLElement | null>(null);
 const lastTriggerRef = ref<HTMLElement | null>(null);
 
+const isDeclarativeMode = computed(() => props.open !== undefined);
+
 const resolvedTarget = computed(() => {
     if (!isClient) return null;
-    return toValue(props.triggerer ?? lastTriggerRef);
+
+    if (isDeclarativeMode.value) {
+        return toValue(props.triggerer) ?? null;
+    } else {
+        return lastTriggerRef.value;
+    }
 })
 
 const internalOpen = ref(false);
@@ -233,7 +259,6 @@ tryOnUnmounted(() => {
 
 defineExpose({
     element: popoverRef,
-    // ТОЛЬКО ПРИ ИМПЕРАТИВНОМ ПОДОХОДЕ КОНТРОЛЯ ЗА ВИДИМОСТЬЮ
     toggle: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
         if (!isClient) {
             console.warn('[Popover]: toggle method called on server-side, ignoring.');
@@ -242,8 +267,16 @@ defineExpose({
 
         if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
 
+        // В декларативном режиме предупреждаем, если пытаются управлять через методы
+        if (isDeclarativeMode.value) {
+            console.warn(
+                '[Popover]: toggle() called in declarative mode. ' +
+                'Control visibility via v-model:open instead.'
+            );
+        }
+
         if (!resolvedTarget.value && !isVisible.value) {
-            console.warn('[Popover]: no trigger element provided');
+            console.error('[Popover]: no trigger element provided');
             return;
         }
 
@@ -251,10 +284,85 @@ defineExpose({
     },
     show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
         if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
+
+        if (isDeclarativeMode.value) {
+            console.warn('[Popover]: show() called in declarative mode. Use v-model:open instead.');
+        }
+
         if (resolvedTarget.value) isVisible.value = true;
     },
-    hide: () => { isVisible.value = false; }
+    hide: () => {
+        if (isDeclarativeMode.value) {
+            console.warn('[Popover]: hide() called in declarative mode. Use v-model:open instead.');
+        }
+        isVisible.value = false;
+    }
 })
+
+const validateProps = () => {
+    if (!isClient) return;
+
+    const hasOpen = props.open !== undefined;
+    const hasTriggerer = props.triggerer != null;
+
+    // === ДЕКЛАРАТИВНЫЙ РЕЖИМ ===
+    if (hasOpen && !hasTriggerer) {
+        console.error(
+            `[Popover] Declarative mode error:
+      • "open" prop is provided (v-model:open), but "triggerer" is missing.
+      • Fix: Add :triggerer="elementRef" for positioning.
+      • Or: Remove "open" prop to use imperative mode with ref.toggle().`
+        );
+        return false;
+    }
+
+    // === ИМПЕРАТИВНЫЙ РЕЖИМ ===
+    if (!hasOpen && hasTriggerer) {
+        console.warn(
+            `[Popover] Imperative mode notice:
+      • "triggerer" prop is ignored in imperative mode.
+      • Fix: Pass element to methods: ref.toggle(elementRef)
+      • Or: Add "open" prop to switch to declarative mode.`
+        );
+    }
+
+    // === ОБЩИЕ ПРОВЕРКИ ===
+    if (hasOpen && hasTriggerer) {
+        // Это валидный декларативный режим — всё ок
+        return true;
+    }
+
+    if (!hasOpen && !hasTriggerer) {
+        // Это валидный императивный режим — всё ок
+        return true;
+    }
+
+    return true;
+};
+
+onMounted(async () => {
+    // 1. Ждем следующего тика, чтобы завершился текущий цикл обновления DOM
+    await nextTick();
+    
+    // 2. Небольшая задержка (0-16ms), чтобы гарантировать, что 
+    // родительские компоненты успели прокинуть свои рефы вниз
+    // Это решает проблему "ложных" ошибок при гидратации/маунте
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    // 3. Только теперь запускаем валидацию, когда все рефы должны быть на месте
+    validateProps();
+    
+    // 4. Дополнительная проверка значения (опционально, для отладки)
+    if (isDeclarativeMode.value && props.triggerer !== null && props.triggerer !== undefined) {
+        if (toValue(props.triggerer) == null) {
+            console.warn('[Popover] Triggerer prop is set, but element is null. Check if the target element is mounted.');
+        }
+    }
+});
+
+watch(() => props.open, () => {
+    validateProps();
+}, { flush: 'post' });
 </script>
 
 <style
