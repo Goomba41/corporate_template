@@ -1,8 +1,11 @@
 <template>
-    <Teleport :to="teleportTarget" :disabled="teleportTarget === null">
-        <Transition name="fade">
+    <Transition name="fade">
+        <Teleport
+            v-if="isVisible"
+            :to="teleportTarget"
+            :disabled="teleportTarget === null"
+        >
             <div
-                v-if="isVisible"
                 ref="popoverRef"
                 tabindex="0"
                 :class="['popover', props.class]"
@@ -19,8 +22,8 @@
                     <slot />
                 </div>
             </div>
-        </Transition>
-    </Teleport>
+        </Teleport>
+    </Transition>
 </template>
 
 <script
@@ -71,9 +74,11 @@ const emit = defineEmits<{
 
 const popoverRef = ref<HTMLElement | null>(null);
 const floatingArrow = ref<HTMLElement | null>(null);
+const lastTriggerRef = ref<HTMLElement | null>(null);
+
 const resolvedTarget = computed(() => {
     if (!isClient) return null;
-    return toValue(props.triggerer) ?? null;
+    return toValue(props.triggerer ?? lastTriggerRef);
 })
 
 const internalOpen = ref(false);
@@ -228,12 +233,26 @@ tryOnUnmounted(() => {
 
 defineExpose({
     element: popoverRef,
-    // TODO: передача цели
     // ТОЛЬКО ПРИ ИМПЕРАТИВНОМ ПОДОХОДЕ КОНТРОЛЯ ЗА ВИДИМОСТЬЮ
-    toggle: () => {
+    toggle: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
+        if (!isClient) {
+            console.warn('[Popover]: toggle method called on server-side, ignoring.');
+            return;
+        }
+
+        if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
+
+        if (!resolvedTarget.value && !isVisible.value) {
+            console.warn('[Popover]: no trigger element provided');
+            return;
+        }
+
         isVisible.value = !isVisible.value;
     },
-    show: () => { isVisible.value = true; },
+    show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
+        if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
+        if (resolvedTarget.value) isVisible.value = true;
+    },
     hide: () => { isVisible.value = false; }
 })
 </script>

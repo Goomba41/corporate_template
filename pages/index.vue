@@ -102,18 +102,18 @@ const visiblePopoverSecond = ref(false)
 const popoverBtnFirst = ref<HTMLElement | null>(null)
 const popoverBtnSecond = ref<HTMLElement | null>(null)
 
-const imperativePopoverBtnFirst = ref<HTMLElement | null>(null)
-const imperativePopoverBtnSecond = ref<HTMLElement | null>(null)
+const imperativePopoverBtnFirst = useTemplateRef('imperativePopoverBtnFirst')
+const imperativePopoverBtnSecond = useTemplateRef('imperativePopoverBtnSecond')
 
 const imperativePopoverFirst = ref()
 const imperativePopoverSecond = ref()
 
 const toggleFirst = () => {
-  imperativePopoverFirst.value.toggle();
+  imperativePopoverFirst.value.toggle(imperativePopoverBtnFirst.value?.$el);
 }
 
 const toggleSecond = () => {
-  imperativePopoverSecond.value.toggle();
+  imperativePopoverSecond.value.toggle(imperativePopoverBtnSecond.value?.$el);
 }
 
 const visiblePopoverAppendBody = ref(false)
@@ -1270,7 +1270,6 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
             />
             <AtomPopover
               ref="imperativePopoverFirst"
-              :triggerer="imperativePopoverBtnFirst"
             >
               <div class="">
                 <p>This is a popover content.</p>
@@ -1285,7 +1284,6 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
             />
             <AtomPopover
               ref="imperativePopoverSecond"
-              :triggerer="imperativePopoverBtnSecond"
               :dismissable="false"
               :show-arrow="true"
             >
