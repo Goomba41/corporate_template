@@ -1224,7 +1224,7 @@ const toggleSecond = () => {
               v-model:open="visiblePopoverFirst"
               :triggerer="popoverBtnFirst"
             >
-              <div class="p-4">
+              <div class="">
                 <p>This is a popover content.</p>
                 <p>You can put any content here, including forms, buttons, etc.</p>
               </div>
@@ -1240,7 +1240,7 @@ const toggleSecond = () => {
               :triggerer="popoverBtnSecond"
               :dismissable="false"
             >
-              <div class="p-4">
+              <div class="">
                 <p>This is a popover content.</p>
                 <p>You can put any content here, including forms, buttons, etc.</p>
               </div>
@@ -1263,7 +1263,7 @@ const toggleSecond = () => {
               ref="imperativePopoverFirst"
               :triggerer="imperativePopoverBtnFirst"
             >
-              <div class="p-4">
+              <div class="">
                 <p>This is a popover content.</p>
                 <p>You can put any content here, including forms, buttons, etc.</p>
               </div>
@@ -1278,8 +1278,9 @@ const toggleSecond = () => {
               ref="imperativePopoverSecond"
               :triggerer="imperativePopoverBtnSecond"
               :dismissable="false"
+              :show-arrow="true"
             >
-              <div class="p-4">
+              <div class="">
                 <p>This is a popover content.</p>
                 <p>You can put any content here, including forms, buttons, etc.</p>
               </div>
