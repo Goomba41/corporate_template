@@ -2,6 +2,8 @@
     setup
     lang="ts"
 >
+// TODO: перевести на использование cn из lib/bem.ts
+
 /**
  * @file InputGroup.vue
  * @description Компонент группировки элементов ввода.

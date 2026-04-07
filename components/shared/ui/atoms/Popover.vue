@@ -8,17 +8,17 @@
             <div
                 ref="popoverRef"
                 tabindex="0"
-                :class="['popover', props.class]"
+                :class="[bem(), props.class]"
                 :style="[floatingStyles, style]"
             >
                 <div
                     v-if="showArrow"
-                    class="popover__arrow"
+                    :class="bem('arrow')"
                     ref="floatingArrow"
                     :style="arrowStyles"
                 >
                 </div>
-                <div class="popover__content">
+                <div :class="bem('content')">
                     <slot />
                 </div>
             </div>
@@ -81,6 +81,8 @@ import { onClickOutside, tryOnUnmounted } from '@vueuse/core';
 
 import type { HintedString } from '~/types/hinted-string';
 
+import { cn } from '~/lib/bem';
+
 const isClient = import.meta.client;
 
 // Arrow metrics (вынесены в константы для переиспользования)
@@ -88,6 +90,9 @@ const ARROW_SIZE = 16;
 const ARROW_HALF = ARROW_SIZE / 2;
 const BORDER_WIDTH = 1;
 const PADDING = 6;
+
+// BEM генератор для классов
+const bem = cn('popover')
 
 // Type definitions
 type PopoverPlacement = Placement | 'auto';
@@ -515,7 +520,7 @@ watch(() => props.open, () => {
     opacity: 0;
 }
 
-.popover {
+.hh-popover {
     background: var(--bg-primary);
     color: var(--text-primary);
     border: 1px solid var(--border-primary);

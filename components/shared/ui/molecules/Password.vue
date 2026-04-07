@@ -2,6 +2,8 @@
     setup
     lang="ts"
 >
+// TODO: перевести на использование cn из lib/bem.ts
+
 import type { AtomInputText, AtomPopover } from '#components';
 import { useFocus, useActiveElement, refDebounced } from '@vueuse/core';
 

@@ -2,6 +2,8 @@
     setup
     lang="ts"
 >
+// TODO: перевести на использование cn из lib/bem.ts
+
 import { computed } from 'vue'
 import ErrorMessage from '~/components/shared/ui/atoms/Message.vue'
 // import HintText from '~/components/shared/ui/atoms/HintText.vue'

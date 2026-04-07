@@ -2,6 +2,7 @@
     setup
     lang="ts"
 >
+// TODO: перевести на использование cn из lib/bem.ts
 </script>
 
 <template>

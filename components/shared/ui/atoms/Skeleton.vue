@@ -2,6 +2,8 @@
     setup
     lang="ts"
 >
+// TODO: перевести на использование cn из lib/bem.ts
+
 import type { HintedString } from '~/types/hinted-string';
 
 // Явное имя компонента для соответствия принципам DDD и реестру компонентов
