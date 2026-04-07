@@ -53,9 +53,9 @@ export function block(block: string, config: BemConfig = {}): BEMFunction {
                 if (v == null || v === false) continue
 
                 if (typeof v === 'string') {
-                    modClasses.push(`${cfg.m}${k}${cfg.v}${v}`)
+                    modClasses.push(`${cls}${cfg.m}${k}${cfg.v}${v}`)
                 } else if (v === true) {
-                    modClasses.push(`${cfg.m}${k}`)
+                    modClasses.push(`${cls}${cfg.m}${k}`)
                 }
             }
 
