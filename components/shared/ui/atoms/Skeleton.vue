@@ -2,8 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 import type { HintedString } from '~/types/hinted-string';
 
 // Явное имя компонента для соответствия принципам DDD и реестру компонентов
@@ -32,14 +30,13 @@ const inlineStyles = computed(() => ({
     height: props.size || props.height,
     borderRadius: props.borderRadius || (props.shape === 'circle' ? '50%' : undefined),
 }));
+
+const bem = appBEM('skeleton')
 </script>
 
 <template>
     <div
-        :class="[
-            'skeleton',
-            `skeleton--${animation}`
-        ]"
+        :class="bem({ animation: props.animation })"
         :style="inlineStyles"
     ></div>
 </template>
@@ -53,7 +50,7 @@ $skeleton-highlight: rgba(255, 255, 255, 0.6);
 $skeleton-base-dark: rgba(255, 255, 255, 0.1);
 $skeleton-highlight-dark: rgba(255, 255, 255, 0.1);
 
-.skeleton {
+.hh-skeleton {
     display: block;
     overflow: hidden;
     background-color: var(--skeleton-base, $skeleton-base);
@@ -64,7 +61,7 @@ $skeleton-highlight-dark: rgba(255, 255, 255, 0.1);
     /* --- АНИМАЦИИ --- */
 
     /* 1. WAVE */
-    &--wave {
+    &--animation-wave {
         &::before {
             content: '';
             position: absolute;
@@ -86,7 +83,7 @@ $skeleton-highlight-dark: rgba(255, 255, 255, 0.1);
     }
 
     /* 2. PULSE (Мягкое мерцание) */
-    &--pulse {
+    &--animation-pulse {
         background-image: none;
         animation: skeleton-pulse 3s infinite ease-in-out;
     }
@@ -114,19 +111,20 @@ $skeleton-highlight-dark: rgba(255, 255, 255, 0.1);
     }
 }
 
-.mode-dark {
-    .skeleton {
-        --skeleton-base: #{$skeleton-base-dark};
+@at-root {
+    .mode-dark {
+        .hh-skeleton {
+            --skeleton-base: #{$skeleton-base-dark};
 
-        &--wave::before {
-            background: linear-gradient(
-                135deg,
-                transparent 0%,
-                transparent 20%,
-                #{$skeleton-highlight-dark} 45%,
-                #{$skeleton-highlight-dark} 55%,
-                transparent 80%,
-                transparent 100%);
+            &--animation-wave::before {
+                background: linear-gradient(135deg,
+                    transparent 0%,
+                    transparent 20%,
+                    #{$skeleton-highlight-dark} 45%,
+                    #{$skeleton-highlight-dark} 55%,
+                    transparent 80%,
+                    transparent 100%);
+            }
         }
     }
 }

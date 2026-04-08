@@ -2,27 +2,27 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {})
 
 const emit = defineEmits<{}>()
+
+const bem = appBEM('button-group')
 </script>
 
 <template>
-    <div class="button-group">
+    <div :class="bem.toString()">
         <slot />
     </div>
 </template>
 
 <style scoped lang="scss">
-.button-group {
+.hh-button-group {
     display: inline-flex;
 
-    :deep(.button) {
+    :deep(.hh-button) {
         margin: 0;
 
         /* Крайняя правая кнопка */

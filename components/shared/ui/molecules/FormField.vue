@@ -2,8 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 import { computed } from 'vue'
 import ErrorMessage from '~/components/shared/ui/atoms/Message.vue'
 // import HintText from '~/components/shared/ui/atoms/HintText.vue'
@@ -43,6 +41,8 @@ const emit = defineEmits<{
     iconClick: [position: 'prefix' | 'suffix']
 }>()
 
+const bem = appBEM('form-field')
+
 const hasError = computed(() => !!props.error)
 // const hasHint = computed(() => !!props.hint)
 // const hasCounter = computed(() => props.showCounter && props.maxLength)
@@ -64,22 +64,19 @@ const handleBlur = () => emit('blur')
 <template>
     <div
         class="form-field"
-        :class="[
+        :class="bem({
+            error: hasError,
+            // 'disabled': disabled,
+            // 'readonly': readonly,
+            // 'focused': focused
             // `form-field--${variant}`,
             // `form-field--${size}`,
-            {
-                'form-field--error': hasError,
-                // 'form-field--disabled': disabled,
-                // 'form-field--readonly': readonly,
-                // 'form-field--focused': focused
-            },
-            // classes
-        ]"
+        })"
     >
         <!-- Обертка для поля ввода -->
-        <div class="form-field__wrapper">
+        <div :class="bem('wrapper')">
             <!-- Слот для поля ввода -->
-            <div class="form-field__input-slot">
+            <div :class="bem('input-slot')">
                 <slot
                     class="w-full"
                     name="input"
@@ -95,8 +92,7 @@ const handleBlur = () => emit('blur')
 
         <!-- Сообщение об ошибке (атом) -->
         <div
-            class="form-field__input-error"
-            :class="{ 'form-field__input-error--multiline': errorLines }"
+            :class="bem('input-error', { multiline: errorLines > 1 })"
             :style="errorLines ? { '--error-lines': errorLines } : undefined"
         >
             <ErrorMessage
@@ -106,6 +102,7 @@ const handleBlur = () => emit('blur')
             >{{ error }}</ErrorMessage>
         </div>
 
+        <!-- TODO: атом подсказки -->
         <!-- Подсказка (атом) -->
         <!-- <HintText
             v-if="hasHint && !hasError"
@@ -113,6 +110,7 @@ const handleBlur = () => emit('blur')
             :error="hasError"
         /> -->
 
+        <!-- TODO: атом счётчика символов -->
         <!-- Счетчик символов (атом) -->
         <!-- <CharacterCounter
             v-if="hasCounter"
@@ -127,7 +125,7 @@ const handleBlur = () => emit('blur')
     scoped
     lang="scss"
 >
-.form-field {
+.hh-form-field {
     min-width: 0;
     overflow: hidden;
     display: flex;
@@ -137,41 +135,41 @@ const handleBlur = () => emit('blur')
         color: var(--accent-error);
     }
 
-    .form-field__wrapper {
+    &__wrapper {
         width: 100%;
         min-width: 0;
         display: flex;
+    }
 
-        .form-field__input-slot {
-            padding: 1px;
+    &__input-slot {
+        padding: 1px;
 
-            &>*:first-child {
-                width: 100%;
-            }
+        &>*:first-child {
+            width: 100%;
         }
     }
 
-    .form-field__input-error {
+    &__input-error {
         min-width: 0;
         line-height: 1rem;
         min-height: 1rem;
         overflow: hidden;
         contain: layout;
 
-        .message {
+        .hh-message {
             max-width: 100%;
             justify-content: start;
+            
+            :deep(.hh-message__text) {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                min-width: 0;
+                white-space: nowrap;
+            }
         }
-
-        :deep(.text) {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-            min-width: 0;
-            white-space: nowrap;
-        }
-
-        &--multiline :deep(.text) {
+        
+        &--multiline .hh-message :deep(.hh-message__text) {
             white-space: normal;
             display: -webkit-box;
             -webkit-box-orient: vertical;

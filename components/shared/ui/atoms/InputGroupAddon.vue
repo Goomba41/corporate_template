@@ -2,13 +2,11 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
+const bem = appBEM('input-group-addon')
 </script>
 
 <template>
-    <div
-        class="input-group-addon"
-    >
+    <div :class="bem.toString()">
         <slot />
     </div>
 </template>
@@ -18,7 +16,7 @@
     lang="scss"
 >
 // TODO: проверить float-label, checkbox
-.input-group-addon {
+.hh-input-group-addon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,20 +30,21 @@
     line-height: normal;
 
     overflow: hidden;
-    isolation: isolate; 
+    isolation: isolate;
 
-    &:has(.button) {
+    &:has(.hh-button) {
         padding: 0;
     }
 
-    & > :deep(.button) {
+    &> :deep(.hh-button) {
         border-radius: 0;
         border: none;
         width: 100%;
     }
 
     // Граница слева: для первого элемента И для любого аддона после другого элемента
-    &:first-child, & + & {
+    &:first-child,
+    &+& {
         border-inline-start: 1px solid var(--surface-300);
     }
 
@@ -53,7 +52,7 @@
         border-start-start-radius: 0.5rem;
         border-end-start-radius: 0.5rem;
     }
-    
+
     &:last-child {
         border-start-end-radius: 0.5rem;
         border-end-end-radius: 0.5rem;
@@ -61,10 +60,8 @@
     }
 }
 
-.mode-dark {
-    .input-group-addon {
-        border-color: var(--surface-500);
-        background: var(--surface-950);
-    }
+.mode-dark .input-group-addon {
+    border-color: var(--surface-500);
+    background: var(--surface-950);
 }
 </style>

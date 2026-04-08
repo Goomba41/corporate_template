@@ -2,7 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
 /**
  * Универсальная карточка-контейнер (Атом)
  * 
@@ -41,45 +40,47 @@ defineSlots<{
     content(): unknown;
     footer?(): unknown;
 }>();
+
+const bem = appBEM('card')
 </script>
 
 <template>
-    <div class="card">
+    <div :class="bem.toString()">
         <header
             v-if="$slots.header"
-            class="card__header"
+            :class="bem('header')"
         >
             <slot name="header" />
         </header>
 
-        <div class="card__body">
+        <div :class="bem('body')">
             <div
                 v-if="$slots.title || $slots.subtitle"
-                class="card__caption"
+                :class="bem('caption')"
             >
                 <div
                     v-if="$slots.title"
-                    class="card__title"
+                    :class="bem('title')"
                 >
                     <slot name="title" />
                 </div>
                 <div
                     v-if="$slots.subtitle"
-                    class="card__subtitle"
+                    :class="bem('subtitle')"
                 >
                     <slot name="subtitle" />
                 </div>
             </div>
             <div
                 v-if="$slots.content"
-                class="card__content"
+                :class="bem('content')"
             >
                 <slot name="content" />
             </div>
         </div>
         <div
             v-if="$slots.footer"
-            class="card__footer"
+            :class="bem('footer')"
         >
             <slot name="footer" />
         </div>
@@ -94,7 +95,7 @@ defineSlots<{
 $card-gap: calc(var(--spacing) * 2);
 $card-padding: calc(var(--spacing) * 5);
 
-.card {
+.hh-card {
     background: var(--bg-primary);
     color: var(--text-primary);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
@@ -133,7 +134,9 @@ $card-padding: calc(var(--spacing) * 5);
     }
 }
 
-.card:not(:has(.card__footer)) .card__body {
-    padding-bottom: $card-padding;
+.hh-card {
+    &:not(:has(&__footer)) &__body {
+        padding-bottom: $card-padding;
+    }
 }
 </style>

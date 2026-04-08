@@ -31,7 +31,9 @@ export default defineNuxtConfig({
     dirs: [
       'composables/shared',
       'composables/features',
-      'composables/app'
+      'composables/app',
+
+      'lib'
     ],
   },
 

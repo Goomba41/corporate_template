@@ -2,8 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 import { computed } from 'vue'
 
 interface Props {
@@ -17,19 +15,24 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     severity: 'primary',
     variant: undefined,
-    size: 'md',
     life: undefined,
     appearance: 'bottom-top'
 })
 
 const emit = defineEmits(['lifeEnd', 'close'])
 
-const messageClasses = computed(() => ([
-    'message',
-    `message--${props.severity}`,
-    `message--${props.size}`,
-    `message--${props.variant}`,
-]))
+const bem = appBEM('message')
+const messageTransitionName = block('message-slide-fade')({
+    appearance: props.appearance
+}).split(' ')[1]
+
+const messageClasses = computed(() =>
+    bem({
+        severity: props.severity,
+        variant: props.variant,
+        size: props.size,
+    })
+)
 
 // Локальное состояние видимости
 const visible = defineModel<boolean>('visible', { default: true })
@@ -61,22 +64,22 @@ onBeforeUnmount(clearLifeTimer)
 
 <template>
     <Transition
-        :name="`message-slide-fade--${appearance}`"
+        :name="messageTransitionName"
         mode="out-in"
     >
         <div
             v-if="visible"
             :class="messageClasses"
         >
-            <div class="content-wrapper">
-                <div class="content">
+            <div :class="bem('content-wrapper')">
+                <div :class="bem('content')">
                     <template v-if="$slots.icon">
-                        <div :class="['icon']">
+                        <div :class="bem('icon')">
                             <slot name="icon"></slot>
                         </div>
                     </template>
 
-                    <div class="text">
+                    <div :class="bem('text')">
                         <slot />
                     </div>
                 </div>
@@ -117,29 +120,46 @@ $message-appearance-variants: (
     $enter-transform: list.nth($transforms, 1);
     $leave-transform: list.nth($transforms, 2);
 
-    .message-slide-fade--#{$name} {
+    .message-slide-fade {
+        &--appearance-#{$name} {
 
-        &-enter-active,
-        &-leave-active {
-            transition:
-                opacity 0.25s ease-out,
-                transform 0.25s ease-out;
-            will-change: opacity, transform; // оптимизация для GPU
-        }
+            &-enter-active,
+            &-leave-active {
+                transition:
+                    opacity 0.25s ease-out,
+                    transform 0.25s ease-out;
+                will-change: opacity, transform; // оптимизация для GPU
+            }
 
-        &-enter-from {
-            opacity: 0;
-            transform: $enter-transform;
-        }
+            &-enter-from {
+                opacity: 0;
+                transform: $enter-transform;
+            }
 
-        &-leave-to {
-            opacity: 0;
-            transform: $leave-transform;
+            &-leave-to {
+                opacity: 0;
+                transform: $leave-transform;
+            }
         }
     }
 }
 
-.message {
+@at-root {
+    .mode-dark {
+        .hh-message {
+            &--severity-secondary {
+                background-color: var(--surface-800);
+                outline-color: var(--surface-600);
+            }            
+        }
+    }
+}
+
+.hh-message {
+    --message-padding-y: calc(var(--spacing) * 2);
+    --message-padding-x: calc(var(--spacing) * 3);
+    --message-font-size: 1rem;
+
     color: var(--text-inverse);
     border-radius: 0.5rem;
     font-weight: 500;
@@ -151,113 +171,82 @@ $message-appearance-variants: (
     outline-style: solid;
     line-height: normal;
 
-    div.content-wrapper {
+    &__content-wrapper {
         max-width: 100%;
         min-height: 0;
-
-        div.content {
-            display: flex;
-            align-items: center;
-            gap: calc(var(--spacing) * 2);
-        }
     }
 
-    .icon {
+    &__content {
+        display: flex;
+        align-items: center;
+        gap: calc(var(--spacing) * 2);
+        padding: var(--message-padding-y) var(--message-padding-x);
+    }
+
+    &__text {
+        font-size: var(--message-font-size);
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+
         svg {
+            display: block;
             width: 100%;
             height: 100%;
-            /* опционально, убирает лишние отступы */
-            display: block;
         }
     }
 
-    &--sm {
-        div.content {
-            padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2.5);
-
-            div.text {
-                font-size: 0.875rem;
-            }
-        }
+    // Модификаторы размера (формат: --size-*)
+    &--size-sm {
+        --message-padding-y: calc(var(--spacing) * 1.5);
+        --message-padding-x: calc(var(--spacing) * 2.5);
+        --message-font-size: 0.875rem;
     }
 
-    &--md {
-        div.content {
-            padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
-
-            div.text {
-                font-size: 1rem;
-            }
-        }
-    }
-
-    &--lg {
-        div.content {
-            padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 3.5);
-
-            div.text {
-                font-size: 1.125rem;
-            }
-        }
-    }
-
-    &--secondary {
-        background-color: var(--surface-200);
-        outline-color: var(--surface-400);
+    &--size-lg {
+        --message-padding-y: calc(var(--spacing) * 2.5);
+        --message-padding-x: calc(var(--spacing) * 3.5);
+        --message-font-size: 1.125rem;
     }
 
     @each $name, $color in $message-variants {
-        &--#{$name} {
+        &--severity-#{$name} {
             color: $color;
             background-color: color-mix(in srgb, $color, transparent 90%);
             outline-color: color-mix(in srgb, $color, transparent 75%);
         }
     }
 
-    &.message--outlined,
-    &.message--simple {
+    &--variant-outlined,
+    &--variant-simple {
         background: transparent;
 
         // Генерация цветов и hover фона для основных вариантов
         @each $name, $color in $message-variants {
-            &.message--#{$name} {
+            &--severity-#{$name} {
                 color: $color;
                 outline-color: $color;
             }
         }
-
-        &.message--simple {
-            outline-color: transparent;
-        }
-
-        // Secondary variant (использует другие переменные для hover)
-        &.message--secondary {
-            color: var(--surface-500);
-            background-color: transparent;
-        }
     }
 
-    &--simple {
-        div.content {
-            padding: 0;
-        }
+    &--variant-simple {
+        --message-padding-y: 0;
+        --message-padding-x: 0;
+        outline-color: transparent;
     }
 
-    &--secondary {
+    &--severity-secondary {
         color: var(--text-primary);
+        background-color: var(--surface-200);
+        outline-color: var(--surface-400);
     }
-}
 
-.mode-dark {
-    .message {
-        &--secondary {
-            background-color: var(--surface-800);
-            outline-color: var(--surface-600);
-
-            &--simple {
-                outline-color: transparent
-            }
-        }
+    &--severity-secondary#{&}--variant-simple {
+        background: transparent;
+        outline-color: transparent;
     }
 }
 </style>

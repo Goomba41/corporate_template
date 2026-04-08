@@ -81,8 +81,6 @@ import { onClickOutside, tryOnUnmounted } from '@vueuse/core';
 
 import type { HintedString } from '~/types/hinted-string';
 
-import { appBEM } from '~/lib/bem';
-
 const isClient = import.meta.client;
 
 // Arrow metrics (вынесены в константы для переиспользования)

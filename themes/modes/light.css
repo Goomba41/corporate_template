@@ -2,7 +2,7 @@
     /* Цвета режима - светлый */
     --bg-primary: var(--surface-0);
     --bg-secondary: var(--surface-50);
-    --bg-tertiary: var(--surface-0);
+    --bg-tertiary: var(--surface-200);
 
     --text-primary: var(--surface-800);
     --text-secondary: var(--surface-500);

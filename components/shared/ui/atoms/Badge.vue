@@ -2,7 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
 import { computed } from 'vue'
 
 interface Props {
@@ -18,23 +17,15 @@ const props = withDefaults(defineProps<Props>(), {
     size: 'md',
 })
 
-const badgeClasses = computed(() => ({
-    'badge': true,
-    'badge--primary': props.severity === 'primary',
-    'badge--secondary': props.severity === 'secondary',
-    'badge--success': props.severity === 'success',
-    'badge--danger': ['danger', 'error'].includes(props.severity),
-    'badge--info': props.severity === 'info',
-    'badge--warning': props.severity === 'warning',
-    'badge--help': props.severity === 'help',
+const bem = appBEM('badge')
 
-    'badge--sm': props.size === 'sm',
-    'badge--md': props.size === 'md',
-    'badge--lg': props.size === 'lg',
-    'badge--xl': props.size === 'xl',
-
-    'badge--circle': props.circle && props.value.length < 2,
+const badgeClasses = computed(() => bem({
+    severity: props.severity,
+    size: props.size,
+    circle: props.circle || props.value.length < 2,
 }))
+
+console.log(badgeClasses.value, props.circle && props.value.length < 2,)
 </script>
 
 <template>
@@ -59,7 +50,7 @@ $message-variants: (
     primary: var(--primary-600),
 );
 
-.badge {
+.hh-badge {
     display: inline-flex;
     border-radius: 0.5rem;
     align-items: center;
@@ -70,19 +61,19 @@ $message-variants: (
     height: 1.5rem;
     padding: 0 0.5rem;
 
-    &--sm {
+    &--size-sm {
         font-size: 0.625rem;
         min-width: 1.25rem;
         height: 1.25rem;
     }
 
-    &--lg {
+    &--size-lg {
         font-size: 0.875rem;
         min-width: 1.75rem;
         height: 1.75rem;
     }
 
-    &--xl {
+    &--size-xl {
         font-size: 1rem;
         min-width: 2rem;
         height: 2rem;
@@ -93,13 +84,13 @@ $message-variants: (
         border-radius: 50%;
     }
 
-    &.badge--secondary {
-        background-color: var(--surface-200);
-        outline-color: var(--surface-400);
+    &--severity-secondary {
+            background-color: var(--bg-tertiary);
+            outline-color: var(--text-primary);
     }
 
     @each $name, $color in $message-variants {
-        &.badge--#{$name} {
+        &--severity-#{$name} {
             color: var(--text-inverse);
             background-color: $color;
         }

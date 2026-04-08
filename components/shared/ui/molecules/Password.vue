@@ -2,17 +2,15 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 import type { AtomInputText, AtomPopover } from '#components';
 import { useFocus, useActiveElement, refDebounced } from '@vueuse/core';
 
+import { PasswordStrengthScore } from '~/core/domain/types/password';
+
 import type { PopoverExposed } from '../atoms/Popover.vue';
 
-import { PasswordStrengthScore } from '~/core/domain/types/password';
 import type { InputProps } from '~/types/input-props';
 import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
-
 /**
  * Молекула: Поле ввода пароля
  * 
@@ -79,11 +77,13 @@ defineSlots<{
     clearIcon?(): unknown;
 }>();
 
+
+const bem = appBEM('input-password')
+
 const passwordClasses = computed(() => ([
-    'input-password',
-    {
-        'input-password--has-actions': props.toggleMask || props.showClear,
-    }
+    bem({
+        'has-actions': props.toggleMask || props.showClear,
+    }),
 ]))
 
 /** Локальное состояние видимости пароля (текст/точки) */
@@ -119,7 +119,6 @@ watch(() => props.loading, async (newValue, oldValue) => {
     if (!oldValue && newValue) isVisible.value = false
 }, { flush: 'post' })
 // #endregion
-
 
 // #region 🔽 Управление popover
 /** Ref на обёртку инпута — используется как якорь (цель) для позиционирования поповера */
@@ -213,7 +212,7 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
 
 <template>
     <div
-        class="input-password__wrapper"
+        :class="bem('wrapper')"
         ref="inputWrapper"
     >
         <div
@@ -241,9 +240,7 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
             <Transition name="fade">
                 <div
                     v-if="showClear && model?.length && !disabled && !loading"
-                    :class="[
-                        'input-password__clear',
-                    ]"
+                    :class="bem('clear')"
                     @click="model = ''"
                 >
                     <slot name="clearIcon">
@@ -254,12 +251,9 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
 
             <div
                 v-if="toggleMask && !disabled && !loading"
-                :class="[
-                    'input-password__toggle',
-                    {
-                        'input-password__toggle--password-visible': isVisible
-                    }
-                ]"
+                :class="bem('toggle', {
+                    'password-visible': isVisible
+                })"
                 @click="isVisible = !isVisible"
             >
                 <slot
@@ -280,6 +274,7 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
                 ref="strengthPopover"
                 :triggerer="inputWrapper"
                 v-model:open="debouncedValidationOpener"
+                :dismissable="false"
             >
                 <slot name="header" />
                 <slot name="content">
@@ -295,9 +290,9 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
                                     '--pb-fill-bg': stregthColorMap[validationState.score]
                                 }
                             ]"
-                            :class="['mb-2', 'w-full', {
-                                'password-progress--gold': validationState.score === maxPasswordScore
-                            }]"
+                            :class="['mb-2', 'w-full', bem('password-progress', {
+                                'gold': validationState.score === maxPasswordScore
+                            })]"
                             :value="validationState.score"
                             :max="maxPasswordScore"
                             :show-value="false"
@@ -327,10 +322,10 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
     opacity: 0;
 }
 
-.password-progress--gold {
+.hh-input-password__password-progress--gold {
     box-shadow: 0 0 6px #D4AF37, 0 0 12px #F9E07F;
 
-    :deep(.progress-bar__value) {
+    :deep(.hh-progress-bar__value) {
         &::after {
             content: '';
             position: absolute;
@@ -355,12 +350,12 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
     }
 }
 
-.input-password__wrapper {
+.hh-input-password__wrapper {
     display: flex;
     position: relative;
     border-radius: 0.5rem;
 
-    .input-password {
+    .hh-input-password {
         width: 100%;
 
         &--has-actions :deep(input) {

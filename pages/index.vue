@@ -4,6 +4,10 @@
 >
 import { PolicyRule, PasswordStrengthScore } from '~/core/domain/types/password';
 
+definePageMeta({
+  layout: 'dashboard'
+})
+
 const {
   colorSurface,
   colorTheme,
@@ -1218,7 +1222,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <div class="flex flex-col gap-4 items-center">
-      <h2>Popover</h2>
+      <h2>Badge</h2>
 
       <AtomCard class="w-full">
         <template #title>Declarative control</template>
@@ -1229,9 +1233,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
               :label="visiblePopoverFirst ? 'Hide Popover (dismissable)' : 'Show Popover (dismissable)'"
               @click="visiblePopoverFirst = !visiblePopoverFirst"
             />
-            <AtomPopover
-              v-model:open="visiblePopoverFirst"
-              >
+            <AtomPopover v-model:open="visiblePopoverFirst">
               <!-- :triggerer="popoverBtnFirst" -->
               <div class="">
                 <p>This is a popover content.</p>
@@ -1268,9 +1270,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
               label="Toggle popover (dismissable)"
               @click="toggleFirst"
             />
-            <AtomPopover
-              ref="imperativePopoverFirst"
-            >
+            <AtomPopover ref="imperativePopoverFirst">
               <div class="">
                 <p>This is a popover content.</p>
                 <p>You can put any content here, including forms, buttons, etc.</p>
@@ -1296,7 +1296,10 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
         </template>
       </AtomCard>
 
-      <AtomCard class="w-full" ref="popoverCardAppendHTML">
+      <AtomCard
+        class="w-full"
+        ref="popoverCardAppendHTML"
+      >
         <template #title>Append to</template>
         <template #content>
           <div class="mt-5 flex justify-center gap-4">
@@ -1347,6 +1350,79 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
                 <p>You can put any content here, including forms, buttons, etc.</p>
               </div>
             </AtomPopover>
+          </div>
+        </template>
+      </AtomCard>
+    </div>
+
+    <div class="flex flex-col gap-4 items-center">
+      <h2>Popover</h2>
+
+      <AtomCard class="w-full">
+        <template #title>Basic</template>
+        <template #content>
+          <div class="mt-5 flex justify-center gap-4">
+            <AtomBadge value="2" />
+            <AtomBadge value="10" />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Severity</template>
+        <template #content>
+          <div class="mt-5 flex justify-center gap-4">
+            <AtomBadge value="2" />
+            <AtomBadge
+              value="6"
+              severity="secondary"
+            />
+            <AtomBadge
+              value="8"
+              severity="success"
+            />
+            <AtomBadge
+              value="4"
+              severity="info"
+            />
+            <AtomBadge
+              value="9"
+              severity="warning"
+            />
+            <AtomBadge
+              value="3"
+              severity="danger"
+            />
+            <AtomBadge
+              value="5"
+              severity="help"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Size</template>
+        <template #content>
+          <div class="mt-5 flex justify-center items-center gap-4">
+            <AtomBadge
+              value="8"
+              size="xl"
+              severity="success"
+            />
+            <AtomBadge
+              value="6"
+              size="lg"
+              severity="warning"
+            />
+            <AtomBadge
+              value="4"
+              severity="info"
+            />
+            <AtomBadge
+              value="2"
+              size="sm"
+            />
           </div>
         </template>
       </AtomCard>

@@ -2,8 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 /**
  * @file InputGroup.vue
  * @description Компонент группировки элементов ввода.
@@ -22,10 +20,12 @@ defineOptions({
 defineSlots<{
     default(): any;
 }>();
+
+const bem = appBEM('input-group');
 </script>
 
 <template>
-    <div class="input-group">
+    <div :class="bem.toString()">
         <slot />
     </div>
 </template>
@@ -34,7 +34,7 @@ defineSlots<{
     scoped
     lang="scss"
 >
-.input-group {
+.hh-input-group {
     display: inline-flex;
     align-items: stretch;
 

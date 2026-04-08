@@ -10,19 +10,19 @@
             :progress="normalizedValue"
             :value="value"
         >
-            <div class="progress-bar__track">
+            <div :class="bem('track')">
                 <!-- 
                   Заполнение: визуальная часть прогресса.
                   Ширина задаётся через inline-стиль для динамического обновления.
                   В indeterminate-режиме width не задаётся (управляется через CSS-анимацию).
                 -->
                 <div
-                    class="progress-bar__value"
+                    :class="bem('value')"
                     :style="{ 'width': mode === 'determinate' ? currentProgress : undefined }"
                 >
                     <div
                         v-if="mode === 'determinate' && (showValue || $slots.default !== undefined)"
-                        class="progress-bar__label"
+                        :class="bem('label')"
                     >
                         <!-- 
                           Fallback-контент: если слот не передан, показываем вычисленное значение в %.
@@ -44,8 +44,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
-
 /**
  * Атом: Индикатор прогресса
  * 
@@ -84,7 +82,6 @@
  * @slot custom - Полная замена визуала. Получает: { progress: number, value: number | null, max: number }
  * @slot default - Кастомный контент внутри текстовой метки (проценты, иконки)
  */
-
 /**
 * Интерфейс пропсов компонента
 */
@@ -156,6 +153,8 @@ const props = defineProps({
     }
 })
 
+const bem = appBEM('progress-bar')
+
 /**
  * Вычисляет классы для корневого элемента по БЭМ.
  * 
@@ -165,11 +164,11 @@ const props = defineProps({
  * 
  * @returns Array<string> - Массив CSS-классов
  */
-const progressClasses = computed(() => ([
-    'progress-bar',
-    `progress-bar--${props.mode}`
-]))
-
+const progressClasses = computed(() =>
+    bem({
+        mode: props.mode
+    })
+)
 /**
  * Вычисляет ширину заполнения в процентах для inline-стиля.
  * 
@@ -224,7 +223,7 @@ const normalizedValue = computed(() => {
  * --pb-fill-bg    — цвет заполнения (по умолчанию: var(--primary-500))
  */
 
-.progress-bar {
+.hh-progress-bar {
     --pb-fill-bg: var(--primary-500);
     height: 1.25rem;
     border-radius: 0.5rem;
@@ -238,7 +237,7 @@ const normalizedValue = computed(() => {
         height: 100%;
     }
 
-    &--determinate &__value {
+    &--mode-determinate &__value {
         height: 100%;
         width: 0%;
         position: absolute;
@@ -251,11 +250,11 @@ const normalizedValue = computed(() => {
     }
 
 
-    &--determinate &__label {
+    &--mode-determinate &__label {
         display: inline-flex;
     }
 
-    &--indeterminate &__value {
+    &--mode-indeterminate &__value {
         position: absolute;
         top: 0;
         left: 0;
