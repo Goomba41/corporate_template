@@ -22,7 +22,7 @@ const bem = appBEM('input-group-addon')
     justify-content: center;
     padding: 0.5rem;
     border-color: var(--border-secondary);
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     color: var(--surface-400);
     border-block-start: 1px solid var(--border-secondary);
     border-block-end: 1px solid var(--border-secondary);
@@ -58,5 +58,9 @@ const bem = appBEM('input-group-addon')
         border-end-end-radius: 0.5rem;
         border-inline-end: 1px solid var(--border-secondary);
     }
+}
+
+.mode-dark .hh-input-group-addon {
+    background: var(--bg-secondary);
 }
 </style>
