@@ -90,7 +90,6 @@ export default defineNuxtConfig({
   unocss: {
     preflight: true,
     icons: true,
-    typography: true,
   },
 
   css: [

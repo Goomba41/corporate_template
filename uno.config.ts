@@ -19,6 +19,19 @@ export default defineConfig({
     ['flex-col-center', 'flex flex-col items-center justify-center', { layer: 'utilities' }],
   ],
 
+  preflights: [
+    {
+      getCSS: () => `
+        h1 { font-size: 1.75rem; font-weight: 700; }
+        h2 { font-size: 1.5rem; font-weight: 600; }
+        h3 { font-size: 1.25rem; font-weight: 600; }
+        h4 { font-size: 1rem; font-weight: 500; }
+        h5 { font-size: 0.75rem; font-weight: 500; }
+        h6 { font-size: 0.5rem; font-weight: 500; }
+      `
+    }
+  ],
+
   theme: {
     colors: {
       primary: {

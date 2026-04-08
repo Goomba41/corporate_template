@@ -32,41 +32,36 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 700;
-    line-height: 1.2;
+    color: var(--text-primary);
+    font-family: inherit;
+    line-height: 1.25;
+    margin-block: 1.5rem 0.75rem;
+    margin-inline: 0;
+    text-wrap: balance; /* современное выравнивание переносов */
+}
+
+h1 {
+    letter-spacing: -0.025em;
+}
+
+h2 {
+    letter-spacing: -0.015em;
+}
+
+h4 {
+    line-height: 1.35;
+}
+
+h5 {
+    line-height: 1.4;
+}
+
+h6 {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
 }
 
 p {
     margin-bottom: 1rem;
-}
-
-/* Ссылки */
-a {
-    color: var(--primary-600);
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-a:hover {
-    color: var(--primary-700);
-}
-
-/* Формы */
-input,
-textarea,
-select {
-    font-family: inherit;
-}
-
-/* Утилиты */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
 }
