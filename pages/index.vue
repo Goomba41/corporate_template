@@ -132,6 +132,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
 
 <template>
   <div class="demo-grid grid grid-cols-3 gap-2 items-start p-6">
+    <!-- TODO: навести красоту -->
     <!-- Кнопки -->
     <div class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 flex-wrap">
@@ -485,7 +486,6 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
           severity="danger"
           variant="text"
           rounded
-          @click="showMessage"
         >
           <template #icon>
             <IconFinnTheHumanDuotone />
@@ -493,7 +493,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
         </AtomButton>
       </div>
     </div>
-
+    <!-- TODO: навести красоту -->
     <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 items-center w-full">
@@ -743,279 +743,356 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
 
     <!-- Сообщения -->
     <div class="flex flex-col gap-2 items-center">
-      <AtomMessage>{{ $t('placeholder') }}</AtomMessage>
+      <AtomCard class="w-full">
+        <template #title>Simple message</template>
+        <template #content>
+          <AtomMessage>{{ $t('placeholder') }}</AtomMessage>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-2 items-center">
-        <AtomMessage size="sm">Small</AtomMessage>
-        <AtomMessage size="md">Medium</AtomMessage>
-        <AtomMessage size="lg">Large</AtomMessage>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Sizes</template>
+        <template #content>
+          <div class="flex gap-2 items-center">
+            <AtomMessage size="sm">Small</AtomMessage>
+            <AtomMessage size="md">Medium</AtomMessage>
+            <AtomMessage size="lg">Large</AtomMessage>
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex flex-wrap gap-2 items-center">
-        <AtomMessage severity="primary">{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage severity="secondary">{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage severity="success">{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage severity="info">{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage severity="warning">{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage severity="help">{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage severity="danger">{{ $t('placeholder') }}</AtomMessage>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Variants</template>
+        <template #content>
+          <div class="grid grid-cols-2 gap-2 items-center">
+            <AtomMessage severity="primary">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage severity="secondary">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage severity="success">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage severity="info">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage severity="warning">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage severity="help">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage
+              severity="danger"
+              class="col-span-2"
+            >{{ $t('placeholder') }}</AtomMessage>
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-2 items-center">
-        <AtomMessage
-          severity="primary"
-          variant="outlined"
-        >{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage
-          severity="secondary"
-          variant="outlined"
-        >{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage
-          severity="success"
-          variant="outlined"
-        >{{ $t('placeholder') }}</AtomMessage>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Variants: outlined</template>
+        <template #content>
+          <div class="flex gap-2 items-center">
+            <AtomMessage
+              severity="primary"
+              variant="outlined"
+            >{{ $t('placeholder') }}</AtomMessage>
+            <!-- TODO: поправить secondary outline -->
+            <AtomMessage
+              severity="secondary"
+              variant="outlined"
+            >{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage
+              severity="success"
+              variant="outlined"
+            >{{ $t('placeholder') }}</AtomMessage>
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-6 items-center">
-        <AtomMessage
-          severity="primary"
-          variant="simple"
-        >{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage
-          severity="secondary"
-          variant="simple"
-          size="sm"
-        >{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage
-          severity="success"
-          variant="simple"
-        >{{ $t('placeholder') }}</AtomMessage>
-        <AtomMessage
-          severity="error"
-          variant="simple"
-          size="lg"
-        >{{ $t('placeholder') }}</AtomMessage>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Variants: text</template>
+        <template #content>
+          <div class="flex gap-6 items-center">
+            <AtomMessage
+              severity="primary"
+              variant="simple"
+            >{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage
+              severity="secondary"
+              variant="simple"
+              size="sm"
+            >{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage
+              severity="success"
+              variant="simple"
+            >{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage
+              severity="error"
+              variant="simple"
+              size="lg"
+            >{{ $t('placeholder') }}</AtomMessage>
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-2 items-center">
-        <AtomMessage severity="success">
-          <template #icon>
-            <IconFinnTheHumanDuotone
-              width="1.25rem"
-              height="1.25rem"
+      <AtomCard class="w-full">
+        <template #title>Icons</template>
+        <template #content>
+          <div class="flex gap-2 items-center">
+            <AtomMessage severity="success">
+              <template #icon>
+                <IconFinnTheHumanDuotone
+                  width="1.25rem"
+                  height="1.25rem"
+                />
+              </template>
+              {{ $t('placeholder') }}
+            </AtomMessage>
+            <AtomMessage severity="info">
+              <template #icon>
+                <IconFinnTheHumanDuotone
+                  width="3rem"
+                  height="3rem"
+                />
+              </template>
+              {{ $t('placeholder') }}
+            </AtomMessage>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Show animations</template>
+        <template #content>
+          <div class="flex gap-2 items-center">
+            <AtomButton
+              label="Show message"
+              @click="showMessage"
             />
-          </template>
-          {{ $t('placeholder') }}
-        </AtomMessage>
-        <AtomMessage severity="info">
-          <template #icon>
-            <IconFinnTheHumanDuotone
-              width="3rem"
-              height="3rem"
-            />
-          </template>
-          {{ $t('placeholder') }}
-        </AtomMessage>
-      </div>
 
-      <div class="flex gap-2 items-center">
-        <AtomMessage
-          severity="info"
-          appearance="right"
-          :life="5000"
-          v-model:visible="visible"
-          @life-end="hideMessage"
-        >
-          {{ $t('placeholder') }}
-        </AtomMessage>
+            <AtomMessage
+              severity="info"
+              appearance="right"
+              :life="5000"
+              v-model:visible="visible"
+              @life-end="hideMessage"
+            >
+              {{ $t('placeholder') }}
+            </AtomMessage>
 
-        <AtomMessage
-          severity="info"
-          appearance="top-bottom"
-          :life="5000"
-          v-model:visible="visible"
-          @life-end="hideMessage"
-        >
-          {{ $t('placeholder') }}
-        </AtomMessage>
-      </div>
-
+            <AtomMessage
+              severity="info"
+              appearance="top-bottom"
+              :life="5000"
+              v-model:visible="visible"
+              @life-end="hideMessage"
+            >
+              {{ $t('placeholder') }}
+            </AtomMessage>
+          </div>
+        </template>
+      </AtomCard>
     </div>
 
     <!-- Скелетоны -->
-    <div class="grid grid-cols-2 gap-2 items-center">
-      <div class="flex flex-col gap-2">
-        <h5>Rectangle</h5>
-        <AtomSkeleton animation="wave"></AtomSkeleton>
-        <AtomSkeleton
-          width="10rem"
-          animation="wave"
-        ></AtomSkeleton>
-        <AtomSkeleton
-          width="5rem"
-          animation="wave"
-        ></AtomSkeleton>
-        <AtomSkeleton height="2rem"></AtomSkeleton>
-        <AtomSkeleton
-          width="10rem"
-          height="4rem"
-          animation="pulse"
-        ></AtomSkeleton>
-      </div>
+    <div class="flex flex-col col-span-2 gap-4 items-center">
+      <h2>Skeletons</h2>
 
-      <div class="flex flex-col gap-2">
-        <h5>Rounded</h5>
-        <AtomSkeleton borderRadius="16px"></AtomSkeleton>
-        <AtomSkeleton
-          width="10rem"
-          borderRadius="16px"
-        ></AtomSkeleton>
-        <AtomSkeleton
-          width="5rem"
-          borderRadius="16px"
-        ></AtomSkeleton>
-        <AtomSkeleton
-          height="2rem"
-          borderRadius="16px"
-        ></AtomSkeleton>
-        <AtomSkeleton
-          width="10rem"
-          height="4rem"
-          borderRadius="16px"
-        ></AtomSkeleton>
-      </div>
+      <div class="grid grid-cols-4 gap-4 w-full">
+        <AtomCard>
+          <template #title>Rectangle</template>
+          <template #content>
+            <div class="flex flex-col gap-2">
+              <AtomSkeleton animation="wave"></AtomSkeleton>
+              <AtomSkeleton
+                width="10rem"
+                animation="wave"
+              ></AtomSkeleton>
+              <AtomSkeleton
+                width="5rem"
+                animation="wave"
+              ></AtomSkeleton>
+              <AtomSkeleton height="2rem"></AtomSkeleton>
+              <AtomSkeleton
+                width="10rem"
+                height="4rem"
+                animation="pulse"
+              ></AtomSkeleton>
+            </div>
+          </template>
+        </AtomCard>
 
-      <div class="flex flex-col gap-2">
-        <h5>Square</h5>
-        <div class="flex gap-2 items-center">
-          <AtomSkeleton size="2rem"></AtomSkeleton>
-          <AtomSkeleton size="3rem"></AtomSkeleton>
-          <AtomSkeleton size="4rem"></AtomSkeleton>
-          <AtomSkeleton size="5rem"></AtomSkeleton>
-        </div>
-      </div>
+        <AtomCard>
+          <template #title>Rounded</template>
+          <template #content>
+            <div class="flex flex-col gap-2">
+              <AtomSkeleton borderRadius="16px"></AtomSkeleton>
+              <AtomSkeleton
+                width="10rem"
+                borderRadius="16px"
+              ></AtomSkeleton>
+              <AtomSkeleton
+                width="5rem"
+                borderRadius="16px"
+              ></AtomSkeleton>
+              <AtomSkeleton
+                height="2rem"
+                borderRadius="16px"
+              ></AtomSkeleton>
+              <AtomSkeleton
+                width="10rem"
+                height="4rem"
+                borderRadius="16px"
+              ></AtomSkeleton>
+            </div>
+          </template>
+        </AtomCard>
 
-      <div class="flex flex-col gap-2">
-        <h5>Circle</h5>
-        <div class="flex gap-2 items-center">
-          <AtomSkeleton
-            shape="circle"
-            size="2rem"
-          ></AtomSkeleton>
-          <AtomSkeleton
-            shape="circle"
-            size="3rem"
-          ></AtomSkeleton>
-          <AtomSkeleton
-            shape="circle"
-            size="4rem"
-          ></AtomSkeleton>
-          <AtomSkeleton
-            shape="circle"
-            size="5rem"
-          ></AtomSkeleton>
-        </div>
+        <AtomCard>
+          <template #title>Rounded</template>
+          <template #content>
+            <div class="flex flex-col gap-2">
+              <h5>Square</h5>
+              <div class="flex gap-2 items-center">
+                <AtomSkeleton size="2rem"></AtomSkeleton>
+                <AtomSkeleton size="3rem"></AtomSkeleton>
+                <AtomSkeleton size="4rem"></AtomSkeleton>
+                <AtomSkeleton size="5rem"></AtomSkeleton>
+              </div>
+            </div>
+          </template>
+        </AtomCard>
+
+        <AtomCard>
+          <template #title>Rounded</template>
+          <template #content>
+            <div class="flex flex-col gap-2 justify-center items-center">
+              <div class="flex gap-2 items-center">
+                <AtomSkeleton
+                  shape="circle"
+                  size="2rem"
+                ></AtomSkeleton>
+                <AtomSkeleton
+                  shape="circle"
+                  size="3rem"
+                ></AtomSkeleton>
+                <AtomSkeleton
+                  shape="circle"
+                  size="4rem"
+                ></AtomSkeleton>
+                <AtomSkeleton
+                  shape="circle"
+                  size="5rem"
+                ></AtomSkeleton>
+              </div>
+            </div>
+          </template>
+        </AtomCard>
+
+        <AtomCard class="col-span-2">
+          <template #title>Wave animation card</template>
+          <template #content>
+            <AtomCard>
+              <template #content>
+                <div class="flex mb-4">
+                  <AtomSkeleton
+                    shape="circle"
+                    size="4rem"
+                    class="mr-2"
+                  ></AtomSkeleton>
+                  <div>
+                    <AtomSkeleton
+                      width="10rem"
+                      class="mb-2"
+                    ></AtomSkeleton>
+                    <AtomSkeleton
+                      width="5rem"
+                      class="mb-2"
+                    ></AtomSkeleton>
+                    <AtomSkeleton height=".5rem"></AtomSkeleton>
+                  </div>
+                </div>
+                <AtomSkeleton
+                  width="100%"
+                  height="150px"
+                ></AtomSkeleton>
+                <div class="flex justify-between mt-4">
+                  <AtomSkeleton
+                    width="4rem"
+                    height="2rem"
+                  ></AtomSkeleton>
+                  <AtomSkeleton
+                    width="4rem"
+                    height="2rem"
+                  ></AtomSkeleton>
+                </div>
+              </template>
+            </AtomCard>
+          </template>
+        </AtomCard>
+
+        <AtomCard class="col-span-2">
+          <template #title>Pulse animation card</template>
+          <template #content>
+            <AtomCard>
+              <template #content>
+                <div class="flex mb-4">
+                  <AtomSkeleton
+                    shape="circle"
+                    animation="pulse"
+                    size="4rem"
+                    class="mr-2"
+                  ></AtomSkeleton>
+                  <div>
+                    <AtomSkeleton
+                      width="10rem"
+                      animation="pulse"
+                      class="mb-2"
+                    ></AtomSkeleton>
+                    <AtomSkeleton
+                      width="5rem"
+                      animation="pulse"
+                      class="mb-2"
+                    ></AtomSkeleton>
+                    <AtomSkeleton
+                      height=".5rem"
+                      animation="pulse"
+                    ></AtomSkeleton>
+                  </div>
+                </div>
+                <AtomSkeleton
+                  width="100%"
+                  height="150px"
+                  animation="pulse"
+                ></AtomSkeleton>
+                <div class="flex justify-between mt-4">
+                  <AtomSkeleton
+                    width="4rem"
+                    height="2rem"
+                    animation="pulse"
+                  ></AtomSkeleton>
+                  <AtomSkeleton
+                    width="4rem"
+                    height="2rem"
+                    animation="pulse"
+                  ></AtomSkeleton>
+                </div>
+              </template>
+            </AtomCard>
+          </template>
+        </AtomCard>
       </div>
     </div>
 
-    <!-- Пример карточки -->
-    <AtomCard>
-      <template #content>
-        <div class="flex mb-4">
-          <AtomSkeleton
-            shape="circle"
-            size="4rem"
-            class="mr-2"
-          ></AtomSkeleton>
-          <div>
-            <AtomSkeleton
-              width="10rem"
-              class="mb-2"
-            ></AtomSkeleton>
-            <AtomSkeleton
-              width="5rem"
-              class="mb-2"
-            ></AtomSkeleton>
-            <AtomSkeleton height=".5rem"></AtomSkeleton>
-          </div>
-        </div>
-        <AtomSkeleton
-          width="100%"
-          height="150px"
-        ></AtomSkeleton>
-        <div class="flex justify-between mt-4">
-          <AtomSkeleton
-            width="4rem"
-            height="2rem"
-          ></AtomSkeleton>
-          <AtomSkeleton
-            width="4rem"
-            height="2rem"
-          ></AtomSkeleton>
-        </div>
-      </template>
-    </AtomCard>
+    <!-- Карточки -->
+    <div class="flex flex-col gap-4 items-center">
+      <h2>Cards</h2>
 
-    <!-- Пример пульсирующей карточки -->
-    <AtomCard>
-      <template #content>
-        <div class="flex mb-4">
-          <AtomSkeleton
-            shape="circle"
-            animation="pulse"
-            size="4rem"
-            class="mr-2"
-          ></AtomSkeleton>
-          <div>
-            <AtomSkeleton
-              width="10rem"
-              animation="pulse"
-              class="mb-2"
-            ></AtomSkeleton>
-            <AtomSkeleton
-              width="5rem"
-              animation="pulse"
-              class="mb-2"
-            ></AtomSkeleton>
-            <AtomSkeleton
-              height=".5rem"
-              animation="pulse"
-            ></AtomSkeleton>
-          </div>
-        </div>
-        <AtomSkeleton
-          width="100%"
-          height="150px"
-          animation="pulse"
-        ></AtomSkeleton>
-        <div class="flex justify-between mt-4">
-          <AtomSkeleton
-            width="4rem"
-            height="2rem"
-            animation="pulse"
-          ></AtomSkeleton>
-          <AtomSkeleton
-            width="4rem"
-            height="2rem"
-            animation="pulse"
-          ></AtomSkeleton>
-        </div>
-      </template>
-    </AtomCard>
+      <AtomCard>
+        <template #title>Simple card</template>
+        <template #content>
+          <p class="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae
+            numquam
+            deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse,
+            cupiditate
+            neque
+            quas!
+          </p>
+        </template>
+      </AtomCard>
 
-    <AtomCard>
-      <template #title>{{ $t('placeholder') }}</template>
-      <template #content>
-        <p class="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
-          deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-          neque
-          quas!
-        </p>
-      </template>
-    </AtomCard>
-
-    <div class="flex flex-col items-center">
       <AtomCard style="width: 25rem; overflow: hidden">
         <template #header>
           <div class="w-full flex justify-center items-center">
@@ -1025,7 +1102,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
             />
           </div>
         </template>
-        <template #title>{{ $t('placeholder') }}</template>
+        <template #title>All feature card</template>
         <template #subtitle>{{ $t('placeholder') }}</template>
         <template #content>
           <p class="m-0">
@@ -1054,8 +1131,9 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
+    <!-- Пароли -->
     <div class="flex flex-col gap-4 items-center">
-      <h5>Passwords</h5>
+      <h2>Passwords</h2>
 
       <AtomCard class="w-full">
         <template #title>Disabled and loading states</template>
@@ -1144,6 +1222,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
+    <!-- Прогресс-трэкеры -->
     <div class="flex flex-col gap-4 items-center">
       <h2>Progress</h2>
 
@@ -1221,8 +1300,9 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
+    <!-- Popover -->
     <div class="flex flex-col gap-4 items-center">
-      <h2>Badge</h2>
+      <h2>Popover</h2>
 
       <AtomCard class="w-full">
         <template #title>Declarative control</template>
@@ -1355,8 +1435,9 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
+    <!-- Бэйджи -->
     <div class="flex flex-col gap-4 items-center">
-      <h2>Popover</h2>
+      <h2>Badge</h2>
 
       <AtomCard class="w-full">
         <template #title>Basic</template>
@@ -1427,8 +1508,26 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
         </template>
       </AtomCard>
     </div>
-  </div>
 
+    <!-- Типографика -->
+    <div class="flex flex-col gap-4 items-center">
+      <h2>Typographic</h2>
+
+      <AtomCard class="w-full">
+        <template #title>Basic</template>
+        <template #content>
+          <div class="mt-5 flex-col justify-center gap-4">
+            <h1>Title 1</h1>
+            <h2>Title 2</h2>
+            <h3>Title 3</h3>
+            <h4>Title 4</h4>
+            <h5>Title 5</h5>
+            <h6>Title 6</h6>
+          </div>
+        </template>
+      </AtomCard>
+    </div>
+  </div>
 
   <div class="flex items-center justify-center mb-6 gap-4">
     <button @click="cycleColorSurface">Поверхность: {{ colorSurface }}</button>
