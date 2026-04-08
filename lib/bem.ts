@@ -1,19 +1,68 @@
 import { bemConfig } from './bem.app.config'
 
+/**
+ * Допустимые значения для модификатора БЭМ:
+ * - `true` → добавит класс `block--modifier` (булевый модификатор)
+ * - `string` → добавит класс `block--modifier-value` (ключ-значение)
+ * - `false`/`null`/`undefined` → модификатор игнорируется
+ */
 type ModifierValue = boolean | string | null | undefined
+
+/**
+ * Словарь модификаторов: { [name]: value }
+ * @example
+ * { active: true, theme: 'dark', disabled: false }
+ * → ['--active', '--theme-dark']
+ */
 type Modifiers = Record<string, ModifierValue>
+
+/**
+ * Допустимые значения для классов в утилите `mix`:
+ * Поддерживает вложенные массивы, числа, пустые значения (фильтруются)
+ */
 type ClassValue = string | number | null | undefined | false | 0 | ClassArray
 type ClassArray = ClassValue[]
 
+/**
+ * Конфигурация генератора БЭМ-классов
+ */
 export interface BemConfig {
+    /** 
+     * Namespace проекта (префикс для всех блоков)
+     * @example 'hh-' → блок 'card' станет 'hh-card'
+     * @default ''
+     */
     ns?: string
+    /** 
+     * Разделитель блока и элемента
+     * @default '__' → 'block__element'
+     */
     e?: string
+    /** 
+     * Префикс модификатора
+     * @default '--' → 'block--modifier'
+     */
     m?: string
+    /** 
+     * Разделитель имени модификатора и его значения
+     * @default '-' → 'block--theme-dark'
+     */
     v?: string
+    /** 
+     * Префикс для state-модификаторов (утилита `is`/`state`)
+     * @default 'is-' → 'is-active'
+     */
     statePrefix?: string
+    /** 
+     * Префикс для has-модификаторов (утилита `has`)
+     * @default 'has-' → 'has-icon'
+     */
     hasPrefix?: string
 }
 
+/**
+ * Конфигурация по умолчанию (используется, если не передана своя)
+ */
 const DEFAULT_CONFIG: Required<BemConfig> = {
     ns: '',
     e: '__',
@@ -24,41 +73,159 @@ const DEFAULT_CONFIG: Required<BemConfig> = {
 }
 
 /**
- * Тип вызываемой BEM-функции с утилитами
+ * Тип основной BEM-функции с утилитами.
+ * 
+ * Функция полиморфна: в зависимости от аргументов работает в разных режимах.
+ * 
+ * @example
+ * const b = block('card')
+ * 
+ * // 1. Базовый класс блока
+ * b() // → 'card'
+ * 
+ * // 2. Класс элемента
+ * b('title') // → 'card__title'
+ * 
+ * // 3. Модификаторы блока
+ * b({ active: true, theme: 'dark' }) 
+ * // → 'card card--active card--theme-dark'
+ * 
+ * // 4. Модификаторы элемента
+ * b('btn', { disabled: true }) 
+ * // → 'card__btn card__btn--disabled'
+ * 
+ * // 5. Утилита mix для сторонних классов
+ * b.mix('mt-4', ['d-flex'], false) // → 'mt-4 d-flex'
+ * 
+ * // 6. State-утилиты
+ * b.is({ active: true, hidden: false }) // → 'is-active'
+ * b.has({ icon: true }) // → 'has-icon'
  */
 export interface BEMFunction {
+    /** Возвращает базовый класс блока (с учётом namespace) */
     (): string
+    /**
+     * Возвращает класс элемента с опциональными модификаторами
+     * @param element - имя элемента (без префикса)
+     * @param modifiers - объект модификаторов
+     */
     (element: string, modifiers?: Modifiers): string
+    /**
+     * Возвращает класс блока с модификаторами
+     * @param modifiers - объект модификаторов
+     */
     (modifiers: Modifiers): string
+    /**
+     * Утилита для объединения сторонних классов (утилиты, миксины)
+     * - Рекурсивно сплющивает вложенные массивы
+     * - Фильтрует ложные значения: `null`, `undefined`, `false`, `''`, `0`
+     * - Возвращает `undefined` если результат пустой (удобно для :class в Vue)
+     * 
+     * @param classes - произвольное количество классов или массивов классов
+     * @returns строка классов или `undefined`
+     * 
+     * @example
+     * b.mix('mt-4', ['p-2', 'd-flex'], isActive && 'active')
+     * // → 'mt-4 p-2 d-flex active' (если isActive=true)
+     */
     mix(...classes: ClassValue[]): string | undefined
+    /**
+     * Генерирует строку state-классов из объекта состояний
+     * @param states - объект { [name]: boolean }
+     * @param prefix - префикс классов (по умолчанию из конфига)
+     * @returns строка классов вида 'prefix-key1 prefix-key2'
+     * 
+     * @example
+     * state({ active: true, hidden: false }, 'is-') // → 'is-active'
+     */
     state(states: Record<string, boolean>, prefix?: string): string
+    /**
+     * Генерирует is-классы (состояния) с префиксом из конфига
+     * @param states - объект { [name]: boolean }
+     * @returns строка классов вида 'is-key1 is-key2'
+     * 
+     * @example
+     * is({ loading: true, error: false }) // → 'is-loading'
+     */
     is(states: Record<string, boolean>): string
+    /**
+     * Генерирует has-классы (признаки наличия) с префиксом из конфига
+     * @param states - объект { [name]: boolean }
+     * @returns строка классов вида 'has-key1 has-key2'
+     * 
+     * @example
+     * has({ icon: true, badge: false }) // → 'has-icon'
+     */
     has(states: Record<string, boolean>): string
 }
 
 /**
- * Создаёт привязанную к блоку BEM-функцию
+ * Создаёт привязанную к блоку BEM-функцию с кастомной конфигурацией.
+ * 
+ * @param block - имя базового блока (без namespace)
+ * @param config - опциональная конфигурация (переопределяет дефолтную)
+ * @returns BEMFunction — вызываемая функция с утилитами
+ * 
+ * @example
+ * // Базовое использование
+ * const b = block('card')
+ * b() // → 'card'
+ * 
+ * // С кастомным конфигом
+ * const b = block('btn', { m: '_', v: '_' })
+ * b({ theme: 'primary' }) // → 'btn btn_theme_primary'
+ * 
+ * // С namespace из проекта
+ * const b = block('modal', { ns: 'app-' })
+ * b() // → 'app-modal'
  */
 export function block(block: string, config: BemConfig = {}): BEMFunction {
+    // Объединяем конфиг: переданные параметры имеют приоритет над дефолтными
+    // Required<...> нужен, чтобы дальше не проверять каждый ключ на undefined
     const cfg = { ...DEFAULT_CONFIG, ...config }
+
+    // Формируем полное имя блока с учётом namespace проекта
+    // Например: ns='hh-', block='card' → fullBlock='hh-card'
     const fullBlock = `${cfg.ns}${block}`
 
+    /**
+     * Внутренняя функция сборки класса.
+     * Отвечает за конкатенацию: [namespace] + [block] + [element] + [модификаторы]
+     * 
+     * Ключевой момент: модификаторы формируются ОТ ПОЛНОГО ИМЕНИ (cls),
+     * чтобы получить валидный БЭМ-класс: 'block__el--mod', а не '--mod'.
+     */
     const build = (el?: string, mods?: Modifiers): string => {
+        // Начинаем с базового имени блока (уже с namespace)
         let cls = fullBlock
+
+        // Добавляем элемент, если указан
+        // Например: el='title' → cls='hh-card__title'
         if (el) cls += `${cfg.e}${el}`
+
+        // Обрабатываем модификаторы, если переданы
         if (mods) {
             const modClasses: string[] = []
 
             for (const [k, v] of Object.entries(mods)) {
+                // Пропускаем "пустые" значения: null, undefined, false
+                // Это позволяет условно добавлять модификаторы без ternary-операторов
                 if (v == null || v === false) continue
 
+                // Формируем класс модификатора
                 if (typeof v === 'string') {
+                    // Ключ-значение: '--theme-dark'
+                    // ❗ Важно: используем cls (блок/элемент) как префикс,
+                    // чтобы получить валидный БЭМ: 'block__el--key-value'
                     modClasses.push(`${cls}${cfg.m}${k}${cfg.v}${v}`)
                 } else if (v === true) {
+                    // Булевый модификатор: '--active'
                     modClasses.push(`${cls}${cfg.m}${k}`)
                 }
             }
 
+            // Добавляем все сформированные модификаторы к базовому классу через пробел
+            // Результат: 'hh-card__item hh-card__item--active hh-card__item--theme-dark'
             if (modClasses.length) {
                 cls += ` ${modClasses.join(' ')}`
             }
@@ -66,16 +233,38 @@ export function block(block: string, config: BemConfig = {}): BEMFunction {
         return cls
     }
 
-    // Вызываемая функция с перегрузками
+    /**
+     * Полиморфная функция-обёртка.
+     * Определяет режим работы по типу первого аргумента:
+     * - объект → считаем, что это модификаторы блока
+     * - строка → считаем, что это имя элемента
+     * 
+     * Приведение `as BEMFunction` нужно, чтобы TypeScript корректно
+     * отображал перегрузки в подсказках IDE.
+     */
     const fn = ((elOrMods?: string | Modifiers, mods?: Modifiers) => {
+        // Проверка: если первый аргумент — "чистый" объект (не массив, не null)
+        // Это эвристика для различия: block({ mod: true }) vs block('el', { mod: true })
         if (typeof elOrMods === 'object' && elOrMods !== null && !Array.isArray(elOrMods)) {
+            // Режим: только модификаторы блока
             return build(undefined, elOrMods)
         }
+        // Режим: элемент + опциональные модификаторы
         return build(elOrMods as string | undefined, mods)
     }) as BEMFunction
 
-    // Утилиты
+    /**
+     * Утилита mix: безопасное объединение сторонних классов.
+     * 
+     * Особенности:
+     * 1. Рекурсивно сплющивает массивы любой вложенности
+     * 2. Фильтрует "ложные" значения (null, undefined, false, '', 0)
+     * 3. Возвращает undefined вместо пустой строки — это важно для Vue,
+     *    потому что :class="undefined" не добавляет лишний пробел в атрибут
+     */
     fn.mix = (...classes: ClassValue[]) => {
+        // Рекурсивная функция для "сплющивания" вложенных массивов
+        // Используем reduce для накопления результата в новом массиве (иммутабельно)
         const flatten = (arr: any[]): any[] =>
             arr.reduce((acc, val) =>
                 Array.isArray(val) ? [...acc, ...flatten(val)] : [...acc, val], []
@@ -87,18 +276,54 @@ export function block(block: string, config: BemConfig = {}): BEMFunction {
             .trim() || undefined // возвращаем undefined вместо пустой строки
     }
 
+    /**
+     * Базовая утилита для генерации префиксных классов (state/has).
+     * 
+     * @param states - объект состояний { [key]: boolean }
+     * @param prefix - префикс для классов (по умолчанию из конфига)
+     * @returns строка классов, где ключи с значением true превращены в 'prefix+key'
+     */
     fn.state = (states, prefix = cfg.statePrefix) =>
         Object.entries(states).filter(([, v]) => v).map(([k]) => `${prefix}${k}`).join(' ')
 
+    /**
+     * Утилита is(): генерирует классы состояний с префиксом statePrefix.
+     * @example is({ active: true }) → 'is-active'
+     */
     fn.is = (states) => fn.state(states, cfg.statePrefix)
+    /**
+     * Утилита has(): генерирует классы признаков с префиксом hasPrefix.
+     * @example has({ icon: true }) → 'has-icon'
+     */
     fn.has = (states) => fn.state(states, cfg.hasPrefix)
+    /**
+     * Переопределяем toString, чтобы функция вела себя как строка
+     * при конкатенации или интерполяции.
+     * 
+     * @example
+     * const b = block('card')
+     * `${b}` → 'card'
+     * console.log(b) → 'card'
+     */
     fn.toString = () => fullBlock
 
     return fn
 }
 
 /**
- * appBEM — фабрика с предустановленным namespace проекта
- * appBEM('popover') → возвращает BEMFunction, привязанную к 'hh-popover'
+ * Фабрика BEM-функций с предустановленным namespace проекта.
+ * 
+ * Использует глобальный `bemConfig` из `bem.app.config`,
+ * поэтому все классы автоматически получают префикс проекта.
+ * 
+ * @param blockName - имя блока (без namespace)
+ * @returns BEMFunction, привязанная к блоку с префиксом проекта
+ * 
+ * @example
+ * // При bemConfig = { ns: 'hh-' }
+ * const b = appBEM('popover')
+ * b()              // → 'hh-popover'
+ * b('item')        // → 'hh-popover__item'
+ * b({ active: true }) // → 'hh-popover hh-popover--active'
  */
 export const appBEM = (blockName: string) => block(blockName, bemConfig)
