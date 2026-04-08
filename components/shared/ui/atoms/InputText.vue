@@ -108,8 +108,8 @@ const inputClasses = computed(() => ([
         font-size: 1rem;
 
         color: var(--text-primary);
-        background: var(--bg-primary);
-        border: 1px solid var(--surface-300);
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-secondary);
         border-radius: inherit;
         outline-color: transparent;
         appearance: none;
@@ -144,8 +144,8 @@ const inputClasses = computed(() => ([
         &--disabled,
         &:disabled {
             opacity: 1;
-            background-color: var(--surface-200);
-            color: var(--surface-500);
+            background-color: var(--border-primary);
+            color: var(--text-secondary);
             cursor: default;
         }
 

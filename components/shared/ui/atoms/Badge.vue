@@ -24,8 +24,6 @@ const badgeClasses = computed(() => bem({
     size: props.size,
     circle: props.circle || props.value.length < 2,
 }))
-
-console.log(badgeClasses.value, props.circle && props.value.length < 2,)
 </script>
 
 <template>
