@@ -2,7 +2,6 @@
     setup
     lang="ts"
 >
-// TODO: перевести на использование cn из lib/bem.ts
 import { computed } from 'vue'
 
 import type { InputProps as Props } from '~/types/input-props'

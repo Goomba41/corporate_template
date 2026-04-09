@@ -6,7 +6,7 @@ import { computed, useSlots } from 'vue'
 
 interface Props {
     severity?: 'primary' | 'secondary' | 'danger' | 'success' | 'info' | 'warning' | 'help'
-    variant?: "outlined" | "text"
+    variant?: "outlined" | "text" | "link"
     size?: 'sm' | 'md' | 'lg'
     loading?: boolean
     disabled?: boolean
@@ -250,7 +250,8 @@ $solid-variants: (
     }
 
     &--variant-outlined,
-    &--variant-text {
+    &--variant-text,
+    &--variant-link {
         background: transparent;
     }
 
@@ -258,9 +259,13 @@ $solid-variants: (
     @each $name, $color in $button-variants {
 
         &--variant-outlined#{&}--severity-#{$name},
-        &--variant-text#{&}--severity-#{$name} {
+        &--variant-text#{&}--severity-#{$name},
+        &--variant-link#{&}--severity-#{$name} {
             color: $color;
+        }
 
+        &--variant-outlined#{&}--severity-#{$name},
+        &--variant-text#{&}--severity-#{$name} {
             &:not(:disabled):hover {
                 @include button-outline-hover($color);
             }
@@ -269,6 +274,17 @@ $solid-variants: (
         &--variant-text#{&}--severity-#{$name} {
             &:not(:disabled):hover {
                 @include button-text-border-hover($color);
+            }
+        }
+
+        &--variant-link#{&}--severity-#{$name} {
+            &:not(:disabled):hover {
+                background: transparent;
+                border-color: transparent;
+                text-decoration: underline;
+                text-decoration-style: dashed;
+                text-underline-offset: 3px;
+                text-decoration-thickness: 1px;
             }
         }
     }
@@ -292,8 +308,13 @@ $solid-variants: (
     }
 
 
-    &--variant-text {
+    &--variant-text,
+    &--variant-link {
         border-color: transparent;
+    }
+
+    &--variant-link {
+        padding: 0;
     }
 
     // Генерация hover состояний для solid кнопок
