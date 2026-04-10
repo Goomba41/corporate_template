@@ -132,367 +132,415 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
 
 <template>
   <div class="demo-grid grid grid-cols-3 gap-2 items-start p-6">
-    <!-- TODO: навести красоту -->
+
     <!-- Кнопки -->
     <div class="flex flex-col gap-2 items-center">
-      <div class="flex gap-2 flex-wrap">
-        <AtomButton :label="$t('button.severities.primary')" />
-        <AtomButton
-          :label="$t('button.severities.secondary')"
-          severity="secondary"
-        />
-        <AtomButton
-          :label="$t('button.severities.success')"
-          severity="success"
-        />
-        <AtomButton
-          :label="$t('button.severities.info')"
-          severity="info"
-        />
-        <AtomButton
-          :label="$t('button.severities.warning')"
-          severity="warning"
-        />
-        <AtomButton
-          :label="$t('button.severities.help')"
-          severity="help"
-        />
-        <AtomButton
-          :label="$t('button.severities.danger')"
-          severity="danger"
-        />
-      </div>
-
-      <div class="flex gap-2 flex-wrap">
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          variant="outlined"
-        />
-        <AtomButton
-          :label="$t('button.severities.secondary')"
-          severity="secondary"
-          variant="outlined"
-        />
-        <AtomButton
-          :label="$t('button.severities.success')"
-          severity="success"
-          variant="outlined"
-        />
-        <AtomButton
-          :label="$t('button.severities.info')"
-          severity="info"
-          variant="outlined"
-        />
-        <AtomButton
-          :label="$t('button.severities.warning')"
-          severity="warning"
-          variant="outlined"
-        />
-        <AtomButton
-          :label="$t('button.severities.help')"
-          severity="help"
-          variant="outlined"
-        />
-        <AtomButton
-          :label="$t('button.severities.danger')"
-          severity="danger"
-          variant="outlined"
-        />
-      </div>
-
-      <div class="flex gap-2 flex-wrap">
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          variant="text"
-        />
-        <AtomButton
-          :label="$t('button.severities.secondary')"
-          severity="secondary"
-          variant="text"
-        />
-        <AtomButton
-          :label="$t('button.severities.success')"
-          severity="success"
-          variant="text"
-        />
-        <AtomButton
-          :label="$t('button.severities.info')"
-          severity="info"
-          variant="text"
-        />
-        <AtomButton
-          :label="$t('button.severities.warning')"
-          severity="warning"
-          variant="text"
-        />
-        <AtomButton
-          :label="$t('button.severities.help')"
-          severity="help"
-          variant="text"
-        />
-        <AtomButton
-          :label="$t('button.severities.danger')"
-          severity="danger"
-          variant="text"
-        />
-      </div>
-
-      <div class="flex gap-2 flex-wrap">
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          badge="5"
-          badge-severity="info"
-        />
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          :loading="loading"
-          badge="555"
-          badge-severity="info"
-        />
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          :loading="loading"
-          badge="5"
-          badge-severity="success"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          :loading="loading"
-          icon-pos="right"
-          badge="5"
-          badge-severity="help"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-      </div>
-
-      <div class="flex gap-2 flex-wrap">
-        <MoleculeButtonGroup>
-          <AtomButton :label="$t('button.severities.primary')">
-            <template #icon>
-              <IconFinnTheHumanDuotone />
-            </template>
-          </AtomButton>
-          <AtomButton
-            :label="$t('button.severities.primary')"
-            disabled
-          />
-          <AtomButton
-            :label="$t('button.severities.primary')"
-            :loading="loading"
-          />
-        </MoleculeButtonGroup>
-      </div>
-
-      <div class="flex gap-2">
-        <MoleculeButtonGroup>
-          <AtomButton
-            :label="$t('button.severities.primary')"
-            severity="success"
-          />
-          <AtomButton
-            :label="$t('button.severities.primary')"
-            variant="outlined"
-          />
-          <AtomButton
-            :label="$t('button.severities.primary')"
-            rounded
-          />
-        </MoleculeButtonGroup>
-      </div>
-
-      <div class="flex gap-2">
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          rounded
-        />
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          variant="outlined"
-          rounded
-        />
-        <AtomButton
-          :label="$t('button.severities.primary')"
-          variant="text"
-          rounded
-        />
-      </div>
-
-      <div class="flex gap-2 items-center">
-        <AtomButton
-          :label="$t('button.sizes.sm')"
-          size="sm"
-          @click="click"
-        />
-        <AtomButton
-          :label="$t('button.sizes.md')"
-          size="md"
-          @click="click"
-        />
-        <AtomButton
-          :label="$t('button.sizes.lg')"
-          size="lg"
-          @click="click"
-        />
-      </div>
-
-      <div class="flex gap-2 items-center">
-        <AtomButton
-          :label="$t('button.label.default')"
-          @click="click"
-          disabled
-        />
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          @click="load"
-        />
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          @click="load"
-        >
-          <template #loadingIcon>
-            <IconUiSpinnerResize
-              height="1.25em"
-              width="1.25em"
+      <AtomCard class="w-full">
+        <template #title>Basic variant with severities</template>
+        <template #content>
+          <div class="grid grid-cols-3 gap-2">
+            <AtomButton :label="$t('button.severities.primary')" />
+            <AtomButton
+              :label="$t('button.severities.secondary')"
+              severity="secondary"
             />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          size="sm"
-          @click="load"
-        />
-      </div>
+            <AtomButton
+              :label="$t('button.severities.success')"
+              severity="success"
+            />
+            <AtomButton
+              :label="$t('button.severities.info')"
+              severity="info"
+            />
+            <AtomButton
+              :label="$t('button.severities.warning')"
+              severity="warning"
+            />
+            <AtomButton
+              :label="$t('button.severities.help')"
+              severity="help"
+            />
+            <AtomButton
+              :label="$t('button.severities.danger')"
+              severity="danger"
+              class="col-span-3"
+            />
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-2 items-center">
-        <AtomButton
-          :loading="loading"
-          @click="load"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          @click="load"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          icon-pos="right"
-          @click="load"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Outlined variant with severities</template>
+        <template #content>
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              variant="outlined"
+            />
+            <AtomButton
+              :label="$t('button.severities.secondary')"
+              severity="secondary"
+              variant="outlined"
+            />
+            <AtomButton
+              :label="$t('button.severities.success')"
+              severity="success"
+              variant="outlined"
+            />
+            <AtomButton
+              :label="$t('button.severities.info')"
+              severity="info"
+              variant="outlined"
+            />
+            <AtomButton
+              :label="$t('button.severities.warning')"
+              severity="warning"
+              variant="outlined"
+            />
+            <AtomButton
+              :label="$t('button.severities.help')"
+              severity="help"
+              variant="outlined"
+            />
+            <AtomButton
+              :label="$t('button.severities.danger')"
+              severity="danger"
+              variant="outlined"
+              class="col-span-3"
+            />
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-2 items-center">
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          icon-pos="top"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :label="$t('button.label.default')"
-          :loading="loading"
-          icon-pos="bottom"
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Text variant with severities</template>
+        <template #content>
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              variant="text"
+            />
+            <AtomButton
+              :label="$t('button.severities.secondary')"
+              severity="secondary"
+              variant="text"
+            />
+            <AtomButton
+              :label="$t('button.severities.success')"
+              severity="success"
+              variant="text"
+            />
+            <AtomButton
+              :label="$t('button.severities.info')"
+              severity="info"
+              variant="text"
+            />
+            <AtomButton
+              :label="$t('button.severities.warning')"
+              severity="warning"
+              variant="text"
+            />
+            <AtomButton
+              :label="$t('button.severities.help')"
+              severity="help"
+              variant="text"
+            />
+            <AtomButton
+              :label="$t('button.severities.danger')"
+              severity="danger"
+              variant="text"
+              class="col-span-3"
+            />
+          </div>
+        </template>
+      </AtomCard>
 
-      <div class="flex gap-2 items-center">
-        <AtomButton
-          :loading="loading"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :loading="loading"
-          severity="secondary"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :loading="loading"
-          severity="success"
-          size="sm"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :loading="loading"
-          severity="info"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :loading="loading"
-          severity="warning"
-          size="lg"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :loading="loading"
-          severity="help"
-          variant="outlined"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-        <AtomButton
-          :loading="loading"
-          severity="danger"
-          variant="text"
-          rounded
-        >
-          <template #icon>
-            <IconFinnTheHumanDuotone />
-          </template>
-        </AtomButton>
-      </div>
+      <AtomCard class="w-full">
+        <template #title>Sizes</template>
+        <template #content>
+          <div class="flex mt-4 justify-center gap-2 items-center">
+            <AtomButton
+              :label="$t('button.sizes.sm')"
+              size="sm"
+              @click="click"
+            />
+            <AtomButton
+              :label="$t('button.sizes.md')"
+              size="md"
+              @click="click"
+            />
+            <AtomButton
+              :label="$t('button.sizes.lg')"
+              size="lg"
+              @click="click"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Rounded</template>
+        <template #content>
+          <div class="flex mt-4 justify-center items-center gap-2">
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              rounded
+            />
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              variant="outlined"
+              rounded
+            />
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              variant="text"
+              rounded
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Disabled and loading state (with custom icon)</template>
+        <template #content>
+          <div class="mt-4 flex gap-2 justify-center items-center">
+            <AtomButton
+              :label="$t('button.label.default')"
+              @click="click"
+              disabled
+            />
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              @click="load"
+            />
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              @click="load"
+            >
+              <template #loadingIcon>
+                <IconUiSpinnerResize
+                  height="1.25em"
+                  width="1.25em"
+                />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              size="sm"
+              @click="load"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Label with icon</template>
+        <template #content>
+          <div class="flex mt-4 gap-2 justify-center items-center">
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              icon-pos="right"
+              @click="load"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              icon-pos="top"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              icon-pos="bottom"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :label="$t('button.label.default')"
+              :loading="loading"
+              @click="load"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Only icon (with different variants and severities)</template>
+        <template #content>
+          <div class="flex mt-4 gap-2 justify-center items-center">
+            <AtomButton
+              :loading="loading"
+              @click="load"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              severity="secondary"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              severity="success"
+              size="sm"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              severity="info"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              severity="warning"
+              size="lg"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              severity="help"
+              variant="outlined"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :loading="loading"
+              severity="danger"
+              variant="text"
+              rounded
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Badge and icon (with loading state)</template>
+        <template #content>
+          <div class="flex mt-4 justify-center items-center gap-2 flex-wrap">
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              badge="5"
+              badge-severity="info"
+            />
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              :loading="loading"
+              badge="555"
+              badge-severity="info"
+            />
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              :loading="loading"
+              badge="5"
+              badge-severity="success"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+            <AtomButton
+              :label="$t('button.severities.primary')"
+              :loading="loading"
+              icon-pos="right"
+              badge="5"
+              badge-severity="help"
+            >
+              <template #icon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomButton>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Button groups</template>
+        <template #content>
+          <div class="flex mt-4 justify-center items-center gap-2">
+            <MoleculeButtonGroup>
+              <AtomButton :label="$t('button.severities.primary')">
+                <template #icon>
+                  <IconFinnTheHumanDuotone />
+                </template>
+              </AtomButton>
+              <AtomButton
+                :label="$t('button.severities.primary')"
+                disabled
+              />
+              <AtomButton
+                :label="$t('button.severities.primary')"
+                :loading="loading"
+              />
+            </MoleculeButtonGroup>
+            <MoleculeButtonGroup>
+              <AtomButton
+                :label="$t('button.severities.primary')"
+                severity="success"
+              />
+              <AtomButton
+                :label="$t('button.severities.primary')"
+                variant="outlined"
+              />
+              <AtomButton
+                :label="$t('button.severities.primary')"
+                rounded
+              />
+            </MoleculeButtonGroup>
+          </div>
+        </template>
+      </AtomCard>
     </div>
+
     <!-- TODO: навести красоту -->
     <!-- Поля ввода и формы -->
     <div class="flex flex-col gap-2 items-center">
