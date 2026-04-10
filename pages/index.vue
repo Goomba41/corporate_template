@@ -787,7 +787,6 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
               severity="primary"
               variant="outlined"
             >{{ $t('placeholder') }}</AtomMessage>
-            <!-- TODO: поправить secondary outline -->
             <AtomMessage
               severity="secondary"
               variant="outlined"

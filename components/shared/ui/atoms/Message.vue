@@ -244,8 +244,12 @@ $message-appearance-variants: (
         outline-color: var(--surface-400);
     }
 
+    &--severity-secondary#{&}--variant-outlined,
     &--severity-secondary#{&}--variant-simple {
         background: transparent;
+    }
+
+    &--severity-secondary#{&}--variant-simple {
         outline-color: transparent;
     }
 }
