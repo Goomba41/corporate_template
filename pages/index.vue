@@ -134,7 +134,8 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
   <div class="demo-grid grid grid-cols-3 gap-2 items-start p-6">
 
     <!-- Кнопки -->
-    <div class="flex flex-col gap-2 items-center">
+    <div class="flex flex-col gap-6 items-center">
+      <h2>Buttons</h2>
       <AtomCard class="w-full">
         <template #title>Basic variant with severities</template>
         <template #content>
@@ -541,256 +542,282 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
-    <!-- TODO: навести красоту -->
     <!-- Поля ввода и формы -->
-    <div class="flex flex-col gap-2 items-center">
-      <div class="flex gap-2 items-center w-full">
-        <AtomInputText
-          v-model="inputTextValue"
-          :variant="inputTextValue.length ? 'filled' : undefined"
-          :placeholder="$t('input-text.label.default')"
-          @update:modelValue="testModelEvent($event)"
-          @input-change="testInputChange"
-        />
-        Значение: {{ inputTextValue }}
-      </div>
+    <div class="flex flex-col gap-6 items-center">
+      <h2>Text inputs</h2>
 
-      <AtomInputText
-        fluid
-        :placeholder="$t('input-text.sizes.fluid')"
-      />
-
-      <div class="flex gap-2 items-center w-full">
-        <AtomInputText
-          class="w-1/3"
-          variant="filled"
-          :placeholder="$t('input-text.variants.filled')"
-        />
-        <AtomInputText
-          class="w-1/3"
-          disabled
-          :placeholder="$t('input-text.variants.disabled')"
-        />
-        <AtomInputText
-          class="w-1/3"
-          value="Filled and disabled"
-          disabled
-          variant="filled"
-          :placeholder="`${$t('input-text.variants.filled')} ${$t('input-text.variants.disabled')}`"
-        />
-      </div>
-
-      <div class="flex gap-2 items-center w-full">
-        <AtomInputText
-          class="w-1/3"
-          :placeholder="$t('input-text.sizes.sm')"
-          size="sm"
-        />
-        <AtomInputText
-          class="w-1/3"
-          :placeholder="$t('input-text.sizes.md')"
-          size="md"
-        />
-        <AtomInputText
-          class="w-1/3"
-          :placeholder="$t('input-text.sizes.lg')"
-          size="lg"
-        />
-      </div>
-
-      <div class="flex gap-2 items-start w-full">
-        <MoleculeFormField
-          class="w-1/4"
-          error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
-        >
-          <template #input="{ invalid }">
-            <AtomInputText
-              :placeholder="$t('input-text.sizes.md')"
-              :invalid="invalid"
-              size="md"
-            />
-          </template>
-        </MoleculeFormField>
-        <MoleculeFormField
-          class="w-1/4"
-          error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
-          :error-lines="2"
-        >
-          <template #input="{ invalid }">
-            <AtomInputText
-              :placeholder="$t('input-text.sizes.md')"
-              :invalid="invalid"
-              size="md"
-            />
-          </template>
-        </MoleculeFormField>
-        <MoleculeFormField class="w-1/4">
-          <template #input>
-            <AtomInputText :placeholder="$t('input-text.sizes.md')" />
-          </template>
-        </MoleculeFormField>
-        <MoleculeFormField class="w-1/4">
-          <template #input>
+      <AtomCard class="w-full">
+        <template #title>Base with v-model and events</template>
+        <template #content>
+          <div class="flex mt-4 justify-center gap-4 items-center w-full">
             <AtomInputText
               v-model="inputTextValue"
-              :loading="loading"
+              :variant="inputTextValue.length ? 'filled' : undefined"
+              :placeholder="$t('input-text.label.default')"
+              @update:modelValue="testModelEvent($event)"
+              @input-change="testInputChange"
+            />
+            Значение: {{ inputTextValue }}
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Filled, disabled and loading states</template>
+        <template #content>
+          <div class="flex mt-4 justify-center gap-2 items-center w-full">
+            <AtomInputText
+              class="w-1/4"
+              variant="filled"
+              :placeholder="$t('input-text.variants.filled')"
+            />
+            <AtomInputText
+              class="w-1/4"
+              disabled
+              :placeholder="$t('input-text.variants.disabled')"
+            />
+            <AtomInputText
+              class="w-1/4"
+              value="Filled and disabled"
+              disabled
+              variant="filled"
+              :placeholder="`${$t('input-text.variants.filled')} ${$t('input-text.variants.disabled')}`"
+            />
+
+            <AtomInputText
+              class="w-1/4"
+              :loading="true"
               :placeholder="$t('input-text.sizes.md')"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Fluid</template>
+        <template #content>
+          <AtomInputText
+            fluid
+            class="mt-4"
+            :placeholder="$t('input-text.sizes.fluid')"
+          />
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Sizes</template>
+        <template #content>
+          <div class="flex mt-4 justify-center gap-2 items-center w-full">
+            <AtomInputText
+              class="w-1/3"
+              :placeholder="$t('input-text.sizes.sm')"
+              size="sm"
+            />
+            <AtomInputText
+              class="w-1/3"
+              :placeholder="$t('input-text.sizes.md')"
+              size="md"
+            />
+            <AtomInputText
+              class="w-1/3"
+              :placeholder="$t('input-text.sizes.lg')"
+              size="lg"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Input groups with addons</template>
+        <template #content>
+          <div class="flex mt-4 flex-col gap-2 items-center justify-center w-full">
+            <MoleculeInputGroup>
+
+              <AtomInputGroupAddon>
+                L
+              </AtomInputGroupAddon>
+
+              <AtomInputText
+                class="w-1/3"
+                :placeholder="$t('input-text.sizes.md')"
+              />
+
+              <AtomInputGroupAddon>
+                <IconFinnTheHumanDuotone
+                  width="1.125rem"
+                  height="1.125rem"
+                />
+              </AtomInputGroupAddon>
+
+              <AtomInputText
+                class="w-1/3"
+                :placeholder="$t('input-text.sizes.md')"
+              />
+
+              <AtomInputGroupAddon>
+                $
+              </AtomInputGroupAddon>
+              <AtomInputGroupAddon>
+                M
+              </AtomInputGroupAddon>
+
+              <AtomInputText
+                v-model="inputTextValue"
+                class="w-1/3"
+                :loading="loading"
+                :placeholder="$t('input-text.sizes.md')"
+              >
+                <template #loadingIcon>
+                  <IconUiSpinnerResize
+                    height="1.25em"
+                    width="1.25em"
+                  />
+                </template>
+              </AtomInputText>
+
+              <AtomInputGroupAddon>
+                R
+              </AtomInputGroupAddon>
+            </MoleculeInputGroup>
+            <MoleculeInputGroup>
+
+              <AtomInputGroupAddon>
+                L
+              </AtomInputGroupAddon>
+
+              <AtomInputText
+                :placeholder="$t('input-text.sizes.lg')"
+                size="lg"
+              />
+
+              <AtomInputGroupAddon>
+                <IconFinnTheHumanDuotone
+                  width="1.125rem"
+                  height="1.125rem"
+                />
+              </AtomInputGroupAddon>
+            </MoleculeInputGroup>
+            <MoleculeInputGroup>
+
+              <AtomButton :label="$t('button.label.search')" />
+
+              <AtomInputText
+                class="w-1/3"
+                :placeholder="$t('input-text.sizes.md')"
+              />
+
+              <AtomInputGroupAddon>
+                <AtomButton
+                  label="m"
+                  severity="secondary"
+                  variant="text"
+                />
+              </AtomInputGroupAddon>
+
+              <AtomInputText
+                v-model="inputTextValue"
+                class="w-1/3"
+                :loading="loading"
+                :placeholder="$t('input-text.sizes.md')"
+              >
+                <template #loadingIcon>
+                  <IconUiSpinnerResize
+                    height="1.25em"
+                    width="1.25em"
+                  />
+                </template>
+              </AtomInputText>
+
+              <AtomInputGroupAddon>
+                <AtomButton
+                  label="r"
+                  severity="secondary"
+                />
+              </AtomInputGroupAddon>
+            </MoleculeInputGroup>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Help text and outer label</template>
+        <template #content>
+          <div class="flex mt-4 justify-center items-center gap-2">
+            <div class="flex flex-col gap-1">
+              <AtomLabel
+                for="username"
+                :required="true"
+              >Username</AtomLabel>
+              <AtomInputText id="username" />
+              <AtomMessage
+                size="sm"
+                severity="secondary"
+                variant="simple"
+              >Enter your username to reset your password.</AtomMessage>
+            </div>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Form field with invalid and loading (custom icon) states</template>
+        <template #content>
+          <div class="flex gap-2 items-start w-full">
+            <MoleculeFormField class="w-1/4">
+              <template #input>
+                <AtomInputText :placeholder="$t('input-text.sizes.md')" />
+              </template>
+            </MoleculeFormField>
+            <MoleculeFormField
+              class="w-1/4"
+              error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
             >
-              <template #loadingIcon>
-                <IconUiSpinnerResize
-                  height="1.25em"
-                  width="1.25em"
+              <template #input="{ invalid }">
+                <AtomInputText
+                  :placeholder="$t('input-text.sizes.md')"
+                  :invalid="invalid"
+                  size="md"
                 />
               </template>
-            </AtomInputText>
-          </template>
-        </MoleculeFormField>
-      </div>
-
-      <div class="flex gap-2 items-center">
-        <AtomInputText
-          :loading="true"
-          :placeholder="$t('input-text.sizes.md')"
-        />
-        <AtomInputText
-          v-model="inputTextValue"
-          :loading="true"
-          :placeholder="$t('input-text.sizes.md')"
-        />
-      </div>
-
-      <div class="flex gap-2 items-center w-full">
-        <MoleculeInputGroup class="w-full">
-
-          <AtomInputGroupAddon>
-            L
-          </AtomInputGroupAddon>
-
-          <AtomInputText
-            class="w-1/3"
-            :placeholder="$t('input-text.sizes.md')"
-          />
-
-          <AtomInputGroupAddon>
-            <IconFinnTheHumanDuotone
-              width="1.125rem"
-              height="1.125rem"
-            />
-          </AtomInputGroupAddon>
-
-          <AtomInputText
-            class="w-1/3"
-            :placeholder="$t('input-text.sizes.md')"
-          />
-
-          <AtomInputGroupAddon>
-            $
-          </AtomInputGroupAddon>
-          <AtomInputGroupAddon>
-            M
-          </AtomInputGroupAddon>
-
-          <AtomInputText
-            v-model="inputTextValue"
-            class="w-1/3"
-            :loading="loading"
-            :placeholder="$t('input-text.sizes.md')"
-          >
-            <template #loadingIcon>
-              <IconUiSpinnerResize
-                height="1.25em"
-                width="1.25em"
-              />
-            </template>
-          </AtomInputText>
-
-          <AtomInputGroupAddon>
-            R
-          </AtomInputGroupAddon>
-        </MoleculeInputGroup>
-      </div>
-
-      <div class="flex gap-2 items-center w-full">
-        <MoleculeInputGroup class="w-full">
-
-          <AtomInputGroupAddon>
-            L
-          </AtomInputGroupAddon>
-
-          <AtomInputText
-            class="w-1/3"
-            :placeholder="$t('input-text.sizes.lg')"
-            size="lg"
-          />
-
-          <AtomInputGroupAddon>
-            <IconFinnTheHumanDuotone
-              width="1.125rem"
-              height="1.125rem"
-            />
-          </AtomInputGroupAddon>
-        </MoleculeInputGroup>
-      </div>
-
-      <div class="flex gap-2 items-center w-full">
-        <MoleculeInputGroup class="w-full">
-
-          <AtomButton :label="$t('button.label.search')" />
-
-          <AtomInputText
-            class="w-1/3"
-            :placeholder="$t('input-text.sizes.md')"
-          />
-
-          <AtomInputGroupAddon>
-            <AtomButton
-              label="m"
-              severity="secondary"
-              variant="text"
-            />
-          </AtomInputGroupAddon>
-
-          <AtomInputText
-            v-model="inputTextValue"
-            class="w-1/3"
-            :loading="loading"
-            :placeholder="$t('input-text.sizes.md')"
-          >
-            <template #loadingIcon>
-              <IconUiSpinnerResize
-                height="1.25em"
-                width="1.25em"
-              />
-            </template>
-          </AtomInputText>
-
-          <AtomInputGroupAddon>
-            <AtomButton
-              label="r"
-              severity="secondary"
-            />
-          </AtomInputGroupAddon>
-        </MoleculeInputGroup>
-      </div>
-
-      <div class="flex gap-2 items-center">
-        <div class="flex flex-col gap-1">
-          <AtomLabel
-            for="username"
-            :required="true"
-          >Username</AtomLabel>
-          <AtomInputText id="username" />
-          <AtomMessage
-            size="sm"
-            severity="secondary"
-            variant="simple"
-          >Enter your username to reset your password.</AtomMessage>
-        </div>
-      </div>
+            </MoleculeFormField>
+            <MoleculeFormField
+              class="w-1/4"
+              error="Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле Пустое поле"
+              :error-lines="2"
+            >
+              <template #input="{ invalid }">
+                <AtomInputText
+                  :placeholder="$t('input-text.sizes.md')"
+                  :invalid="invalid"
+                  size="md"
+                />
+              </template>
+            </MoleculeFormField>
+            <MoleculeFormField class="w-1/4">
+              <template #input>
+                <AtomInputText
+                  v-model="inputTextValue"
+                  :loading="loading"
+                  :placeholder="$t('input-text.sizes.md')"
+                >
+                  <template #loadingIcon>
+                    <IconUiSpinnerResize
+                      height="1.25em"
+                      width="1.25em"
+                    />
+                  </template>
+                </AtomInputText>
+              </template>
+            </MoleculeFormField>
+          </div>
+        </template>
+      </AtomCard>
     </div>
 
     <!-- Сообщения -->
-    <div class="flex flex-col gap-2 items-center">
+    <div class="flex flex-col gap-6 items-center">
+      <h2>Messages</h2>
+
       <AtomCard class="w-full">
         <template #title>Simple message</template>
         <template #content>
@@ -933,10 +960,10 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Скелетоны -->
-    <div class="flex flex-col col-span-2 gap-4 items-center">
+    <div class="flex flex-col col-span-2 gap-6 items-center">
       <h2>Skeletons</h2>
 
-      <div class="grid grid-cols-4 gap-4 w-full">
+      <div class="grid grid-cols-4 gap-6 w-full">
         <AtomCard>
           <template #title>Rectangle</template>
           <template #content>
@@ -1123,7 +1150,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Карточки -->
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-6 items-center">
       <h2>Cards</h2>
 
       <AtomCard>
@@ -1155,10 +1182,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
           <p class="m-0">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae
             numquam
-            deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse,
-            cupiditate
-            neque
-            quas!
+            deserunt quisquam repellat libero asperiores earum nam
           </p>
         </template>
         <template #footer>
@@ -1179,7 +1203,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Пароли -->
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-6 items-center">
       <h2>Passwords</h2>
 
       <AtomCard class="w-full">
@@ -1270,7 +1294,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Прогресс-трэкеры -->
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-6 items-center">
       <h2>Progress</h2>
 
       <AtomCard class="w-full">
@@ -1348,7 +1372,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Popover -->
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-6 items-center">
       <h2>Popover</h2>
 
       <AtomCard class="w-full">
@@ -1483,7 +1507,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Бэйджи -->
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-6 items-center">
       <h2>Badge</h2>
 
       <AtomCard class="w-full">
@@ -1557,7 +1581,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
     </div>
 
     <!-- Типографика -->
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-6 items-center">
       <h2>Typographic</h2>
 
       <AtomCard class="w-full">
