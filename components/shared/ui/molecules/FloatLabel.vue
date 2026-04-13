@@ -1,10 +1,10 @@
 <!-- 
-  @component FloatLabel
+  @component MoleculeFloatLabel
   @description Поведенческая молекула для реализации паттерна "плавающий лейбл" (floating label).
                Композирует AtomLabel и слот с полем ввода, управляя позиционированием лейбла
                в зависимости от состояний фокуса и заполненности поля.
   
-  @slot label - Контент лейбла. Получает контекст: { required?: boolean }
+  @slot label - Контент лейбла. Значение required контролируется через проп компонента.
   @slot input - Поле ввода. Получает контекст: { id: string }
   
   @example
@@ -14,7 +14,7 @@
     </template>
   </MoleculeFloatLabel>
 -->
-<!-- NOTE: error для label контролируется через scss :has(.input-invalid) -->
+<!-- NOTE: error для подписи контролируется через scss :has(.input-invalid) -->
 <template>
     <span :class="bem({
         variant: props.variant
@@ -85,7 +85,7 @@ const inputId = computed(() => props.id || generatedId)
         opacity: 0.7;
     }
 
-    &:has([data-focused=true], [data-filled=true]) &__label-slot {
+    &:has([data-focused="true"], [data-filled="true"]) &__label-slot {
         color: inherit;
         opacity: 1;
         font-weight: 400;
@@ -99,12 +99,12 @@ const inputId = computed(() => props.id || generatedId)
     // &:has(input[placeholder]) label,
     // &:has(textarea[placeholder]) label
 
-    &--variant-over:has([data-focused=true], [data-filled=true]) &__label-slot {
+    &--variant-over:has([data-focused="true"], [data-filled="true"]) &__label-slot {
         top: -1rem;
         transform: translateY(0);
     }
 
-    &--variant-on:has([data-focused=true], [data-filled=true]) &__label-slot {
+    &--variant-on:has([data-focused="true"], [data-filled="true"]) &__label-slot {
         top: 0;
         transform: translateY(-50%);
         border-radius: calc(var(--spacing) * 2);
@@ -112,7 +112,7 @@ const inputId = computed(() => props.id || generatedId)
         padding-inline: calc(var(--spacing) / 2);
     }
 
-    &--variant-in:has([data-focused=true], [data-filled=true]) &__label-slot {
+    &--variant-in:has([data-focused="true"], [data-filled="true"]) &__label-slot {
         top: 0.875rem;
     }
 
@@ -124,7 +124,7 @@ const inputId = computed(() => props.id || generatedId)
     // & .hh-autocomplete-input-multiple,
     // & .hh-cascadeselect-label,
     // & .hh-treeselect-label
-    &--variant-in :deep([data-role="input"]) {
+    &--variant-in :deep([data-app-role="input"]) {
         padding-block-start: 1.5rem;
         padding-block-end: 0.5rem;
 

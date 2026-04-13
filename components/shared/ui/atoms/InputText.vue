@@ -74,7 +74,7 @@ const isFilled = computed(() => {
             :disabled="disabled || loading"
             :placeholder="placeholder"
             :class="inputClasses"
-            :data-role="'input'"
+            :data-app-role="'input'"
             :data-filled="isFilled"
             :data-focused="focused"
             @change="handleChange"
