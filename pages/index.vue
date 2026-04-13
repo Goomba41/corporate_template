@@ -139,7 +139,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       <AtomCard class="w-full">
         <template #title>Basic variant with severities</template>
         <template #content>
-          <div class="grid grid-cols-3 gap-2">
+          <div class="mt-4 grid grid-cols-3 gap-2">
             <AtomButton :label="$t('button.severities.primary')" />
             <AtomButton
               :label="$t('button.severities.secondary')"
@@ -628,7 +628,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
 
       <AtomCard class="w-full">
-        <template #title>Input groups with addons</template>
+        <template #title>Input groups with addons and floating label</template>
         <template #content>
           <div class="flex mt-4 flex-col gap-2 items-center justify-center w-full">
             <MoleculeInputGroup>
@@ -637,10 +637,17 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
                 L
               </AtomInputGroupAddon>
 
-              <AtomInputText
+              <MoleculeFloatLabel
                 class="w-1/3"
-                :placeholder="$t('input-text.sizes.md')"
-              />
+                variant="over"
+              >
+                <template #input>
+                  <AtomInputText />
+                </template>
+                <template #label>
+                  {{ $t('input-text.sizes.md') }}
+                </template>
+              </MoleculeFloatLabel>
 
               <AtomInputGroupAddon>
                 <IconFinnTheHumanDuotone
@@ -649,10 +656,17 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
                 />
               </AtomInputGroupAddon>
 
-              <AtomInputText
+              <MoleculeFloatLabel
                 class="w-1/3"
-                :placeholder="$t('input-text.sizes.md')"
-              />
+                variant="on"
+              >
+                <template #input>
+                  <AtomInputText />
+                </template>
+                <template #label>
+                  {{ $t('input-text.sizes.md') }}
+                </template>
+              </MoleculeFloatLabel>
 
               <AtomInputGroupAddon>
                 $
@@ -744,10 +758,9 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
         <template #content>
           <div class="flex mt-4 justify-center items-center gap-2">
             <div class="flex flex-col gap-1">
-              <AtomLabel
-                for="username"
-                :required="true"
-              >Username</AtomLabel>
+              <AtomLabel for="username">Username
+                <IconUiAsteriskDuotone class="text-error w-[0.875rem] ml-1" />
+              </AtomLabel>
               <AtomInputText id="username" />
               <AtomMessage
                 size="sm"
@@ -1598,6 +1611,175 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
         </template>
       </AtomCard>
     </div>
+
+    <div class="flex flex-col gap-6 items-center">
+      <h2>Float label</h2>
+
+      <AtomCard class="w-full">
+        <template #title>Basic</template>
+        <template #content>
+          <div class="grid grid-cols-3 gap-2">
+            <MoleculeFloatLabel>
+              <template #input>
+                <AtomInputText id="username" />
+              </template>
+              <template #label>
+                Username
+              </template>
+            </MoleculeFloatLabel>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Variants</template>
+        <template #content>
+          <div class="mt-4 grid grid-cols-3 gap-2 items-end">
+            <MoleculeFloatLabel variant="over">
+              <template #input>
+                <AtomInputText id="username" />
+              </template>
+              <template #label>
+                Username (over)
+              </template>
+            </MoleculeFloatLabel>
+
+            <MoleculeFloatLabel variant="in">
+              <template #input>
+                <AtomInputText id="username" />
+              </template>
+              <template #label>
+                Username (in)
+              </template>
+            </MoleculeFloatLabel>
+
+            <MoleculeFloatLabel variant="on">
+              <template #input>
+                <AtomInputText id="username" />
+              </template>
+              <template #label>
+                Username (on)
+              </template>
+            </MoleculeFloatLabel>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Invalid</template>
+        <template #content>
+          <div class="mt-4 grid grid-cols-3 gap-2 items-end">
+            <MoleculeFloatLabel
+              variant="over"
+              :required="true"
+            >
+              <template #input>
+                <AtomInputText
+                  id="username"
+                  :invalid="!inputTextValue"
+                  v-model="inputTextValue"
+                />
+              </template>
+              <template #label>
+                Username (over)
+              </template>
+            </MoleculeFloatLabel>
+
+            <MoleculeFloatLabel variant="in">
+              <template #input>
+                <AtomInputText
+                  id="username"
+                  :invalid="!inputTextValue"
+                  v-model="inputTextValue"
+                />
+              </template>
+              <template #label>
+                Username (in)
+              </template>
+            </MoleculeFloatLabel>
+
+            <MoleculeFloatLabel variant="on">
+              <template #input>
+                <AtomInputText
+                  id="username"
+                  :invalid="!inputTextValue"
+                  v-model="inputTextValue"
+                />
+              </template>
+              <template #label>
+                Username (on)
+              </template>
+            </MoleculeFloatLabel>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>With Form Field and custom label</template>
+        <template #content>
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            <MoleculeFormField
+              :required="true"
+              :error="!inputTextValue ? 'Обязательное поле' : undefined"
+            >
+              <template #input="{ invalid }">
+                <MoleculeFloatLabel :required="true">
+                  <template #label>ФИО пациента</template>
+                  <template #input="{ id }">
+                    <AtomInputText
+                      :id="id"
+                      v-model="inputTextValue"
+                      :invalid="invalid"
+                    />
+                  </template>
+                </MoleculeFloatLabel>
+              </template>
+            </MoleculeFormField>
+
+            <MoleculeFormField
+              :required="true"
+              :error="!inputTextValue ? 'Обязательное поле' : undefined"
+            >
+              <template #input="{ invalid }">
+                <MoleculeFloatLabel :required="true">
+                  <template #label>
+                    <span class="flex items-center gap-1">
+                      Дата приёма
+                      <AtomBadge
+                        severity="info"
+                        value="1"
+                        size="sm"
+                      />
+                    </span>
+
+                  </template>
+                  <template #input="{ id }">
+                    <AtomInputText
+                      :id="id"
+                      v-model="inputTextValue"
+                      :invalid="invalid"
+                    />
+                  </template>
+                </MoleculeFloatLabel>
+              </template>
+            </MoleculeFormField>
+          </div>
+        </template>
+      </AtomCard>
+    </div>
+
+    <!-- Шаблон для последующей вставки новой секции -->
+    <!-- <div class="flex flex-col gap-6 items-center">
+      <h2></h2>
+
+      <AtomCard class="w-full">
+        <template #title></template>
+        <template #content>
+
+        </template>
+      </AtomCard>
+    </div> -->
+
   </div>
 
   <div class="flex items-center justify-center mb-6 gap-4">
@@ -1611,7 +1793,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
 <style lang="scss">
 .demo-grid {
   display: grid;
-  gap: var(--hh-spacing-md, 1rem);
+  gap: calc(var(--spacing) * 4);
   align-items: start;
 
   // Mobile-first: по умолчанию 1 колонка
@@ -1620,7 +1802,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
   // Планшеты
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--hh-spacing-lg, 1.5rem);
+    gap: calc(var(--spacing) * 6);
   }
 
   // Десктоп
