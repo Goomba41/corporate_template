@@ -1,13 +1,35 @@
-<!-- TODO: параметры required, ?id?,  -->
+<!-- 
+  @component FloatLabel
+  @description Поведенческая молекула для реализации паттерна "плавающий лейбл" (floating label).
+               Композирует AtomLabel и слот с полем ввода, управляя позиционированием лейбла
+               в зависимости от состояний фокуса и заполненности поля.
+  
+  @slot label - Контент лейбла. Получает контекст: { required?: boolean }
+  @slot input - Поле ввода. Получает контекст: { id: string }
+  
+  @example
+  <MoleculeFloatLabel label="Email" :required="true">
+    <template #input="{ id }">
+      <AtomInputText :id="id" v-model="email" />
+    </template>
+  </MoleculeFloatLabel>
+-->
 <!-- NOTE: error для label контролируется через scss :has(.input-invalid) -->
 <template>
     <span :class="bem({
         variant: props.variant
     })">
-        <AtomLabel :class="bem('label-slot')">
+        <AtomLabel
+            :class="bem('label-slot')"
+            :required="required"
+            :for="inputId"
+        >
             <slot name="label" />
         </AtomLabel>
-        <slot name="input" />
+        <slot
+            name="input"
+            :id="inputId"
+        />
     </span>
 </template>
 
@@ -16,6 +38,7 @@
     lang="ts"
 >
 type Props = {
+    id?: string;
     required?: boolean;
     variant?: 'over' | 'in' | 'on'
 };
@@ -25,6 +48,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const bem = appBEM('float-label')
+
+const generatedId = useId()
+const inputId = computed(() => props.id || generatedId)
 </script>
 
 <style
@@ -47,14 +73,12 @@ const bem = appBEM('float-label')
         transition-property: all;
         transition-timing-function: ease;
         line-height: 1;
-        font-weight: 500;
         inset-inline-start: 0.75rem;
         z-index: 1;
         color: var(--text-secondary);
         transition-duration: 0.2s;
         font-size: inherit;
         font-weight: inherit;
-
     }
 
     &:not(:has(.hh-input-text--invalid)) &__label-slot {
@@ -88,7 +112,7 @@ const bem = appBEM('float-label')
         padding-inline: calc(var(--spacing) / 2);
     }
 
-    &--variant-in:has([data-focused=true], [data-filled=true]) label {
+    &--variant-in:has([data-focused=true], [data-filled=true]) &__label-slot {
         top: 0.875rem;
     }
 
@@ -100,9 +124,10 @@ const bem = appBEM('float-label')
     // & .hh-autocomplete-input-multiple,
     // & .hh-cascadeselect-label,
     // & .hh-treeselect-label
-    &--variant-in :deep(.hh-input-text) {
+    &--variant-in :deep([data-role="input"]) {
         padding-block-start: 1.5rem;
         padding-block-end: 0.5rem;
+
     }
 }
 </style>
