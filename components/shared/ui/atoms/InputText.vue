@@ -4,7 +4,13 @@
 >
 import { computed } from 'vue'
 
-import type { InputProps as Props } from '~/types/input-props'
+import type { InputProps as PropsBase } from '~/types/input-props'
+
+type LocalProps = {
+    modelValue?: string | null
+}
+
+type Props = PropsBase & LocalProps
 
 const props = withDefaults(defineProps<Props>(), {
     size: 'md',
@@ -20,10 +26,18 @@ const handleChange = (e: Event) => {
 
 const input = ref<HTMLInputElement | null>(null)
 
+const focused = ref(false)
+
 defineExpose({
     internalInput: input,
-    focus: () => input.value?.focus(),
-    blur: () => input.value?.blur()
+    focus: () => {
+        focused.value = true
+        input.value?.focus()
+    },
+    blur: () => {
+        focused.value = false
+        input.value?.blur()
+    }
 })
 
 const model = defineModel<string>()
@@ -37,10 +51,23 @@ const inputClasses = computed(() => bem({
     loading: props.loading,
     invalid: props.invalid,
 }))
+
+const isFilled = computed(() => {
+    const val = props.modelValue || model.value
+    if (val == null || val === '') return false
+    if (typeof val === 'string') return val.trim().length > 0
+    if (typeof val === 'number') return true
+    return Boolean(val)
+})
 </script>
 
 <template>
-    <div :class="bem('wrapper', { 'fluid': props.fluid })">
+    <div
+        :class="bem('wrapper', { 'fluid': props.fluid })"
+        :data-floatlabel-use="true"
+        :data-filled="isFilled"
+        :data-focused="focused"
+    >
         <input
             ref="input"
             v-model="model"
@@ -48,6 +75,8 @@ const inputClasses = computed(() => bem({
             :disabled="disabled || loading"
             :placeholder="placeholder"
             :class="inputClasses"
+            :data-filled="isFilled"
+            :data-focused="focused"
             @change="handleChange"
         >
 
@@ -114,6 +143,17 @@ const inputClasses = computed(() => bem({
         transition: background-color 5000s ease-in-out 0s;
     }
 
+    &::placeholder {
+        color: inherit;
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+
+    // Опционально: более тусклый плейсхолдер в неактивном состоянии
+    &:not(:focus)::placeholder {
+        opacity: 0.6;
+    }
+
     &:not(:disabled) {
         &:hover {
             border-color: var(--border-secondary);
@@ -143,6 +183,7 @@ const inputClasses = computed(() => bem({
 
         &:not(:hover):not(:focus)::placeholder {
             color: var(--accent-error);
+            opacity: 1;
         }
 
         &:hover {
