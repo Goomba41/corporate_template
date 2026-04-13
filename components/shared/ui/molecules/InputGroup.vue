@@ -55,6 +55,10 @@ const bem = appBEM('input-group');
         /* Все срединные элементы */
         &:not(:first-child):not(:last-child) {
             border-radius: 0;
+
+            > * {
+                border-radius: 0;
+            }
         }
 
         &:not(:last-child) {

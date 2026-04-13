@@ -15,7 +15,6 @@ const bem = appBEM('input-group-addon')
     scoped
     lang="scss"
 >
-// TODO: проверить float-label, checkbox
 .hh-input-group-addon {
     display: flex;
     align-items: center;
