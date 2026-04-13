@@ -64,7 +64,6 @@ const isFilled = computed(() => {
 <template>
     <div
         :class="bem('wrapper', { 'fluid': props.fluid })"
-        :data-floatlabel-use="true"
         :data-filled="isFilled"
         :data-focused="focused"
     >
@@ -75,6 +74,7 @@ const isFilled = computed(() => {
             :disabled="disabled || loading"
             :placeholder="placeholder"
             :class="inputClasses"
+            :data-role="'input'"
             :data-filled="isFilled"
             :data-focused="focused"
             @change="handleChange"

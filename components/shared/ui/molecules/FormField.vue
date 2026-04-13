@@ -74,20 +74,18 @@ const handleBlur = () => emit('blur')
         })"
     >
         <!-- Обертка для поля ввода -->
-        <div :class="bem('wrapper')">
-            <!-- Слот для поля ввода -->
-            <div :class="bem('input-slot')">
-                <slot
-                    class="w-full"
-                    name="input"
-                    :invalid="hasError"
-                />
-                <!-- @focus="handleFocus"
+        <!-- Слот для поля ввода -->
+        <div :class="bem('input-slot')">
+            <slot
+                class="w-full"
+                name="input"
+                :invalid="hasError"
+            />
+            <!-- @focus="handleFocus"
                     @blur="handleBlur" -->
-                <!-- :disabled="disabled"
+            <!-- :disabled="disabled"
                     :readonly="readonly"
                     :focused="focused" -->
-            </div>
         </div>
 
         <!-- Сообщение об ошибке (атом) -->
@@ -127,18 +125,11 @@ const handleBlur = () => emit('blur')
 >
 .hh-form-field {
     min-width: 0;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
 
     &--error {
         color: var(--accent-error);
-    }
-
-    &__wrapper {
-        width: 100%;
-        min-width: 0;
-        display: flex;
     }
 
     &__input-slot {
@@ -159,7 +150,7 @@ const handleBlur = () => emit('blur')
         .hh-message {
             max-width: 100%;
             justify-content: start;
-            
+
             :deep(.hh-message__text) {
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -168,7 +159,7 @@ const handleBlur = () => emit('blur')
                 white-space: nowrap;
             }
         }
-        
+
         &--multiline .hh-message :deep(.hh-message__text) {
             white-space: normal;
             display: -webkit-box;
