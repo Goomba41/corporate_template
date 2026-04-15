@@ -118,8 +118,8 @@ watch(effectiveState, (newState) => {
     --checkbox-width: calc(var(--spacing) * 5);
     --checkbox-height: var(--checkbox-width);
     --checkbox-radius: calc(var(--checkbox-width) * 0.325);
-    --checkbox-checked-background: var(--primary-500);
-    --checkbox-checked-hover: var(--primary-600);
+    --checkbox-checked-background: var(--primary-600);
+    --checkbox-checked-hover: var(--primary-700);
     --checkbox-checked-border-color: var(--checkbox-checked-background);
     --checkbox-transition-duration: 0.2s;
     --checkbox-icon-size: calc(var(--checkbox-width) - (var(--spacing) * 1.5));
@@ -235,7 +235,7 @@ watch(effectiveState, (newState) => {
     }
 
     :where(.mode-dark) &--checked:hover &__box {
-        --checkbox-checked-hover: var(--primary-400);
+        --checkbox-checked-hover: var(--primary-500);
     }
 }
 </style>

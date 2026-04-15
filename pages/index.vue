@@ -1861,7 +1861,7 @@ const selectedCategories = ref(['Marketing', 'Production']);
               :indeterminate="true"
             />
 
-            Value: {{ triStateChecked }}
+            Value: {{ typeof triStateChecked === 'boolean' ? triStateChecked : 'null' }}
           </div>
         </template>
       </AtomCard>
@@ -1872,7 +1872,7 @@ const selectedCategories = ref(['Marketing', 'Production']);
           <div class="mt-4 flex gap-4 justify-center items-start w-fit justify-self-center">
             <AtomCheckbox v-model="indeterminateChecked" />
 
-            Value: {{ indeterminateChecked }}
+            Value: {{ typeof indeterminateChecked === 'boolean' ? indeterminateChecked : 'null' }}
           </div>
         </template>
       </AtomCard>
