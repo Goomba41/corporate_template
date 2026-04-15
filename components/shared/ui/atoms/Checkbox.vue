@@ -210,15 +210,19 @@ watch(effectiveState, (newState) => {
         border-color: var(--accent-error);
     }
 
-    &--variant-filled &__box {
+    &--variant-filled:not(&--checked) &__box {
         background-color: var(--surface-100);
     }
 
-    &:not(&--checked):hover &__box {
+    &--variant-filled#{&}--checked &__box {
+        background-color: color-mix(in srgb, var(--checkbox-checked-background) 70%, var(--text-primary) 30%);
+    }
+
+    &:not(&--checked):not(&--disabled):hover &__box {
         border-color: var(--text-tertiary);
     }
 
-    &--checked:hover &__box {
+    &--checked:not(&--disabled):hover &__box {
         background-color: var(--checkbox-checked-hover);
         border-color: var(--checkbox-checked-hover);
     }
@@ -230,7 +234,7 @@ watch(effectiveState, (newState) => {
         }
     }
 
-    :where(.mode-dark) &--variant-filled &__box {
+    :where(.mode-dark) &--variant-filled:not(&--checked) &__box {
         background-color: var(--bg-primary);
     }
 

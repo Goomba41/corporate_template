@@ -130,6 +130,7 @@ const popoverBtnAppendHTML = ref<HTMLElement | null>(null)
 const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
 
 const checked = ref(false)
+const reversedChecked = computed(() => !checked.value)
 
 const triStateChecked = ref<boolean | null>(null)
 
@@ -1792,22 +1793,21 @@ const selectedCategories = ref(['Marketing', 'Production']);
         <template #title>Basic, disabled, invalid, filled</template>
         <template #content>
           <div class="mt-4 flex gap-4">
-            <!-- TODO: поправить все -->
             <AtomCheckbox v-model="checked" />
             <AtomCheckbox
               v-model="checked"
               disabled
             />
             <AtomCheckbox
-              :value="!checked"
+              v-model="reversedChecked"
               disabled
             />
             <AtomCheckbox
-              :value="checked"
+              v-model="checked"
               :invalid="true"
             />
             <AtomCheckbox
-              :value="checked"
+              v-model="checked"
               :invalid="true"
               :variant="'filled'"
             />
