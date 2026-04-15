@@ -59,7 +59,7 @@ const inputClasses = computed(() => bem({
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
-const model = defineModel<boolean | any[] | null>({ default: false })
+const model = defineModel<any | any[] | null>({ default: false })
 
 const state = computed<CheckboxState>(() => {
     // 1. Режим массива
@@ -186,7 +186,7 @@ watch(effectiveState, (newState) => {
         width: var(--checkbox-icon-size);
         height: var(--checkbox-icon-size);
 
-        svg {
+        :deep(svg) {
             font-size: var(--checkbox-icon-size);
             width: var(--checkbox-icon-size);
             height: var(--checkbox-icon-size);

@@ -144,6 +144,8 @@ const categories = ref([
 ]);
 
 const selectedCategories = ref(['Marketing', 'Production']);
+
+const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
 </script>
 
 <template>
@@ -1827,7 +1829,7 @@ const selectedCategories = ref(['Marketing', 'Production']);
       </AtomCard>
 
       <AtomCard class="w-full">
-        <template #title>Dynamic</template>
+        <template #title>Dynamic and group</template>
         <template #content>
           <div class="mt-4 flex gap-4 justify-center items-center justify-self-center">
             <div class="flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
@@ -1878,25 +1880,16 @@ const selectedCategories = ref(['Marketing', 'Production']);
       </AtomCard>
 
       <AtomCard class="w-full">
-        <template #title>Group</template>
-        <template #content>
-          <div class="mt-4 flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
-            <!-- <AtomCheckbox
-              v-model="checked"
-              :indeterminate="true"
-            /> -->
-          </div>
-        </template>
-      </AtomCard>
-
-      <AtomCard class="w-full">
         <template #title>Custom true/false values</template>
         <template #content>
-          <div class="mt-4 flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
-            <!-- <AtomCheckbox
-              v-model="checked"
-              :indeterminate="true"
-            /> -->
+          <div class="mt-4 flex gap-4 justify-center items-start w-fit justify-self-center">
+            <AtomCheckbox
+              v-model="indeterminateCustomChecked"
+              :false-value="'unchecked'"
+              :true-value="'checked'"
+            />
+
+            Value: {{ indeterminateCustomChecked === null ? 'null' : indeterminateCustomChecked }}
           </div>
         </template>
       </AtomCard>
@@ -1905,10 +1898,14 @@ const selectedCategories = ref(['Marketing', 'Production']);
         <template #title>Custom icons</template>
         <template #content>
           <div class="mt-4 flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
-            <!-- <AtomCheckbox
-              v-model="checked"
-              :indeterminate="true"
-            /> -->
+            <AtomCheckbox v-model="indeterminateChecked">
+              <template #indeterminateIcon>
+                <IconUiXCircle />
+              </template>
+              <template #checkedIcon>
+                <IconFinnTheHumanDuotone />
+              </template>
+            </AtomCheckbox>
           </div>
         </template>
       </AtomCard>
