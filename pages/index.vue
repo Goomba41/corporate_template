@@ -128,6 +128,21 @@ const popoverBtnAppendBody = ref<HTMLElement | null>(null)
 const popoverBtnAppendSelf = ref<HTMLElement | null>(null)
 const popoverBtnAppendHTML = ref<HTMLElement | null>(null)
 const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
+
+const checked = ref(false)
+
+const triStateChecked = ref<boolean | null>(null)
+
+const indeterminateChecked = ref<boolean | null>(null)
+
+const categories = ref([
+  { name: "Accounting", key: "A" },
+  { name: "Marketing", key: "M" },
+  { name: "Production", key: "P" },
+  { name: "Research", key: "R" }
+]);
+
+const selectedCategories = ref(['Marketing', 'Production']);
 </script>
 
 <template>
@@ -1612,6 +1627,7 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
+    <!-- Летающие подписи -->
     <div class="flex flex-col gap-6 items-center">
       <h2>Float label</h2>
 
@@ -1768,6 +1784,137 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       </AtomCard>
     </div>
 
+    <!-- Флаги -->
+    <div class="flex flex-col gap-6 items-center">
+      <h2>Checkbox</h2>
+
+      <AtomCard class="w-full">
+        <template #title>Basic, disabled, invalid, filled</template>
+        <template #content>
+          <div class="mt-4 flex gap-4">
+            <!-- TODO: поправить все -->
+            <AtomCheckbox v-model="checked" />
+            <AtomCheckbox
+              v-model="checked"
+              disabled
+            />
+            <AtomCheckbox
+              :value="!checked"
+              disabled
+            />
+            <AtomCheckbox
+              :value="checked"
+              :invalid="true"
+            />
+            <AtomCheckbox
+              :value="checked"
+              :invalid="true"
+              :variant="'filled'"
+            />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Sizes</template>
+        <template #content>
+          <div class="mt-4 flex gap-4 justify-center items-center">
+            <AtomCheckbox size="sm" />
+            <AtomCheckbox size="md" />
+            <AtomCheckbox size="lg" />
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Dynamic</template>
+        <template #content>
+          <div class="mt-4 flex gap-4 justify-center items-center justify-self-center">
+            <div class="flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
+              <div
+                v-for="category of categories"
+                :key="category.key"
+                class="flex items-center gap-2"
+              >
+                <AtomCheckbox
+                  v-model="selectedCategories"
+                  :inputId="category.key"
+                  :value="category.name"
+                />
+                <label :for="category.key">{{ category.name }}</label>
+              </div>
+            </div>
+
+            <div class="w-1/3 min-w-1/3">
+              Value: {{ selectedCategories }}
+            </div>
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Tri-state</template>
+        <template #content>
+          <div class="mt-4 flex gap-4 justify-center items-start w-fit justify-self-center">
+            <AtomCheckbox
+              v-model="triStateChecked"
+              :indeterminate="true"
+            />
+
+            Value: {{ triStateChecked }}
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Indeterminate</template>
+        <template #content>
+          <div class="mt-4 flex gap-4 justify-center items-start w-fit justify-self-center">
+            <AtomCheckbox v-model="indeterminateChecked" />
+
+            Value: {{ indeterminateChecked }}
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Group</template>
+        <template #content>
+          <div class="mt-4 flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
+            <!-- <AtomCheckbox
+              v-model="checked"
+              :indeterminate="true"
+            /> -->
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Custom true/false values</template>
+        <template #content>
+          <div class="mt-4 flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
+            <!-- <AtomCheckbox
+              v-model="checked"
+              :indeterminate="true"
+            /> -->
+          </div>
+        </template>
+      </AtomCard>
+
+      <AtomCard class="w-full">
+        <template #title>Custom icons</template>
+        <template #content>
+          <div class="mt-4 flex flex-col gap-4 justify-center items-start w-fit justify-self-center">
+            <!-- <AtomCheckbox
+              v-model="checked"
+              :indeterminate="true"
+            /> -->
+          </div>
+        </template>
+      </AtomCard>
+    </div>
+
+
     <!-- Шаблон для последующей вставки новой секции -->
     <!-- <div class="flex flex-col gap-6 items-center">
       <h2></h2>
@@ -1775,14 +1922,16 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
       <AtomCard class="w-full">
         <template #title></template>
         <template #content>
-
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            
+          </div>
         </template>
       </AtomCard>
     </div> -->
 
   </div>
 
-  <div class="flex items-center justify-center mb-6 gap-4">
+  <div class="options">
     <button @click="cycleColorSurface">Поверхность: {{ colorSurface }}</button>
     <button @click="cycleColorTheme">Тема: {{ colorTheme }}</button>
     <button @click="toggleDisplayMode">Режим: {{ displayMode }}</button>
@@ -1809,5 +1958,21 @@ const popoverCardAppendHTML = useTemplateRef('popoverCardAppendHTML')
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: calc(var(--spacing) * 7);
+  gap: calc(var(--spacing) * 4);
+  position: sticky;
+  bottom: calc(var(--spacing) * 7);
+  padding-inline: calc(var(--spacing) * 4);
+  padding-block: calc(var(--spacing) * 2);
+  background: var(--bg-secondary);
+  width: fit-content;
+  justify-self: center;
+  border-radius: 8px;
 }
 </style>
