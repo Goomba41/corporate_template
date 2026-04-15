@@ -232,6 +232,11 @@ $solid-variants: (
         }
     }
 
+    :where(.mode-dark) &--severity-primary:not(:disabled):hover {
+        background-color: var(--primary-500);
+        border-color: var(--primary-500);
+    }
+
     &--severity-secondary {
         background-color: var(--bg-tertiary);
         border-color: var(--bg-tertiary);
@@ -279,12 +284,13 @@ $solid-variants: (
 
         &--variant-link#{&}--severity-#{$name} {
             &:not(:disabled):hover {
+                color: color-mix(in srgb, $color 60%, var(--text-primary) 40%);
                 background: transparent;
                 border-color: transparent;
-                text-decoration: underline;
-                text-decoration-style: dashed;
-                text-underline-offset: 3px;
-                text-decoration-thickness: 1px;
+                // text-decoration: underline;
+                // text-decoration-style: dashed;
+                // text-underline-offset: 3px;
+                // text-decoration-thickness: 1px;
             }
         }
     }
@@ -302,7 +308,6 @@ $solid-variants: (
 
     &--variant-text#{&}--severity-secondary {
         &:not(:disabled):hover {
-
             @include button-text-border-hover(var(--surface-400));
         }
     }
