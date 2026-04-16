@@ -7,6 +7,9 @@ export const useLocale = () => {
 
     type Locale = typeof locale extends globalThis.WritableComputedRef<infer T, infer S> ? T : never
 
+    // Все локали приложения
+    const allLocales = computed(() => locales.value)
+
     // Доступные локали, кроме текущей
     const availableLocales = computed(() => {
         return locales.value.filter(i => i.code !== locale.value)
@@ -64,6 +67,7 @@ export const useLocale = () => {
         // Состояние
         appLocale: shallowReadonly(appLocale),
         appLocaleName: shallowReadonly(appLocaleName),
+        allLocales: shallowReadonly(allLocales),
         availableLocales: shallowReadonly(availableLocales),
 
         // Методы

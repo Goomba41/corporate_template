@@ -24,6 +24,8 @@
 @import "./brands/fuchsia.css";
 @import "./brands/pink.css";
 @import "./brands/rose.css";
+@import "./brands/sage.css";
+@import "./brands/coral.css";
 /* Импорт поверхностей */
 @import "./surfaces/slate.css";
 @import "./surfaces/gray.css";
@@ -33,3 +35,4 @@
 @import "./surfaces/soho.css";
 @import "./surfaces/viva.css";
 @import "./surfaces/ocean.css";
+@import "./surfaces/mauve.css";

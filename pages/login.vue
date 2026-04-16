@@ -13,10 +13,7 @@
                         :height="64"
                     >
                     <h1 :class="bem('header')">{{ $t(`${i18nPath}.header`) }}</h1>
-                    <h4
-                        :class="bem('subheader')"
-                        @click="toggleDisplayMode"
-                    >{{ $t(`${i18nPath}.subheader`) }}</h4>
+                    <h4 :class="bem('subheader')">{{ $t(`${i18nPath}.subheader`) }}</h4>
 
                     <div :class="bem('form-fields')">
                         <AtomInputText
@@ -55,7 +52,7 @@
                             />
                         </div>
                         <AtomButton
-                            class="w-full mt-6"
+                            class="w-full"
                             :label="$t(`${i18nPath}.button`)"
                         />
                         <div :class="bem('register')">{{ $t(`${i18nPath}.question`) }}
@@ -75,7 +72,8 @@
         :class="bem('background')"
     >
 
-    <!-- TODO: виджет (организм) настройка темы, языка, режима и пр. боковой слайдер-->
+    <OrganismThemeConfigurator :class="bem('theme-configurator')" />
+
 </template>
 
 <script
@@ -90,14 +88,7 @@ const bem = appBEM('authorization')
 
 const i18nPath = 'forms.login'
 
-const {
-    colorSurface,
-    colorTheme,
-    displayMode,
-    toggleDisplayMode,
-    cycleColorTheme,
-    cycleColorSurface
-} = useTheme()
+const { displayMode } = useTheme()
 
 useHead({
     bodyAttrs: {
@@ -176,7 +167,7 @@ const form = reactive({
 
     &__remember-hint {
         font-size: 0.75rem;
-        color: var(--text-tertiary);
+        color: var(--text-secondary);
     }
 
     &__register {
@@ -194,7 +185,13 @@ const form = reactive({
 
     &__subheader,
     &__register {
-        color: var(--text-tertiary);
+        color: var(--text-secondary);
+    }
+
+    &__theme-configurator {
+        position: absolute;
+        bottom: calc(var(--spacing) * 8);
+        right: calc(var(--spacing) * 8);
     }
 }
 </style>

@@ -14,5 +14,58 @@
       "question": "novus es?",
       "registration": "adscribe te"
     }
+  },
+  "theme-configurator": {
+    "brands": {
+      "label": "tincturae",
+      "items": {
+        "amber": "succinum",
+        "blue": "caeruleum",
+        "cyan": "cyaneum",
+        "emerald": "smaragdum",
+        "fuchsia": "fuchsia",
+        "green": "viride",
+        "indigo": "indicum",
+        "lime": "citreum",
+        "orange": "aurantiacum",
+        "pink": "roseum",
+        "purple": "purpureum",
+        "rose": "rosa",
+        "sky": "caeleste",
+        "teal": "viridicaeruleum",
+        "violet": "violaceum",
+        "yellow": "flavum",
+        "coral": "corallinum",
+        "sage": "salvinum"
+      }
+    },
+    "surfaces": {
+      "label": "fundamenta",
+      "items": {
+        "gray": "griseum",
+        "neutral": "neutrale",
+        "ocean": "oceanicum",
+        "slate": "siliceum",
+        "soho": "soho",
+        "stone": "saxum",
+        "viva": "vivum",
+        "zinc": "zincum",
+        "mauve": "malvaceum"
+      }
+    },
+    "locales": "linguae",
+    "roundings": {
+      "label": "anguli",
+      "items": {}
+    },
+    "modes": {
+      "label": "forma",
+      "items": {
+        "dark": "obscura",
+        "light": "lucida",
+        "system": "systema",
+        "no-preference": "neutra"
+      }
+    }
   }
 }

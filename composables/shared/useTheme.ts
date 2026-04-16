@@ -2,7 +2,10 @@
 import { ref, watch, onMounted } from 'vue'
 import {
     colorSurfaces,
+    colorSurfacesMetadata,
     colorThemes,
+    colorThemesMetadata,
+    displayModes,
     type ColorSurface,
     type ColorTheme,
     type DisplayMode,
@@ -40,6 +43,14 @@ export const useTheme = () => {
     // Цвет поверхности
     const colorSurface = ref<ColorSurface>(colorSurfaceCookie.value)
 
+    // Получение списка цветовых тем
+    const getColorThemes = () => Object.entries(colorThemesMetadata)
+        .sort(([, a], [, b]) => a.order - b.order)
+        .map(([key, value]) => ({
+            key: key as ColorTheme,
+            ...value
+        }))
+
     // Изменение цветовой темы
     const setColorTheme = (color: ColorTheme) => {
         colorTheme.value = color
@@ -47,12 +58,22 @@ export const useTheme = () => {
         applyTheme()
     }
 
+    const getDisplayModes = () => displayModes
+
     // Изменение режима отображения
     const setDisplayMode = (mode: DisplayMode) => {
         displayMode.value = mode
         displayModeCookie.value = mode
         applyTheme()
     }
+
+    // Получение списка цветов поверхности
+    const getColorSurfaces = () => Object.entries(colorSurfacesMetadata)
+        .sort(([, a], [, b]) => a.order - b.order)
+        .map(([key, value]) => ({
+            key: key as ColorSurface,
+            ...value
+        }))
 
     // Изменение цвета поверхности
     const setColorSurface = (color: ColorSurface) => {
@@ -148,11 +169,15 @@ export const useTheme = () => {
         displayMode: shallowReadonly(displayMode),
 
         // Методы
+        getColorThemes,
         setColorTheme,
+        cycleColorTheme,
+        getColorSurfaces,
+        setColorSurface,
+        cycleColorSurface,
+        getDisplayModes,
         setDisplayMode,
         toggleDisplayMode,
-        cycleColorTheme,
-        cycleColorSurface,
         applyTheme
     }
 }

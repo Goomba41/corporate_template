@@ -37,7 +37,7 @@
       "header": "Hey there, sign in",
       "subheader": "good to see you! pop in your details to get going",
       "username": "your email, phone or username",
-      "password": "your password", 
+      "password": "your password",
       "remember": {
         "text": "keep me signed in",
         "hint": "you will be signed in for 30 days"
@@ -46,6 +46,59 @@
       "button": "sign in",
       "question": "new here?",
       "registration": "join us"
+    }
+  },
+  "theme-configurator": {
+    "brands": {
+      "label": "color picks",
+      "items": {
+        "amber": "amber",
+        "blue": "blue",
+        "cyan": "cyan",
+        "emerald": "emerald",
+        "fuchsia": "fuchsia",
+        "green": "green",
+        "indigo": "indigo",
+        "lime": "lime",
+        "orange": "orange",
+        "pink": "pink",
+        "purple": "purple",
+        "rose": "rose",
+        "sky": "sky",
+        "teal": "teal",
+        "violet": "violet",
+        "yellow": "yellow",
+        "coral": "coral",
+        "sage": "sage"
+      }
+    },
+    "surfaces": {
+      "label": "backgrounds",
+      "items": {
+        "gray": "gray",
+        "neutral": "neutral",
+        "ocean": "ocean",
+        "slate": "slate",
+        "soho": "soho",
+        "stone": "stone",
+        "viva": "viva",
+        "zinc": "zinc",
+        "mauve": "mauve"
+      }
+    },
+    "locales": "languages",
+    "roundings": {
+      "label": "corners",
+      "items": {}
+    },
+    "modes": {
+      "label": "appearance",
+      "items": {
+        "dark": "dark",
+        "light": "light",
+        "system": "system",
+        "no-preference": "no-preference"
+      }
     }
   }
 }
