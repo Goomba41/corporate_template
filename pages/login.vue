@@ -1,6 +1,7 @@
 <template>
     <CenteredContaner :class="bem('container')">
         <!-- TODO: вынести форму логина в отдельный компонент -->
+        <!-- TODO: скелетоны изначально, после ввода данных блокировка и loading state -->
         <AtomCard :class="bem('form')">
             <template #content>
                 <div :class="bem('form-container')">
@@ -11,37 +12,41 @@
                         :width="64"
                         :height="64"
                     >
-                    <h1 :class="bem('header')">Log in</h1>
+                    <h1 :class="bem('header')">{{$t(`${i18nPath}.header`)}}</h1>
                     <h4
                         :class="bem('subheader')"
                         @click="toggleDisplayMode"
-                    >Please enter your details</h4>
+                    >{{$t(`${i18nPath}.subheader`)}}</h4>
 
                     <div :class="bem('form-fields')">
                         <AtomInputText
+                            v-model="form.login"
                             fluid
-                            :placeholder="'username / email / phone number'"
+                            :placeholder="$t(`${i18nPath}.username`)"
                         />
                         <MoleculePassword
+                            v-model="form.password"
                             fluid
-                            :placeholder="'password'"
+                            :placeholder="$t(`${i18nPath}.password`)"
                         />
                         <div :class="bem('options')">
-                            <!-- TODO: атом чекбокса -->
-                            <div class="">Remember me</div>
+                            <div class="flex gap-2">
+                                <AtomCheckbox input-id='remember' v-model="form.remember"/>
+                                <AtomLabel size="md" for="remember" class="">{{$t(`${i18nPath}.remember`)}}</AtomLabel>
+                            </div>
                             <AtomButton
                                 variant="link"
-                                :label="'Forgot password?'"
+                                :label="$t(`${i18nPath}.restore`)"
                             />
                         </div>
                         <AtomButton
                             class="w-full"
-                            :label="'Log in'"
+                            :label="$t(`${i18nPath}.header`)"
                         />
-                        <div :class="bem('register')">Not registered?
+                        <div :class="bem('register')">{{$t(`${i18nPath}.question`)}}
                             <AtomButton
                                 variant="link"
-                                :label="'Create an account'"
+                                :label="$t(`${i18nPath}.registration`)"
                             />
                         </div>
                     </div>
@@ -54,6 +59,8 @@
         alt=""
         :class="bem('background')"
     >
+
+    {{ form }}
     <!-- TODO: виджет (организм) настройка темы, языка, режима и пр. боковой слайдер-->
 </template>
 
@@ -66,6 +73,8 @@ definePageMeta({
 })
 
 const bem = appBEM('authorization')
+
+const i18nPath = 'forms.login'
 
 const {
     colorSurface,
@@ -81,6 +90,13 @@ useHead({
         style: () => `background-color: var(--primary-${displayMode.value === 'dark' ? 900 : 700});`
     }
 })
+
+const form = reactive({
+    login: undefined,
+    password: undefined,
+    remember: false,
+})
+
 </script>
 
 <style
@@ -112,6 +128,10 @@ useHead({
         padding-block: 2rem;
     }
 
+    &__header {
+        text-transform: capitalize;
+    }
+
     &__subheader {
         max-width: 55%;
         text-align: center;
@@ -135,6 +155,11 @@ useHead({
 
     &__options {
         justify-content: space-between;
+    }
+
+    &__options :deep(.hh-label) {
+        font-size: 1rem;
+        line-height: normal;
     }
     
     &__register {
