@@ -1,0 +1,18 @@
+{
+  "forms": {
+    "login": {
+      "header": "Salve, intra",
+      "subheader": "te vidēre gaudēmus! signa tua mitte ut pergas",
+      "username": "epistula, telephōnum, vel nōmen",
+      "password": "tessera",
+      "remember": {
+        "text": "mementō me",
+        "hint": "per triginta dies intratus manebis"
+      },
+      "restore": "tessera excidit?",
+      "button": "intra",
+      "question": "novus es?",
+      "registration": "adscribe te"
+    }
+  }
+}

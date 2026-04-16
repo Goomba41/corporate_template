@@ -34,14 +34,18 @@
   },
   "forms": {
     "login": {
-      "header": "sign in",
-      "subheader": "welcome back! enter your credentials to continue",
-      "username": "email, phone or username",
-      "password": "password",
-      "remember": "remember me",
-      "restore": "forgot password?",
-      "question": "don't have an account?",
-      "registration": "sign up"
+      "header": "Hey there, sign in",
+      "subheader": "good to see you! pop in your details to get going",
+      "username": "your email, phone or username",
+      "password": "your password", 
+      "remember": {
+        "text": "keep me signed in",
+        "hint": "you will be signed in for 30 days"
+      },
+      "restore": "oops, forgot your password?",
+      "button": "sign in",
+      "question": "new here?",
+      "registration": "join us"
     }
   }
 }

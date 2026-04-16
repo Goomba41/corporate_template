@@ -1,7 +1,7 @@
 export default defineI18nConfig(() => {
     return {
         fallbackLocale: {
-            es: ['ru'],
+            la: ['ru'],
             default: ['en']
         },
     }
