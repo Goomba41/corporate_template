@@ -8,38 +8,22 @@ import ErrorMessage from '~/components/shared/ui/atoms/Message.vue'
 // import CharacterCounter from '~/components/shared/ui/atoms/CharacterCounter.vue'
 
 interface Props {
-    // label?: string
     error?: string | null
     errorLines?: number
     // hint?: string
-    // required?: boolean
-    // disabled?: boolean
-    // readonly?: boolean
-    // focused?: boolean
     // maxLength?: number
-    // modelValue?: string | number
     // showCounter?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    // label: '',
     error: null,
     errorLines: 1
     // hint: '',
-    // required: false,
-    // disabled: false,
-    // readonly: false,
-    // focused: false,
     // maxLength: undefined,
-    // modelValue: '',
     // showCounter: false,
 })
 
-const emit = defineEmits<{
-    focus: []
-    blur: []
-    iconClick: [position: 'prefix' | 'suffix']
-}>()
+defineOptions({ inheritAttrs: false })
 
 const bem = appBEM('form-field')
 
@@ -56,9 +40,6 @@ const hasError = computed(() => !!props.error)
 //     if (!props.maxLength) return false
 //     return currentLength.value > props.maxLength
 // })
-
-const handleFocus = () => emit('focus')
-const handleBlur = () => emit('blur')
 </script>
 
 <template>
@@ -66,11 +47,6 @@ const handleBlur = () => emit('blur')
         class="form-field"
         :class="bem({
             error: hasError,
-            // 'disabled': disabled,
-            // 'readonly': readonly,
-            // 'focused': focused
-            // `form-field--${variant}`,
-            // `form-field--${size}`,
         })"
     >
         <!-- Обертка для поля ввода -->
@@ -81,11 +57,6 @@ const handleBlur = () => emit('blur')
                 name="input"
                 :invalid="hasError"
             />
-            <!-- @focus="handleFocus"
-                    @blur="handleBlur" -->
-            <!-- :disabled="disabled"
-                    :readonly="readonly"
-                    :focused="focused" -->
         </div>
 
         <!-- Сообщение об ошибке (атом) -->
