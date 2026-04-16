@@ -1,40 +1,4 @@
 {
-  "placeholder": "Hippus Incognitus",
-  "button": {
-    "label": {
-      "default": "Actio Incognita",
-      "search": "Поиск"
-    },
-    "sizes": {
-      "sm": "Маленькая",
-      "md": "Средняя",
-      "lg": "Большая"
-    },
-    "severities": {
-      "primary": "Основная",
-      "secondary": "Вторичная",
-      "success": "Успех",
-      "info": "Информация",
-      "warning": "Предупреждение",
-      "help": "Помощь",
-      "danger": "Опасность"
-    }
-  },
-  "input-text": {
-    "label": {
-      "default": "Scriptum Incognitum"
-    },
-    "variants": {
-      "filled": "Заполненное",
-      "disabled": "Отключенное"
-    },
-    "sizes": {
-      "sm": "Маленькое",
-      "md": "Среднее",
-      "lg": "Большое",
-      "fluid": "Гибкое"
-    }
-  },
   "password": {
     "errors": {
       "PASSWORD_INSECURE": "Пароль не соответствует требованиям безопасности системы",
@@ -67,5 +31,17 @@
   },
   "system": {
     "composable_same_ref": "⚠️ Хук «{ name }»: один model используется в { count } экземплярах.\nЭто может вызвать гонки состояния. Создайте отдельную ref для каждого поля."
+  },
+  "forms": {
+    "login": {
+      "header": "вход",
+      "subheader": "добро пожаловать! введите данные, чтобы продолжить",
+      "username": "email, телефон или логин",
+      "password": "пароль",
+      "remember": "запомнить меня",
+      "restore": "забыли пароль?",
+      "question": "нет аккаунта?",
+      "registration": "создайте его"
+    }
   }
 }

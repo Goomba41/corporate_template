@@ -158,29 +158,29 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #title>Basic variant with severities</template>
         <template #content>
           <div class="mt-4 grid grid-cols-3 gap-2">
-            <AtomButton :label="$t('button.severities.primary')" />
+            <AtomButton label="Primary" />
             <AtomButton
-              :label="$t('button.severities.secondary')"
+              label="Secondary"
               severity="secondary"
             />
             <AtomButton
-              :label="$t('button.severities.success')"
+              label="Success"
               severity="success"
             />
             <AtomButton
-              :label="$t('button.severities.info')"
+              label="Info"
               severity="info"
             />
             <AtomButton
-              :label="$t('button.severities.warning')"
+              label="Warning"
               severity="warning"
             />
             <AtomButton
-              :label="$t('button.severities.help')"
+              label="Help"
               severity="help"
             />
             <AtomButton
-              :label="$t('button.severities.danger')"
+              label="Danger"
               severity="danger"
               class="col-span-3"
             />
@@ -193,36 +193,36 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="mt-4 grid grid-cols-3 gap-2">
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               variant="outlined"
             />
             <AtomButton
-              :label="$t('button.severities.secondary')"
+              label="Secondary"
               severity="secondary"
               variant="outlined"
             />
             <AtomButton
-              :label="$t('button.severities.success')"
+              label="Success"
               severity="success"
               variant="outlined"
             />
             <AtomButton
-              :label="$t('button.severities.info')"
+              label="Info"
               severity="info"
               variant="outlined"
             />
             <AtomButton
-              :label="$t('button.severities.warning')"
+              label="Warning"
               severity="warning"
               variant="outlined"
             />
             <AtomButton
-              :label="$t('button.severities.help')"
+              label="Help"
               severity="help"
               variant="outlined"
             />
             <AtomButton
-              :label="$t('button.severities.danger')"
+              label="Danger"
               severity="danger"
               variant="outlined"
               class="col-span-3"
@@ -236,36 +236,36 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="mt-4 grid grid-cols-3 gap-2">
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               variant="text"
             />
             <AtomButton
-              :label="$t('button.severities.secondary')"
+              label="Secondary"
               severity="secondary"
               variant="text"
             />
             <AtomButton
-              :label="$t('button.severities.success')"
+              label="Success"
               severity="success"
               variant="text"
             />
             <AtomButton
-              :label="$t('button.severities.info')"
+              label="Info"
               severity="info"
               variant="text"
             />
             <AtomButton
-              :label="$t('button.severities.warning')"
+              label="Warning"
               severity="warning"
               variant="text"
             />
             <AtomButton
-              :label="$t('button.severities.help')"
+              label="Help"
               severity="help"
               variant="text"
             />
             <AtomButton
-              :label="$t('button.severities.danger')"
+              label="Danger"
               severity="danger"
               variant="text"
               class="col-span-3"
@@ -279,17 +279,17 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="flex mt-4 justify-center gap-2 items-center">
             <AtomButton
-              :label="$t('button.sizes.sm')"
+              label="Small"
               size="sm"
               @click="click"
             />
             <AtomButton
-              :label="$t('button.sizes.md')"
+              label="Medium"
               size="md"
               @click="click"
             />
             <AtomButton
-              :label="$t('button.sizes.lg')"
+              label="Large"
               size="lg"
               @click="click"
             />
@@ -302,16 +302,16 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="flex mt-4 justify-center items-center gap-2">
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               rounded
             />
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               variant="outlined"
               rounded
             />
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               variant="text"
               rounded
             />
@@ -324,17 +324,17 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="mt-4 flex gap-2 justify-center items-center">
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               @click="click"
               disabled
             />
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               @click="load"
             />
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               @click="load"
             >
@@ -346,7 +346,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               </template>
             </AtomButton>
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               size="sm"
               @click="load"
@@ -360,7 +360,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="flex mt-4 gap-2 justify-center items-center">
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               icon-pos="right"
               @click="load"
@@ -370,7 +370,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               </template>
             </AtomButton>
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               icon-pos="top"
             >
@@ -379,7 +379,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               </template>
             </AtomButton>
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               icon-pos="bottom"
             >
@@ -388,7 +388,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               </template>
             </AtomButton>
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               :loading="loading"
               @click="load"
             >
@@ -487,18 +487,18 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="flex mt-4 justify-center items-center gap-2 flex-wrap">
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               badge="5"
               badge-severity="info"
             />
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               :loading="loading"
               badge="555"
               badge-severity="info"
             />
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               :loading="loading"
               badge="5"
               badge-severity="success"
@@ -508,7 +508,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               </template>
             </AtomButton>
             <AtomButton
-              :label="$t('button.severities.primary')"
+              label="Primary"
               :loading="loading"
               icon-pos="right"
               badge="5"
@@ -527,31 +527,31 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #content>
           <div class="flex mt-4 justify-center items-center gap-2">
             <MoleculeButtonGroup>
-              <AtomButton :label="$t('button.severities.primary')">
+              <AtomButton label="Primary">
                 <template #icon>
                   <IconFinnTheHumanDuotone />
                 </template>
               </AtomButton>
               <AtomButton
-                :label="$t('button.severities.primary')"
+                label="Primary"
                 disabled
               />
               <AtomButton
-                :label="$t('button.severities.primary')"
+                label="Primary"
                 :loading="loading"
               />
             </MoleculeButtonGroup>
             <MoleculeButtonGroup>
               <AtomButton
-                :label="$t('button.severities.primary')"
+                label="Primary"
                 severity="success"
               />
               <AtomButton
-                :label="$t('button.severities.primary')"
+                label="Primary"
                 variant="outlined"
               />
               <AtomButton
-                :label="$t('button.severities.primary')"
+                label="Primary"
                 rounded
               />
             </MoleculeButtonGroup>
@@ -571,7 +571,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             <AtomInputText
               v-model="inputTextValue"
               :variant="inputTextValue.length ? 'filled' : undefined"
-              :placeholder="$t('input-text.label.default')"
+              placeholder="Input text"
               @update:modelValue="testModelEvent($event)"
               @input-change="testInputChange"
             />
@@ -587,25 +587,25 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             <AtomInputText
               class="w-1/4"
               variant="filled"
-              :placeholder="$t('input-text.variants.filled')"
+              placeholder="Filled"
             />
             <AtomInputText
               class="w-1/4"
               disabled
-              :placeholder="$t('input-text.variants.disabled')"
+              placeholder="Disabled"
             />
             <AtomInputText
               class="w-1/4"
               value="Filled and disabled"
               disabled
               variant="filled"
-              :placeholder="`${$t('input-text.variants.filled')} ${$t('input-text.variants.disabled')}`"
+              placeholder="Filled and Disabled"
             />
 
             <AtomInputText
               class="w-1/4"
               :loading="true"
-              :placeholder="$t('input-text.sizes.md')"
+              placeholder="Medium"
             />
           </div>
         </template>
@@ -617,7 +617,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
           <AtomInputText
             fluid
             class="mt-4"
-            :placeholder="$t('input-text.sizes.fluid')"
+            placeholder="Fluid"
           />
         </template>
       </AtomCard>
@@ -628,17 +628,17 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
           <div class="flex mt-4 justify-center gap-2 items-center w-full">
             <AtomInputText
               class="w-1/3"
-              :placeholder="$t('input-text.sizes.sm')"
+              placeholder="Small"
               size="sm"
             />
             <AtomInputText
               class="w-1/3"
-              :placeholder="$t('input-text.sizes.md')"
+              placeholder="Medium"
               size="md"
             />
             <AtomInputText
               class="w-1/3"
-              :placeholder="$t('input-text.sizes.lg')"
+              placeholder="Large"
               size="lg"
             />
           </div>
@@ -663,7 +663,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                   <AtomInputText />
                 </template>
                 <template #label>
-                  {{ $t('input-text.sizes.md') }}
+                  Medium
                 </template>
               </MoleculeFloatLabel>
 
@@ -682,7 +682,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                   <AtomInputText />
                 </template>
                 <template #label>
-                  {{ $t('input-text.sizes.md') }}
+                  Medium
                 </template>
               </MoleculeFloatLabel>
 
@@ -697,7 +697,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                 v-model="inputTextValue"
                 class="w-1/3"
                 :loading="loading"
-                :placeholder="$t('input-text.sizes.md')"
+                placeholder="Medium"
               >
                 <template #loadingIcon>
                   <IconUiSpinnerResize
@@ -718,7 +718,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               </AtomInputGroupAddon>
 
               <AtomInputText
-                :placeholder="$t('input-text.sizes.lg')"
+                placeholder="Large"
                 size="lg"
               />
 
@@ -731,11 +731,11 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             </MoleculeInputGroup>
             <MoleculeInputGroup>
 
-              <AtomButton :label="$t('button.label.search')" />
+              <AtomButton label="Search" />
 
               <AtomInputText
                 class="w-1/3"
-                :placeholder="$t('input-text.sizes.md')"
+                placeholder="Medium"
               />
 
               <AtomInputGroupAddon>
@@ -750,7 +750,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                 v-model="inputTextValue"
                 class="w-1/3"
                 :loading="loading"
-                :placeholder="$t('input-text.sizes.md')"
+                placeholder="Medium"
               >
                 <template #loadingIcon>
                   <IconUiSpinnerResize
@@ -796,7 +796,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
           <div class="flex gap-2 items-start w-full">
             <MoleculeFormField class="w-1/4">
               <template #input>
-                <AtomInputText :placeholder="$t('input-text.sizes.md')" />
+                <AtomInputText placeholder="Medium" />
               </template>
             </MoleculeFormField>
             <MoleculeFormField
@@ -805,7 +805,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             >
               <template #input="{ invalid }">
                 <AtomInputText
-                  :placeholder="$t('input-text.sizes.md')"
+                  placeholder="Medium"
                   :invalid="invalid"
                   size="md"
                 />
@@ -818,7 +818,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             >
               <template #input="{ invalid }">
                 <AtomInputText
-                  :placeholder="$t('input-text.sizes.md')"
+                  placeholder="Medium"
                   :invalid="invalid"
                   size="md"
                 />
@@ -829,7 +829,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                 <AtomInputText
                   v-model="inputTextValue"
                   :loading="loading"
-                  :placeholder="$t('input-text.sizes.md')"
+                  placeholder="Medium"
                 >
                   <template #loadingIcon>
                     <IconUiSpinnerResize
@@ -852,7 +852,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
       <AtomCard class="w-full">
         <template #title>Simple message</template>
         <template #content>
-          <AtomMessage>{{ $t('placeholder') }}</AtomMessage>
+          <AtomMessage>Hidden Hippo 🦛</AtomMessage>
         </template>
       </AtomCard>
 
@@ -871,16 +871,16 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #title>Variants</template>
         <template #content>
           <div class="grid grid-cols-2 gap-2 items-center">
-            <AtomMessage severity="primary">{{ $t('placeholder') }}</AtomMessage>
-            <AtomMessage severity="secondary">{{ $t('placeholder') }}</AtomMessage>
-            <AtomMessage severity="success">{{ $t('placeholder') }}</AtomMessage>
-            <AtomMessage severity="info">{{ $t('placeholder') }}</AtomMessage>
-            <AtomMessage severity="warning">{{ $t('placeholder') }}</AtomMessage>
-            <AtomMessage severity="help">{{ $t('placeholder') }}</AtomMessage>
+            <AtomMessage severity="primary">Hidden Hippo 🦛</AtomMessage>
+            <AtomMessage severity="secondary">Hidden Hippo 🦛</AtomMessage>
+            <AtomMessage severity="success">Hidden Hippo 🦛</AtomMessage>
+            <AtomMessage severity="info">Hidden Hippo 🦛</AtomMessage>
+            <AtomMessage severity="warning">Hidden Hippo 🦛</AtomMessage>
+            <AtomMessage severity="help">Hidden Hippo 🦛</AtomMessage>
             <AtomMessage
               severity="danger"
               class="col-span-2"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
           </div>
         </template>
       </AtomCard>
@@ -892,15 +892,15 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             <AtomMessage
               severity="primary"
               variant="outlined"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
             <AtomMessage
               severity="secondary"
               variant="outlined"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
             <AtomMessage
               severity="success"
               variant="outlined"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
           </div>
         </template>
       </AtomCard>
@@ -912,21 +912,21 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             <AtomMessage
               severity="primary"
               variant="simple"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
             <AtomMessage
               severity="secondary"
               variant="simple"
               size="sm"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
             <AtomMessage
               severity="success"
               variant="simple"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
             <AtomMessage
               severity="error"
               variant="simple"
               size="lg"
-            >{{ $t('placeholder') }}</AtomMessage>
+            >Hidden Hippo 🦛</AtomMessage>
           </div>
         </template>
       </AtomCard>
@@ -942,7 +942,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                   height="1.25rem"
                 />
               </template>
-              {{ $t('placeholder') }}
+              Hidden Hippo 🦛
             </AtomMessage>
             <AtomMessage severity="info">
               <template #icon>
@@ -951,7 +951,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
                   height="3rem"
                 />
               </template>
-              {{ $t('placeholder') }}
+              Hidden Hippo 🦛
             </AtomMessage>
           </div>
         </template>
@@ -973,7 +973,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               v-model:visible="visible"
               @life-end="hideMessage"
             >
-              {{ $t('placeholder') }}
+              Hidden Hippo 🦛
             </AtomMessage>
 
             <AtomMessage
@@ -983,7 +983,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
               v-model:visible="visible"
               @life-end="hideMessage"
             >
-              {{ $t('placeholder') }}
+              Hidden Hippo 🦛
             </AtomMessage>
           </div>
         </template>
@@ -1208,7 +1208,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
           </div>
         </template>
         <template #title>All feature card</template>
-        <template #subtitle>{{ $t('placeholder') }}</template>
+        <template #subtitle>Hidden Hippo 🦛</template>
         <template #content>
           <p class="m-0">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae
@@ -1219,13 +1219,13 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
         <template #footer>
           <div class="flex gap-4 mt-1">
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               severity="secondary"
               variant="outlined"
               class="w-full"
             />
             <AtomButton
-              :label="$t('button.label.default')"
+              label="Button"
               class="w-full"
             />
           </div>

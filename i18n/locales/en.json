@@ -1,40 +1,4 @@
 {
-  "placeholder": "Hippus Incognitus",
-  "button": {
-    "label": {
-      "default": "Actio Incognita",
-      "search": "Search"
-    },
-    "sizes": {
-      "sm": "Small",
-      "md": "Medium",
-      "lg": "Large"
-    },
-    "severities": {
-      "primary": "Primary",
-      "secondary": "Secondary",
-      "success": "Success",
-      "info": "Info",
-      "warning": "Warning",
-      "help": "Help",
-      "danger": "Danger"
-    }
-  },
-  "input-text": {
-    "label": {
-      "default": "Scriptum Incognitum"
-    },
-    "variants": {
-      "filled": "Filled",
-      "disabled": "Disabled"
-    },
-    "sizes": {
-      "sm": "Small",
-      "md": "Medium",
-      "lg": "Large",
-      "fluid": "Fluid"
-    }
-  },
   "password": {
     "errors": {
       "PASSWORD_INSECURE": "Password does not meet system security requirements",
@@ -67,5 +31,17 @@
   },
   "system": {
     "composable_same_ref": "⚠️ Composable «{ name }»: Same model ref used in { count } instances.\nThis can cause state races. Use a separate ref for each field."
+  },
+  "forms": {
+    "login": {
+      "header": "sign in",
+      "subheader": "welcome back! enter your credentials to continue",
+      "username": "email, phone or username",
+      "password": "password",
+      "remember": "remember me",
+      "restore": "forgot password?",
+      "question": "don't have an account?",
+      "registration": "sign up"
+    }
   }
 }
