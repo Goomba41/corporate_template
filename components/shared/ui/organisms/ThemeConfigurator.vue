@@ -16,6 +16,7 @@
             append-to="body"
         >
             <div class="flex flex-col gap-6">
+                <!-- Палитры -->
                 <div>
                     <h4 class="mb-2">{{ $t(`${i18nPath}.brands.label`) }}</h4>
                     <div class="grid grid-cols-3 gap-2">
@@ -36,6 +37,7 @@
                     </div>
                 </div>
 
+                <!-- Фоны -->
                 <div>
                     <h4 class="mb-2">{{ $t(`${i18nPath}.surfaces.label`) }}</h4>
                     <div class="grid grid-cols-3 gap-2">
@@ -56,6 +58,7 @@
                     </div>
                 </div>
 
+                <!-- Языки -->
                 <div>
                     <h4 class="mb-2">{{ $t(`${i18nPath}.locales`) }}</h4>
                     <div class="grid grid-cols-3 gap-2">
@@ -68,7 +71,11 @@
                             variant="outlined"
                             size="sm"
                             @click="setAppLocale(item.code)"
-                        />
+                        >
+                            <template #icon>
+                                <component :is="localeIcons[item.code]"></component>
+                            </template>
+                        </AtomButton>
                     </div>
                 </div>
 
@@ -102,6 +109,8 @@
     setup
     lang="ts"
 >
+import { IconUiLocalesEN, IconUiLocalesLA, IconUiLocalesRU, IconUiMonitor, IconUiMoon, IconUiSun } from '#components';
+
 interface Props {
     size?: 'sm' | 'md' | 'lg'
 }
@@ -127,6 +136,11 @@ const {
 } = useTheme()
 
 const { appLocale, allLocales, setAppLocale } = useLocale()
+const localeIcons = {
+    "la": IconUiLocalesLA,
+    "en": IconUiLocalesEN,
+    "ru": IconUiLocalesRU,
+}
 
 const popoverTarget = ref<HTMLElement | null>(null)
 
