@@ -1,13 +1,13 @@
 .color-green {
-    --primary-50: #f7fee7;
-    --primary-100: #ecfccb;
-    --primary-200: #d9f99d;
-    --primary-300: #bef264;
-    --primary-400: #a3e635;
-    --primary-500: #84cc16;
-    --primary-600: #65a30d;
-    --primary-700: #4d7c0f;
-    --primary-800: #3f6212;
-    --primary-900: #365314;
-    --primary-950: #1a2e05;
+    --primary-50: #effdf5;
+    --primary-100: #d9fbe8;
+    --primary-200: #b3f5d1;
+    --primary-300: #75edae;
+    --primary-400: #00dc82;
+    --primary-500: #00c16a;
+    --primary-600: #00a155;
+    --primary-700: #007f45;
+    --primary-800: #016538;
+    --primary-900: #0a5331;
+    --primary-950: #052e16;
 }

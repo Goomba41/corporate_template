@@ -99,8 +99,7 @@
                         </AtomButton>
                     </div>
                 </div>
-
-                <!-- TODO: radius -->
+                
                 <!-- Скругления -->
                 <div>
                     <h4 class="mb-2">{{ $t(`${i18nPath}.roundings.label`) }}</h4>

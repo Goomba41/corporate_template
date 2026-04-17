@@ -32,7 +32,7 @@ export const colorThemesMetadata: Record<ColorTheme, { order: number, preview: s
     'cyan': { order: 8, label: 'cyan', preview: '#0891b2' },
     'emerald': { order: 6, label: 'emerald', preview: '#059669' },
     'fuchsia': { order: 14, label: 'fuchsia', preview: '#c026d3' },
-    'green': { order: 5, label: 'green', preview: '#65a30d' },
+    'green': { order: 5, label: 'green', preview: '#00a155' },
     'indigo': { order: 11, label: 'indigo', preview: '#4f46e5' },
     'lime': { order: 4, label: 'lime', preview: '#65a30d' },
     'orange': { order: 1, label: 'orange', preview: '#ea580c' },
