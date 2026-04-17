@@ -32,6 +32,7 @@ export const useTheme = () => {
     // Цветовая тема (бренд)
     const colorTheme = ref<ColorTheme>(colorThemeCookie.value)
 
+    // TODO: system mode
     // Режим отображения (светлый/темный)
     const displayMode = ref<DisplayMode>((() => {
         if (displayModeCookie.value === 'no-preference' || !displayModeCookie.value) {

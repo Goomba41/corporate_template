@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <!-- TODO: mode -->
+                <!-- Режимы -->
                 <div>
                     <h4 class="mb-2">{{ $t(`${i18nPath}.modes.label`) }}</h4>
                     <div class="grid grid-cols-3 gap-2">
@@ -92,7 +92,11 @@
                             variant="outlined"
                             size="sm"
                             @click="setDisplayMode(item)"
-                        />
+                        >
+                            <template #icon>
+                                <component :is="modeIcons[item]"></component>
+                            </template>
+                        </AtomButton>
                     </div>
                 </div>
 
@@ -136,6 +140,13 @@ const {
 } = useTheme()
 
 const { appLocale, allLocales, setAppLocale } = useLocale()
+
+const modeIcons = {
+    "dark": IconUiMoon,
+    "light": IconUiSun,
+    "system": IconUiMonitor,
+}
+
 const localeIcons = {
     "la": IconUiLocalesLA,
     "en": IconUiLocalesEN,
