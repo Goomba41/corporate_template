@@ -50,7 +50,7 @@ $message-variants: (
 
 .hh-badge {
     display: inline-flex;
-    border-radius: 0.5rem;
+    border-radius: calc(var(--ui-radius) * 1.5);
     align-items: center;
     justify-content: center;
     font-size: 0.75rem;

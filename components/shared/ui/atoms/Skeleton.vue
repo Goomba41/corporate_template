@@ -54,7 +54,7 @@ $skeleton-highlight-dark: rgba(255, 255, 255, 0.1);
     display: block;
     overflow: hidden;
     background-color: var(--skeleton-base, $skeleton-base);
-    border-radius: 6px;
+    border-radius: calc(var(--ui-radius) * 1.5);
     overflow: hidden;
     position: relative;
 

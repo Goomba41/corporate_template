@@ -8,16 +8,7 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const {
-  colorSurface,
-  colorTheme,
-  displayMode,
-  toggleDisplayMode,
-  cycleColorTheme,
-  cycleColorSurface
-} = useTheme()
-
-const { appLocaleName, cycleAppLocale } = useLocale()
+useTheme()
 
 const click = () => {
   console.log('Click!')
@@ -1911,7 +1902,6 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
       </AtomCard>
     </div>
 
-
     <!-- Шаблон для последующей вставки новой секции -->
     <!-- <div class="flex flex-col gap-6 items-center">
       <h2></h2>
@@ -1926,13 +1916,6 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
       </AtomCard>
     </div> -->
 
-  </div>
-
-  <div class="options">
-    <button @click="cycleColorSurface">Поверхность: {{ colorSurface }}</button>
-    <button @click="cycleColorTheme">Тема: {{ colorTheme }}</button>
-    <button @click="toggleDisplayMode">Режим: {{ displayMode }}</button>
-    <button @click="cycleAppLocale">Язык: {{ appLocaleName }}</button>
   </div>
 </template>
 
@@ -1955,21 +1938,5 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
   }
-}
-
-.options {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: calc(var(--spacing) * 7);
-  gap: calc(var(--spacing) * 4);
-  position: sticky;
-  bottom: calc(var(--spacing) * 7);
-  padding-inline: calc(var(--spacing) * 4);
-  padding-block: calc(var(--spacing) * 2);
-  background: var(--bg-secondary);
-  width: fit-content;
-  justify-self: center;
-  border-radius: 8px;
 }
 </style>

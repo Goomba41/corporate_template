@@ -141,7 +141,7 @@ const form = reactive({
     }
 
     &__logotype {
-        border-radius: 36%;
+        border-radius: calc(var(--ui-radius) * 3);
         padding: 0.75rem;
         margin-bottom: 1rem;
         background-color: var(--surface-800);

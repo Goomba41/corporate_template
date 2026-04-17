@@ -117,7 +117,7 @@ watch(effectiveState, (newState) => {
 .hh-checkbox {
     --checkbox-width: calc(var(--spacing) * 5);
     --checkbox-height: var(--checkbox-width);
-    --checkbox-radius: calc(var(--checkbox-width) * 0.325);
+    --checkbox-radius: calc(var(--ui-radius) * 1);
     --checkbox-checked-background: var(--primary-600);
     --checkbox-checked-hover: var(--primary-700);
     --checkbox-checked-border-color: var(--checkbox-checked-background);

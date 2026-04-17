@@ -101,8 +101,22 @@
                 </div>
 
                 <!-- TODO: radius -->
+                <!-- Скругления -->
                 <div>
                     <h4 class="mb-2">{{ $t(`${i18nPath}.roundings.label`) }}</h4>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <AtomButton
+                            v-for="item in getUICorners()"
+                            :key="item"
+                            :label="$t(`${i18nPath}.roundings.items.${transformI18NumberKey(item)}`)"
+                            :severity="uiCorner === item ? 'primary' : 'secondary'"
+                            class="justify-start!"
+                            variant="outlined"
+                            size="sm"
+                            @click="setUICorners(item)"
+                        />
+                    </div>
                 </div>
             </div>
         </AtomPopover>
@@ -131,6 +145,9 @@ const {
     colorTheme,
     colorSurface,
     displayMode,
+    uiCorner,
+    getUICorners,
+    setUICorners,
     getColorThemes,
     setColorTheme,
     getColorSurfaces,
@@ -152,6 +169,8 @@ const localeIcons = {
     "en": IconUiLocalesEN,
     "ru": IconUiLocalesRU,
 }
+
+const transformI18NumberKey = (n: number) => n.toString().replace('.', '-')
 
 const popoverTarget = ref<HTMLElement | null>(null)
 

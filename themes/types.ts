@@ -21,6 +21,9 @@ export const colorThemes = [
 ] as const;
 export const colorSurfaces = ['gray', 'neutral', 'ocean', 'slate', 'soho', 'stone', 'viva', 'zinc', 'mauve'] as const
 export const displayModes = ['dark', 'light', 'system', 'no-preference'] as const
+// NOTE: убраны промежуточные, чтобы вписаться в сетку из трех столбцов в конфигураторе тем,
+// возможно стоит вернуть
+export const uiCorners = [0, /*0.125,*/ 0.25, /*0.375,*/ 0.5] as const
 
 // NOTE: Использованы цвета 600 веса для предпросмотра тем и поверхностей
 export const colorThemesMetadata: Record<ColorTheme, { order: number, preview: string, label: string }> = {
@@ -58,4 +61,5 @@ export const colorSurfacesMetadata: Record<ColorSurface, { order: number, previe
 
 export type ColorTheme = typeof colorThemes[number];
 export type ColorSurface = typeof colorSurfaces[number]
+export type UICorner = typeof uiCorners[number]
 export type DisplayMode = 'dark' | 'light' | 'system' | 'no-preference'

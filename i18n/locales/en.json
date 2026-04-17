@@ -89,7 +89,13 @@
     "locales": "languages",
     "roundings": {
       "label": "corners",
-      "items": {}
+      "items": {
+        "0": "none",
+        "0-125": "subtle",
+        "0-25": "default",
+        "0-375": "smooth",
+        "0-5": "relaxed"
+      }
     },
     "modes": {
       "label": "appearance",

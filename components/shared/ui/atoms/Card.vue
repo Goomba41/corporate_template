@@ -99,7 +99,7 @@ $card-padding: calc(var(--spacing) * 5);
     background: var(--bg-primary);
     color: var(--text-primary);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-    border-radius: 0.875rem;
+    border-radius: calc(var(--ui-radius) * 1.5);
     display: flex;
     flex-direction: column;
     line-height: normal;

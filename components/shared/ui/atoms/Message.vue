@@ -161,7 +161,7 @@ $message-appearance-variants: (
     --message-font-size: 1rem;
 
     color: var(--text-inverse);
-    border-radius: 0.5rem;
+    border-radius: calc(var(--ui-radius) * 1.5);
     font-weight: 500;
     display: inline-flex;
     gap: 0.5rem;

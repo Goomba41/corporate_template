@@ -56,7 +56,13 @@
     "locales": "linguae",
     "roundings": {
       "label": "anguli",
-      "items": {}
+      "items": {
+        "0": "nulla",
+        "0-125": "levia",
+        "0-25": "media",
+        "0-375": "mollia",
+        "0-5": "laxa"
+      }
     },
     "modes": {
       "label": "forma",

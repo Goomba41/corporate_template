@@ -6,9 +6,11 @@ import {
     colorThemes,
     colorThemesMetadata,
     displayModes,
+    uiCorners,
     type ColorSurface,
     type ColorTheme,
     type DisplayMode,
+    type UICorner,
 } from '~/themes/types'
 import { useCookie } from '#app'
 import { usePreferredColorScheme } from '@vueuse/core'
@@ -24,6 +26,10 @@ export const useTheme = () => {
 
     const displayModeCookie = useCookie<DisplayMode>('theme-mode', {
         default: () => 'no-preference'
+    })
+
+    const uiCornerCookie = useCookie<UICorner>('theme-corner', {
+        default: () => 0.25
     })
 
     // Определяем предпочитаемый режим системы
@@ -43,6 +49,8 @@ export const useTheme = () => {
 
     // Цвет поверхности
     const colorSurface = ref<ColorSurface>(colorSurfaceCookie.value)
+
+    const uiCorner = ref<UICorner>(uiCornerCookie.value)
 
     // Получение списка цветовых тем
     const getColorThemes = () => Object.entries(colorThemesMetadata)
@@ -80,6 +88,15 @@ export const useTheme = () => {
     const setColorSurface = (color: ColorSurface) => {
         colorSurface.value = color
         colorSurfaceCookie.value = color
+        applyTheme()
+    }
+
+    // Получение списка скруглений
+    const getUICorners = () => uiCorners
+
+    const setUICorners = (value: UICorner) => {
+        uiCorner.value = value
+        uiCornerCookie.value = value
         applyTheme()
     }
 
@@ -122,6 +139,8 @@ export const useTheme = () => {
         root.classList.add(`color-${colorTheme.value}`)
         root.classList.add(`mode-${displayMode.value}`)
         root.classList.add(`surface-${colorSurface.value}`)
+
+        root.style.setProperty('--ui-radius', `${uiCorner.value.toString()}rem`)
 
         // Управляем классом 'dark' для UnoCSS
         if (displayMode.value === 'dark') {
@@ -168,8 +187,11 @@ export const useTheme = () => {
         colorSurface: shallowReadonly(colorSurface),
         colorTheme: shallowReadonly(colorTheme),
         displayMode: shallowReadonly(displayMode),
+        uiCorner: shallowReadonly(uiCorner),
 
         // Методы
+        getUICorners,
+        setUICorners,
         getColorThemes,
         setColorTheme,
         cycleColorTheme,

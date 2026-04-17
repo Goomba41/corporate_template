@@ -226,7 +226,7 @@ const normalizedValue = computed(() => {
 .hh-progress-bar {
     --pb-fill-bg: var(--primary-500);
     height: 1.25rem;
-    border-radius: 0.5rem;
+    border-radius: calc(var(--ui-radius) * 1.5);
 
     &__track {
         border-radius: inherit;

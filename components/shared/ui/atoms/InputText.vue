@@ -234,7 +234,7 @@ const isFilled = computed(() => {
     &__wrapper {
         display: flex;
         position: relative;
-        border-radius: 0.5rem;
+        border-radius: calc(var(--ui-radius) * 1.5);
 
         &--fluid {
             width: 100%;
