@@ -1,3 +1,23 @@
+<!--
+/**
+ * @file ThemeConfigurator.vue
+ * @description Компонент интерфейса для настройки визуальной темы приложения.
+ * 
+ * @module components/shared/ui/organisms/ThemeConfigurator
+ * @category UI Layer / Presentational Component
+ * 
+ * @remarks
+ * - Реализует паттерн Atomic Design: использует только атомы (AtomButton, AtomPopover)
+ * - Применяет BEM через appBEM helper для изоляции стилей
+ * - Полностью типизирован с TypeScript, поддерживает i18n
+ * - Не содержит бизнес-логики: делегирует всё композируемым функциям
+ * 
+ * @performance
+ * - v-for с :key по стабильному идентификатору
+ * - scoped styles предотвращают утечки
+ * - Инлайновые стили для предпросмотра цвета минимальны и безопасны
+ */
+-->
 <template>
     <div :class="[bem.toString()]">
         <AtomButton
@@ -113,7 +133,7 @@
                             class="justify-start!"
                             variant="outlined"
                             size="sm"
-                            @click="setUICorners(item)"
+                            @click="setUICorner(item)"
                         />
                     </div>
                 </div>
@@ -136,17 +156,20 @@ const props = withDefaults(defineProps<Props>(), {
     size: 'lg',
 })
 
+// 🔑 Путь к ключам i18n для этого компонента
 const i18nPath = 'theme-configurator'
 
+// 🎨 BEM helper: генерирует классы вида 'theme-configurator theme-configurator--lg'
 const bem = appBEM('theme-configurator')
 
+// 🎛️ Делегируем всю логику композиции тем
 const {
     colorTheme,
     colorSurface,
     displayMode,
     uiCorner,
     getUICorners,
-    setUICorners,
+    setUICorner,
     getColorThemes,
     setColorTheme,
     getColorSurfaces,
@@ -155,26 +178,44 @@ const {
     setDisplayMode,
 } = useTheme()
 
+// 🌐 Интеграция с системой локализации
 const { appLocale, allLocales, setAppLocale } = useLocale()
 
+/**
+ * 🗂️ Маппинг режимов отображения к иконкам.
+ * @note Используется в шаблоне через <component :is>
+ */
 const modeIcons = {
     "dark": IconUiMoon,
     "light": IconUiSun,
     "system": IconUiMonitor,
 }
 
+/**
+ * 🗂️ Маппинг кодов языков к иконкам.
+ * @note Типизирован по ключам allLocales для безопасности
+ */
 const localeIcons = {
     "la": IconUiLocalesLA,
     "en": IconUiLocalesEN,
     "ru": IconUiLocalesRU,
 }
 
+/**
+ * 🔧 Утилита для преобразования числовых ключей в формат i18n.
+ * 
+ * @param n - Числовое значение скругления (0, 0.25, 0.5)
+ * @returns Строка для подстановки в ключ перевода
+ * @example 0.25 → '0-25' → i18n ключ 'roundings.items.0-25'
+ * 
+ * @warning Это временное решение. В идеале использовать enum или string keys
+ * для параметров, чтобы избежать таких трансформаций.
+ */
 const transformI18NumberKey = (n: number) => n.toString().replace('.', '-')
 
 const popoverTarget = ref<HTMLElement | null>(null)
 
 const popoverIsVisible = ref(false)
-
 </script>
 
 <style
