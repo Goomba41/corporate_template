@@ -56,9 +56,9 @@ export interface ThemeConfig {
  */
 export const applyThemeToDocument = (
     config: ThemeConfig, 
-    root: HTMLElement = document.documentElement
+    root: HTMLElement = document?.documentElement
 ) => {
-    if (typeof document === 'undefined') return
+    if (typeof document === 'undefined' || root === undefined) return
 
     // Безопасная очистка: удаляем все возможные классы тем
     root.classList.remove(

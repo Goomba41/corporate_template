@@ -23,6 +23,8 @@ export default defineNuxtConfig({
       { path: '~/components/shared/ui/atoms', prefix: 'Atom' },
       { path: '~/components/shared/ui/molecules', prefix: 'Molecule' },
       { path: '~/components/shared/ui/organisms', prefix: 'Organism' },
+      
+      { path: '~/components/widgets', prefix: 'Widget' },
     ],
   },
 
