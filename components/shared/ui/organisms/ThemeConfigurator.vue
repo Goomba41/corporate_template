@@ -84,7 +84,7 @@
                     <h4 class="mb-2">{{ $t(`${i18nPath}.modes.label`) }}</h4>
                     <div class="grid grid-cols-3 gap-2">
                         <AtomButton
-                            v-for="item in getDisplayModes().filter((i) => i !== 'no-preference')"
+                            v-for="item in getDisplayModes()"
                             :key="item"
                             :label="$t(`${i18nPath}.modes.items.${item}`)"
                             :severity="displayMode === item ? 'primary' : 'secondary'"

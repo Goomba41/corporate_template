@@ -13,44 +13,63 @@ import {
     type UICorner,
 } from '~/themes/types'
 import { useCookie } from '#app'
-import { usePreferredColorScheme } from '@vueuse/core'
+import { useColorMode, usePreferredColorScheme, type BasicColorMode, type StorageLike } from '@vueuse/core'
+
+const createCookieStorage = (cookieName: string, defaultValue: BasicColorMode | 'auto') => {
+    const cookieRef = useCookie<BasicColorMode | 'auto' | null>(cookieName, {
+        default: () => defaultValue
+    })
+
+    return {
+        getItem: (): string | null => cookieRef.value ?? null,
+        setItem: (_key: string, value: string) => {
+            cookieRef.value = value as BasicColorMode | 'auto'
+        },
+        removeItem: (_key: string) => {
+            cookieRef.value = null
+        }
+    } satisfies StorageLike
+}
 
 export const useTheme = () => {
+    // Цветовая тема (бренд)
     const colorThemeCookie = useCookie<ColorTheme>('theme-color', {
         default: () => 'blue'
     })
+    const colorTheme = ref<ColorTheme>(colorThemeCookie.value)
 
+    // Цвет поверхности
     const colorSurfaceCookie = useCookie<ColorSurface>('theme-surface', {
         default: () => 'slate'
     })
+    const colorSurface = ref<ColorSurface>(colorSurfaceCookie.value)
 
-    const displayModeCookie = useCookie<DisplayMode>('theme-mode', {
-        default: () => 'no-preference'
-    })
-
+    // Радиус скругления
     const uiCornerCookie = useCookie<UICorner>('theme-corner', {
         default: () => 0.25
     })
+    const uiCorner = ref<UICorner>(uiCornerCookie.value)
 
-    // Определяем предпочитаемый режим системы
+    // Режим отображения (светлый/темный)
+    // Внутреннее состояние
+    const colorMode = useColorMode<BasicColorMode | 'auto'>({
+        modes: { auto: 'system' },
+        storageKey: 'theme-mode',
+        storage: createCookieStorage('theme-mode', 'auto'),
+        emitAuto: true,
+        initialValue: 'auto'
+    })
+
     const preferredColorScheme = usePreferredColorScheme()
 
-    // Цветовая тема (бренд)
-    const colorTheme = ref<ColorTheme>(colorThemeCookie.value)
-
-    // TODO: system mode
-    // Режим отображения (светлый/темный)
-    const displayMode = ref<DisplayMode>((() => {
-        if (displayModeCookie.value === 'no-preference' || !displayModeCookie.value) {
-            return preferredColorScheme.value as DisplayMode
+    // Внешнее состояние, для UI
+    const displayMode = computed({
+        get: () => colorMode.value === 'auto' ? 'system' : colorMode.value,
+        set: (mode: DisplayMode) => {
+            colorMode.value = mode === 'system' ? 'auto' : mode
+            applyTheme()
         }
-        return displayModeCookie.value
-    })())
-
-    // Цвет поверхности
-    const colorSurface = ref<ColorSurface>(colorSurfaceCookie.value)
-
-    const uiCorner = ref<UICorner>(uiCornerCookie.value)
+    })
 
     // Получение списка цветовых тем
     const getColorThemes = () => Object.entries(colorThemesMetadata)
@@ -72,7 +91,6 @@ export const useTheme = () => {
     // Изменение режима отображения
     const setDisplayMode = (mode: DisplayMode) => {
         displayMode.value = mode
-        displayModeCookie.value = mode
         applyTheme()
     }
 
@@ -101,9 +119,11 @@ export const useTheme = () => {
     }
 
     // Переключение режима
-    const toggleDisplayMode = () => {
-        const newMode: DisplayMode = displayMode.value === 'light' ? 'dark' : 'light'
-        setDisplayMode(newMode)
+    const cycleDisplayMode = () => {
+        const modes: readonly DisplayMode[] = displayModes
+        const currentIndex = modes.indexOf(displayMode.value)
+        const nextIndex = (currentIndex + 1) % modes.length
+        setDisplayMode(modes[nextIndex]!)
     }
 
     // Переключение цветовой темы (в цикле)
@@ -122,6 +142,16 @@ export const useTheme = () => {
         setColorSurface(colors[nextIndex]!)
     }
 
+    const resolvedMode = computed(() => {
+        if (colorMode.value === 'auto') {
+            // Если система не определила предпочтение — фоллбэк на light
+            return preferredColorScheme.value === 'no-preference'
+                ? 'light'
+                : preferredColorScheme.value
+        }
+        return colorMode.value
+    })
+
     // Применение темы
     const applyTheme = () => {
         if (typeof document === 'undefined') return
@@ -129,24 +159,24 @@ export const useTheme = () => {
         const root = document.documentElement
 
         // Удаляем все классы тем
-        const themeClassesPattern = [...colorThemes, ...colorSurfaces, 'light', 'dark'].join('|')
-        const themeRegex = new RegExp(`\\b(color|mode|surface)-(${themeClassesPattern})\\b`, 'g');
-        root.className = root.className
-            .replace(themeRegex, '')
-            .trim()
+        root.classList.remove(
+            ...colorThemes.map(t => `color-${t}`),
+            ...colorSurfaces.map(s => `surface-${s}`),
+            ...displayModes.map(s => `mode-${s}`),
+            'dark',
+            'light' // для UnoCSS
+        )
 
         // Добавляем классы текущей темы
         root.classList.add(`color-${colorTheme.value}`)
-        root.classList.add(`mode-${displayMode.value}`)
         root.classList.add(`surface-${colorSurface.value}`)
+        root.classList.add(`mode-${resolvedMode}`)
 
         root.style.setProperty('--ui-radius', `${uiCorner.value.toString()}rem`)
 
         // Управляем классом 'dark' для UnoCSS
-        if (displayMode.value === 'dark') {
+        if (resolvedMode.value === 'dark') {
             root.classList.add('dark')
-        } else {
-            root.classList.remove('dark')
         }
     }
 
@@ -156,23 +186,16 @@ export const useTheme = () => {
     })
 
     // Watchers
-    // Следим за изменением системного режима
-    watch(preferredColorScheme, (newScheme) => {
-        if (displayModeCookie.value === 'no-preference') {
-            displayMode.value = newScheme as DisplayMode
+    watch(preferredColorScheme, () => {
+        // Переприменяем тему только если активен системный режим
+        if (colorMode.value === 'auto') {
             applyTheme()
         }
-    })
+    }, { immediate: true, flush: 'post' })
 
     watch(colorTheme, (newVal, oldVal) => {
         if (newVal !== oldVal) {
             colorThemeCookie.value = newVal
-        }
-    })
-
-    watch(displayMode, (newVal, oldVal) => {
-        if (newVal !== oldVal) {
-            displayModeCookie.value = newVal
         }
     })
 
@@ -182,25 +205,25 @@ export const useTheme = () => {
         }
     })
 
+    watch(uiCorner, (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+            uiCornerCookie.value = newVal
+        }
+    })
+
     return {
         // Состояние
         colorSurface: shallowReadonly(colorSurface),
         colorTheme: shallowReadonly(colorTheme),
-        displayMode: shallowReadonly(displayMode),
+        displayMode,
+        resolvedMode,
         uiCorner: shallowReadonly(uiCorner),
 
         // Методы
-        getUICorners,
-        setUICorners,
-        getColorThemes,
-        setColorTheme,
-        cycleColorTheme,
-        getColorSurfaces,
-        setColorSurface,
-        cycleColorSurface,
-        getDisplayModes,
-        setDisplayMode,
-        toggleDisplayMode,
+        getUICorners, setUICorners,
+        getColorThemes, setColorTheme, cycleColorTheme,
+        getColorSurfaces, setColorSurface, cycleColorSurface,
+        getDisplayModes, setDisplayMode, cycleDisplayMode,
         applyTheme
     }
 }
