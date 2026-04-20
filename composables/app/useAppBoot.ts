@@ -5,7 +5,7 @@ export type BootStage =
     | 'cache-warmup'
     | 'ready'
 
-const DEV_STAGE_DELAY_MS = import.meta.dev ? 1000 : 0
+const DEV_STAGE_DELAY_MS = import.meta.dev ? 500 : 0
 
 export function useAppBoot() {
     const stage = ref<BootStage>('init')
@@ -13,7 +13,7 @@ export function useAppBoot() {
     const isThemeReady = ref(false)
     const errors = ref<string[]>([])
 
-    const isServer = ref(import.meta.server)
+    const isHydrationComplete = ref(import.meta.server)
 
     // Карта весов для прогресса (сумма = 100)
     const STAGE_WEIGHTS: Record<BootStage, number> = {
@@ -25,7 +25,7 @@ export function useAppBoot() {
     }
 
     const setStage = (newStage: BootStage) => {
-        if (!isServer.value) return
+        if (!isHydrationComplete.value) return
 
         stage.value = newStage
         progress.value = STAGE_WEIGHTS[newStage]
@@ -41,15 +41,11 @@ export function useAppBoot() {
     // Основная инициализация
     const boot = async () => {
         try {
-
-            if (!isServer.value) await new Promise(resolve => {
-                const unwatch = watch(isServer, (val) => {
-                    if (val) {
-                        unwatch()
-                        resolve(true)
-                    }
-                }, { immediate: true })
-            })
+            if (import.meta.server) {
+                setStage('theme-loading')
+                setStage('theme-ready')
+                return { success: true as const }
+            }
 
             setStage('theme-loading')
             await devDelay('theme-loading')
@@ -100,9 +96,9 @@ export function useAppBoot() {
         }
     }
 
-    if (import.meta.client) {
+    if (!isHydrationComplete.value) {
         onMounted(() => {
-            isServer.value = true
+            isHydrationComplete.value = true
             // Если boot() уже был вызван, но заблокирован — перезапускаем
             if (stage.value === 'init') {
                 boot()

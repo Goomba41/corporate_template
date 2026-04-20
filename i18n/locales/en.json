@@ -35,11 +35,11 @@
     },
     "loader": {
       "states": {
-        "init": "stretching sleepy paws...",
-        "theme-loading": "picking a cozy mud color...",
-        "theme-ready": "settling on a favorite rock...",
-        "cache-warmup": "chewing fresh river grass...",
-        "ready": "hidden hippo ready to dive!"
+        "init": "🐾 stretching sleepy paws...",
+        "theme-loading": "💩 picking a cozy mud color...",
+        "theme-ready": "🪨 settling on a favorite rock...",
+        "cache-warmup": "🌿 chewing fresh river grass...",
+        "ready": "🦛 hidden hippo ready to dive!"
       }
     }
   },

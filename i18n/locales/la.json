@@ -5,11 +5,11 @@
     },
     "loader": {
       "states": {
-        "init": "ungulas somno tendens...",
-        "theme-loading": "colores luti eligens...",
-        "theme-ready": "in lapide commodo sedens...",
-        "cache-warmup": "herbas fluviales mandens...",
-        "ready": "hippo occultus paratus!"
+        "init": "🐾 ungulas somno tendens...",
+        "theme-loading": "💩 colores luti eligens...",
+        "theme-ready": "🪨 in lapide commodo sedens...",
+        "cache-warmup": "🌿 herbas fluviales mandens...",
+        "ready": "🦛 hippo occultus paratus!"
       }
     }
   },
