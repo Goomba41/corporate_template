@@ -1,4 +1,18 @@
 {
+  "system": {
+    "warnings": {
+      "composable_same_ref": "⚠️ Composable «{ name }»: Same model ref used in { count } instances.\nThis can cause state races. Use a separate ref for each field."
+    },
+    "loader": {
+      "states": {
+        "init": "ungulas somno tendens...",
+        "theme-loading": "colores luti eligens...",
+        "theme-ready": "in lapide commodo sedens...",
+        "cache-warmup": "herbas fluviales mandens...",
+        "ready": "hippo occultus paratus!"
+      }
+    }
+  },
   "forms": {
     "login": {
       "header": "Salve, intra",

@@ -78,7 +78,7 @@ export function usePasswordStrength(
     if (import.meta.dev && modelRegistry) {
         const count = modelRegistry.get(passwordRef) || 0
         if (count > 0) {
-            const warning = t('system.composable_same_ref', { name: 'usePasswordStrength', count: count + 1 })
+            const warning = t('system.warnings.composable_same_ref', { name: 'usePasswordStrength', count: count + 1 })
             console.warn(warning)
         }
         modelRegistry.set(passwordRef, count + 1)

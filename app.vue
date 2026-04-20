@@ -125,6 +125,8 @@ const htmlStyle = computed(() => `--ui-radius: ${cornerCookie.value}rem`)
  * Прямая манипуляция DOM необходима, так как useTheme может ещё не быть инициализирован.
  */
 onMounted(() => {
+    boot.boot()
+
     if (modeCookie.value === 'auto' || !modeCookie.value) {
         const systemPrefersDark = preferredColorScheme.value === 'dark'
         const currentIsDark = resolvedMode.value === 'dark'
@@ -137,6 +139,14 @@ onMounted(() => {
         }
     }
 })
+
+const i18nPath = 'system.loader.states.'
+
+const { t } = useI18n()
+
+const boot = useAppBoot()
+
+const bootStatusText = computed(() => t(`${i18nPath}${boot.stage.value}`))
 </script>
 
 <template>
@@ -147,6 +157,12 @@ onMounted(() => {
 
     <Body>
         <NuxtLayout>
+            <AtomAppPreloader
+                :visible="!boot.isReady.value"
+                :progress="boot.progress.value"
+                :status-text="bootStatusText"
+            />
+            <!-- @hidden="onPreloaderHidden" -->
             <NuxtPage />
         </NuxtLayout>
     </Body>

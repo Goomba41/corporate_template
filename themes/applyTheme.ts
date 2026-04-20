@@ -55,9 +55,11 @@ export interface ThemeConfig {
  * - Все значения берутся из типизированных enum, инъекция классов невозможна
  */
 export const applyThemeToDocument = (
-    config: ThemeConfig, 
+    config: ThemeConfig,
     root: HTMLElement = document?.documentElement
 ) => {
+    const isClient = import.meta.client
+
     if (typeof document === 'undefined' || root === undefined) return
 
     // Безопасная очистка: удаляем все возможные классы тем
@@ -82,4 +84,10 @@ export const applyThemeToDocument = (
     if (config.displayMode === 'dark') {
         root.classList.add('dark')
     }
+
+    root.setAttribute('data-theme-applied', 'true')
+
+    if (isClient) requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent('theme-applied', { detail: config }))
+    })
 }

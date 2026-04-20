@@ -30,7 +30,18 @@
     }
   },
   "system": {
-    "composable_same_ref": "⚠️ Composable «{ name }»: Same model ref used in { count } instances.\nThis can cause state races. Use a separate ref for each field."
+    "warnings": {
+      "composable_same_ref": "⚠️ Composable «{ name }»: Same model ref used in { count } instances.\nThis can cause state races. Use a separate ref for each field."
+    },
+    "loader": {
+      "states": {
+        "init": "stretching sleepy paws...",
+        "theme-loading": "picking a cozy mud color...",
+        "theme-ready": "settling on a favorite rock...",
+        "cache-warmup": "chewing fresh river grass...",
+        "ready": "hidden hippo ready to dive!"
+      }
+    }
   },
   "forms": {
     "login": {
