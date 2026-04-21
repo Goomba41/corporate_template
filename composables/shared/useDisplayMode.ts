@@ -125,7 +125,7 @@ export const useDisplayMode = () => {
      * 
      * @logic
      * - Если пользователь выбрал 'auto': используем системные предпочтения
-     * - Если система не определила предпочтение ('no-preference'): фоллбэк на 'light'
+     * - Если система не определила предпочтение ('no-preference'): fallback на 'light'
      * - Иначе: используем явный выбор пользователя
      * 
      * @warning preferredColorScheme работает только на клиенте!
@@ -134,7 +134,7 @@ export const useDisplayMode = () => {
      */
     const resolvedMode = computed(() => {
         if (colorMode.value === 'auto') {
-            // Если система не определила предпочтение — фоллбэк на light
+            // Если система не определила предпочтение — fallback на light
             return preferredColorScheme.value === 'no-preference'
                 ? 'light'
                 : preferredColorScheme.value

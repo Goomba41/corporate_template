@@ -23,7 +23,7 @@ import { usePreferredColorScheme } from '@vueuse/core'
 // === Чтение куки (синхронно, работает и на сервере) ===
 /** 
  * NOTE: useCookie из Nuxt автоматически синхронизируется между сервером и клиентом.
- * Значения по умолчанию обеспечивают безопасный фоллбэк при первом посещении.
+ * Значения по умолчанию обеспечивают безопасный fallback при первом посещении.
  */
 const themeCookie = useCookie('theme-color', { default: () => 'blue' })
 const surfaceCookie = useCookie('theme-surface', { default: () => 'slate' })
@@ -41,8 +41,8 @@ const isServer = import.meta.server
  * 1. Если пользователь явно выбрал 'light'/'dark' — используем это значение
  * 2. Если 'auto' и мы на сервере:
  *    - Пытаемся прочитать Client Hints заголовок `sec-ch-prefers-color-scheme`
- *    - Фоллбэк на 'light' (более безопасен для читаемости контента)
- * 3. Если 'auto' и мы на клиенте — фоллбэк, будет скорректирован после гидратации
+ *    - fallback на 'light' (более безопасен для читаемости контента)
+ * 3. Если 'auto' и мы на клиенте — fallback, будет скорректирован после гидратации
  * 
  * @warning Заголовок `sec-ch-prefers-color-scheme` должен быть разрешён сервером
  * через Permissions-Policy или Accept-CH. Без него возможен временный несоответствие.
@@ -82,7 +82,7 @@ const preferredColorScheme = usePreferredColorScheme()
  * @reactivity
  * - Зависит от modeCookie (изменяется пользователем)
  * - Зависит от preferredColorScheme (изменяется системой, только клиент)
- * - На сервере использует предвычисленное initialMode
+ * - На сервере использует заранее вычисленное initialMode
  */
 const resolvedMode = computed(() => {
     if (modeCookie.value && modeCookie.value !== 'auto') {
@@ -135,7 +135,7 @@ onMounted(() => {
         const systemPrefersDark = preferredColorScheme.value === 'dark'
         const currentIsDark = resolvedMode.value === 'dark'
 
-        // ⚠️ FOUC fix: если сервер "угадал" неверно — немедленно исправляем
+        // ⚠️ Flash Of Unstyled Content fix: если сервер "угадал" неверно — немедленно исправляем
         if (systemPrefersDark !== currentIsDark) {
             document.documentElement.classList.toggle('dark', systemPrefersDark)
             document.documentElement.classList.remove('mode-light', 'mode-dark')
