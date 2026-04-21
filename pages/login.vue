@@ -32,7 +32,7 @@ const { displayMode } = useTheme()
 
 useHead({
     bodyAttrs: {
-        style: () => `background-color: var(--primary-${displayMode.value === 'dark' ? 900 : 700});`
+        style: () => `background-color: var(--primary-${displayMode.value === 'dark' ? 900 : 700}); overflow: hidden;`
     }
 })
 
@@ -46,8 +46,10 @@ const bem = appBEM('login')
 >
 .hh-login {
     &__background {
-        max-height: 100dvh;
-        width: 100%;
+        max-width: unset;
+        justify-self: center;
+        width: fit-content;
+        height: 100%;
     }
 
     &__container {

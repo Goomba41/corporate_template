@@ -27,6 +27,7 @@
                         :show-value="false"
                         :mode="progress > 0 ? 'determinate' : 'indeterminate'"
                         :class="bem('bar')"
+                        style="height: 0.5rem;"
                     />
 
                     <div :class="bem('loading-status')">
@@ -73,6 +74,10 @@ const bem = appBEM('app-preloader')
     background: var(--bg-secondary, #1a1a1a) !important;
     color: var(--text-primary, #f5f5f5) !important;
 }
+
+.hh-app-preloader__bar {
+    height: 0.5rem;
+}
 </style>
 
 <style scoped>
@@ -92,10 +97,6 @@ const bem = appBEM('app-preloader')
     width: 256px;
     height: 256px;
     margin: 0 auto 1.5rem;
-}
-
-.hh-app-preloader__bar {
-    height: 0.5rem;
 }
 
 .hh-app-preloader__logo {
