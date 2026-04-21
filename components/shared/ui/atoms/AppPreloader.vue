@@ -3,10 +3,9 @@
         name="preloader"
         @after-leave="onHidden"
     >
-        <CenteredContaner
+        <CenteredContainer
             :class="bem().toString()"
             v-if="visible"
-            :key="bem().toString()"
         >
             <div :class="bem('content')">
                 <div :class="bem('brand')">
@@ -38,7 +37,7 @@
                     </div>
                 </div>
             </div>
-        </CenteredContaner>
+        </CenteredContainer>
     </Transition>
 </template>
 
@@ -65,13 +64,22 @@ const onHidden = () => emit('hidden')
 const bem = appBEM('app-preloader')
 </script>
 
+<style>
+:root .hh-app-preloader {
+    background: var(--bg-secondary, #f8f9fa) !important;
+    color: var(--text-primary, #1a1a1a) !important;
+}
+:root.mode-dark .hh-app-preloader {
+    background: var(--bg-secondary, #1a1a1a) !important;
+    color: var(--text-primary, #f5f5f5) !important;
+}
+</style>
+
 <style scoped>
 .hh-app-preloader {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
@@ -148,7 +156,6 @@ const bem = appBEM('app-preloader')
 
 /* Уважение prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-
     .app-preloader__logo {
         animation: none;
     }

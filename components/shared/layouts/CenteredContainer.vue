@@ -1,4 +1,3 @@
-<!-- components/shared/layout/CenteredContainer.vue -->
 <template>
     <div :class="containerClasses">
         <div :class="bem('content')">

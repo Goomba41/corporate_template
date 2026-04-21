@@ -115,7 +115,11 @@ const htmlClass = computed(() => [
  * Формирует inline-стили для <html> элемента.
  * @example "--ui-radius: 0.25rem"
  */
-const htmlStyle = computed(() => `--ui-radius: ${cornerCookie.value}rem`)
+const htmlStyle = computed(() => {
+    const radius = `--ui-radius: ${cornerCookie.value}rem`
+
+    return `${radius}`
+})
 
 /**
  * Корректирует тему после гидратации, если системные предпочтения

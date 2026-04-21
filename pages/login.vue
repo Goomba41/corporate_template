@@ -1,13 +1,13 @@
 <template>
     <!-- Контейнер формы входа -->
-    <CenteredContaner :class="bem('container')">
+    <CenteredContainer :class="bem('container')">
         <AtomCard :class="bem('form')">
             <template #content>
                 <!-- Форма входа -->
                 <WidgetFormLogin />
             </template>
         </AtomCard>
-    </CenteredContaner>
+    </CenteredContainer>
 
     <!-- Задник -->
     <img
