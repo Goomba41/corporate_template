@@ -8,8 +8,10 @@ export type BootStage =
 const DEV_STAGE_DELAY_MS = import.meta.dev ? 500 : 0
 
 export function useAppBoot() {
-    const stage = ref<BootStage>('init')
-    const progress = ref(0)
+    const stage = useState<BootStage>('boot:stage', () => 'init')
+    const progress = useState<number>('boot:progress', () => 0)
+    const hasBooted = useState<boolean>('boot:has-booted', () => false)
+
     const isThemeReady = ref(false)
     const errors = ref<string[]>([])
 
@@ -25,8 +27,6 @@ export function useAppBoot() {
     }
 
     const setStage = (newStage: BootStage) => {
-        if (!isHydrationComplete.value) return
-
         stage.value = newStage
         progress.value = STAGE_WEIGHTS[newStage]
     }
@@ -40,11 +40,19 @@ export function useAppBoot() {
 
     // Основная инициализация
     const boot = async () => {
+        if (hasBooted.value) {
+            return { success: true as const }
+        }
+
         try {
-            if (import.meta.server) {
+            if (isHydrationComplete.value) {
                 setStage('theme-loading')
                 setStage('theme-ready')
                 return { success: true as const }
+            }
+
+            if (!isHydrationComplete.value) {
+                isHydrationComplete.value = true
             }
 
             setStage('theme-loading')
@@ -75,10 +83,11 @@ export function useAppBoot() {
             setStage('theme-ready')
             await devDelay('theme-ready')
 
-            // 2. (Опционально) Предзагрузка критичных данных для оффлайна
+            // 2. (Опционально) Предварительная загрузка критичных данных для оффлайна
             if (import.meta.client && navigator.onLine) {
                 setStage('cache-warmup')
                 await devDelay('cache-warmup')
+                // TODO: когда будем делать кэширование, предварительная загрузка критичных данных
                 // await useCacheWarmer().prefetchCriticalData().catch(e => {
                 //   // Не блокируем загрузку при ошибке кэша
                 //   console.warn('Cache warmup failed', e)
@@ -88,28 +97,21 @@ export function useAppBoot() {
 
             await devDelay('ready')
             setStage('ready')
+            hasBooted.value = true
             return { success: true as const }
         } catch (err) {
             errors.value.push(err instanceof Error ? err.message : 'Unknown boot error')
             setStage('ready')
+            hasBooted.value = true
             return { success: false as const, error: err }
         }
-    }
-
-    if (!isHydrationComplete.value) {
-        onMounted(() => {
-            isHydrationComplete.value = true
-            // Если boot() уже был вызван, но заблокирован — перезапускаем
-            if (stage.value === 'init') {
-                boot()
-            }
-        })
     }
 
     return {
         stage,
         progress,
         errors,
+        hasBooted,
         isReady: computed(() => stage.value === 'ready'),
         boot,
         setStage
