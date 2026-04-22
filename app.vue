@@ -121,6 +121,10 @@ const htmlStyle = computed(() => {
     return `${radius}`
 })
 
+useHead({
+    htmlAttrs: { class: htmlClass, style: htmlStyle },
+})
+
 /**
  * Корректирует тему после гидратации, если системные предпочтения
  * отличаются от предсказанных на сервере.
@@ -154,22 +158,13 @@ const bootStatusText = computed(() => t(`${i18nPath}${boot.stage.value}`))
 </script>
 
 <template>
-    <Html
-        :class="htmlClass"
-        :style="htmlStyle"
-    >
-
-    <Body>
-        <NuxtLayout>
-            <AtomAppPreloader
-                :visible="!boot.isReady.value"
-                :progress="boot.progress.value"
-                :status-text="bootStatusText"
-            />
-            <!-- @hidden="onPreloaderHidden" -->
-            <NuxtPage />
-        </NuxtLayout>
-    </Body>
-
-    </Html>
+    <NuxtLayout>
+        <AtomAppPreloader
+            :visible="!boot.isReady.value"
+            :progress="boot.progress.value"
+            :status-text="bootStatusText"
+        />
+        <!-- @hidden="onPreloaderHidden" -->
+        <NuxtPage />
+    </NuxtLayout>
 </template>
