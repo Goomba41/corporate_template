@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@unocss/nuxt',
     '@nuxt/test-utils/module',
-    'nuxt-zod-i18n',
     'nuxt-svgo',
   ],
 
@@ -25,6 +24,8 @@ export default defineNuxtConfig({
       { path: '~/components/shared/ui/organisms', prefix: 'Organism' },
       
       { path: '~/components/widgets', prefix: 'Widget' },
+
+      { path: '~/components/app/layouts' },
     ],
   },
 
