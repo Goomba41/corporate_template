@@ -11,7 +11,7 @@ definePageMeta({
 useTheme()
 
 const click = () => {
-  console.log('Click!')
+  console.info('Click!')
 }
 
 const loading = ref(false);
@@ -30,17 +30,17 @@ const showMessage = () => {
 }
 
 const hideMessage = () => {
-  console.log('Message visibility state now is: hidden')
+  console.info('Message visibility state now is: hidden')
 }
 
 const inputTextValue = ref<string>('')
 
 const testModelEvent = (event?: string) => {
-  console.log('Text input value updated! ', event)
+  console.info('Text input value updated! ', event)
 }
 
 const testInputChange = (event: string) => {
-  console.log('Text input value updated through change! ', event)
+  console.info('Text input value updated through change! ', event)
 }
 
 const passwordValue = ref<string>('')

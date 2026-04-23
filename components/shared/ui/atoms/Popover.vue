@@ -172,6 +172,9 @@ const floatingArrow = ref<HTMLElement | null>(null);
 const lastTriggerRef = ref<HTMLElement | null>(null);
 const internalOpen = ref(false);
 
+const { t } = useI18n()
+const i18Path = 'popover.'
+
 /**
  * Определяет режим управления: декларативный (через пропсы) или императивный (через методы)
  */
@@ -198,7 +201,7 @@ const teleportTarget = computed(() => {
     // 3. Если HTMLElement — проверяем, что он в DOM
     if (target instanceof HTMLElement) {
         if (!document.contains(target)) {
-            console.warn('[Popover]: appendTo element not in DOM, falling back to body');
+            console.warn(t(`${i18Path}.domFallback`));
             return document.body;
         }
         return target;
@@ -389,22 +392,18 @@ defineExpose({
      */
     toggle: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
         if (!isClient) {
-            console.warn('[Popover]: toggle method called on server-side, ignoring.');
+            console.warn(t(`${i18Path}.serverSideCall`));
             return;
         }
 
         if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
 
         // В декларативном режиме предупреждаем, если пытаются управлять через методы
-        if (isDeclarativeMode.value) {
-            console.warn(
-                '[Popover]: toggle() called in declarative mode. ' +
-                'Control visibility via v-model:open instead.'
-            );
-        }
+        if (isDeclarativeMode.value)
+            console.warn(t(`${i18Path}.methodsDeclarative`, { method: 'toggle' }));
 
         if (!resolvedTarget.value && !isVisible.value) {
-            console.error('[Popover]: no trigger element provided');
+            console.error(t(`${i18Path}.noTrigger`));
             return;
         }
 
@@ -418,9 +417,8 @@ defineExpose({
     show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
         if (triggerElement) lastTriggerRef.value = toValue(triggerElement);
 
-        if (isDeclarativeMode.value) {
-            console.warn('[Popover]: show() called in declarative mode. Use v-model:open instead.');
-        }
+        if (isDeclarativeMode.value)
+            console.warn(t(`${i18Path}.methodsDeclarative`, { method: 'show' }));
 
         if (resolvedTarget.value) isVisible.value = true;
     },
@@ -429,9 +427,9 @@ defineExpose({
      * Принудительно закрывает попап.
      */
     hide: () => {
-        if (isDeclarativeMode.value) {
-            console.warn('[Popover]: hide() called in declarative mode. Use v-model:open instead.');
-        }
+        if (isDeclarativeMode.value)
+            console.warn(t(`${i18Path}.methodsDeclarative`, { method: 'hide' }));
+
         isVisible.value = false;
     }
 })
@@ -444,24 +442,13 @@ const validateProps = () => {
 
     // === ДЕКЛАРАТИВНЫЙ РЕЖИМ ===
     if (hasOpen && !hasTriggerer) {
-        console.error(
-            `[Popover] Declarative mode error:
-      • "open" prop is provided (v-model:open), but "triggerer" is missing.
-      • Fix: Add :triggerer="elementRef" for positioning.
-      • Or: Remove "open" prop to use imperative mode with ref.toggle().`
-        );
+        console.error(t(`${i18Path}.declarativeError`));
         return false;
     }
 
     // === ИМПЕРАТИВНЫЙ РЕЖИМ ===
-    if (!hasOpen && hasTriggerer) {
-        console.warn(
-            `[Popover] Imperative mode notice:
-      • "triggerer" prop is ignored in imperative mode.
-      • Fix: Pass element to methods: ref.toggle(elementRef)
-      • Or: Add "open" prop to switch to declarative mode.`
-        );
-    }
+    if (!hasOpen && hasTriggerer)
+        console.warn(t(`${i18Path}.imperativeNotice`));
 
     // === ОБЩИЕ ПРОВЕРКИ ===
     if (hasOpen && hasTriggerer) {
@@ -491,9 +478,8 @@ onMounted(async () => {
 
     // 4. Дополнительная проверка значения (опционально, для отладки)
     if (isDeclarativeMode.value && props.triggerer !== null && props.triggerer !== undefined) {
-        if (toValue(props.triggerer) == null) {
-            console.warn('[Popover] Triggerer prop is set, but element is null. Check if the target element is mounted.');
-        }
+        if (toValue(props.triggerer) == null) 
+            console.warn(t(`${i18Path}.triggererElementNull`));
     }
 });
 

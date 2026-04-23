@@ -8,6 +8,9 @@
 
 export default defineNuxtPlugin(() => {
 
+    const { t } = useI18n()
+    const i18nPath = "system.crypto"
+
     /**
      * Выполняет диагностику доступности криптографических API и выводит результат в консоль.
      * Проверяет наличие Secure Context и интерфейса SubtleCrypto.
@@ -23,14 +26,13 @@ export default defineNuxtPlugin(() => {
      * 3. Отключение проверки pwned.
      */
     function debugCryptoAvailability() {
-        console.log('🔐 Secure context:', window.isSecureContext)
-        console.log('🔐 crypto.subtle:', !!window.crypto?.subtle)
-        console.log('🌐 Protocol:', location.protocol)
-        console.log('🏠 Hostname:', location.hostname)
+        console.log(t(`${i18nPath}.secureContext`, { value: window.isSecureContext }))
+        console.log(t(`${i18nPath}.subtle`, { value: !!window.crypto?.subtle }))
+        console.log(t(`${i18nPath}.protocol`, { value: location.protocol.replace(':', '') }))
+        console.log(t(`${i18nPath}.hostname`, { value: location.hostname }))
 
         if (!window.crypto?.subtle) {
-            console.warn('⚠️ crypto.subtle unavailable — pwned matcher is disabled')
-            console.warn('💡 Solutions: 1) Use HTTPS, 2) Add SHA-1 polyfill, 3) Skip pwned check')
+            console.warn(t(`${i18nPath}.pwnedDisabled`))
         }
     }
 

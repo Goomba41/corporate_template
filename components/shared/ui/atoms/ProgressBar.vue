@@ -44,6 +44,10 @@
     setup
     lang="ts"
 >
+const i18Path = 'progressBar'
+
+const { t } = useI18n()
+
 /**
  * Атом: Индикатор прогресса
  * 
@@ -103,11 +107,11 @@ const props = defineProps({
                 return true
             }
             if (typeof value !== 'number' || !Number.isFinite(value)) {
-                console.warn('[ProgressBar] value должно быть числом')
+                console.warn(t(`${i18Path}.typeWarning`))
                 return false
             }
             if (props.max && value > props.max) {
-                console.warn(`[ProgressBar] значение больше максимального`)
+                console.warn(t(`${i18Path}.outOfRangeWarning`))
                 return false
             }
             return true
@@ -123,7 +127,7 @@ const props = defineProps({
         default: 100,
         validator(value: number) {
             if (!Number.isFinite(value) || value <= 0) {
-                console.warn('[ProgressBar] max должен быть положительным числом')
+                console.warn(t(`${i18Path}.positiveNumberWarning`))
                 return false
             }
             return true
@@ -196,7 +200,7 @@ const normalizedValue = computed(() => {
     }
 
     if (props.value === null || props.value === undefined) {
-        console.warn('[ProgressBar] value is null in determinate mode, defaulting to 0')
+        console.warn(t(`${i18Path}.zeroingWarning`))
         return 0
     }
 

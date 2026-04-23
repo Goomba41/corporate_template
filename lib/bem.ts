@@ -358,7 +358,7 @@ export function block(block: string, config: BemConfig = {}): BEMFunction {
      * @example
      * const b = block('card')
      * `${b}` → 'card'
-     * console.log(b) → 'card'
+     * console.info(b) → 'card'
      */
     fn.toString = () => fullBlock
 

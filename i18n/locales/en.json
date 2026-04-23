@@ -27,7 +27,25 @@
       "medium": "Medium",
       "strong": "Strong",
       "very_strong": "Very strong"
+    },
+    "warnings": {
+      "validationError": "[usepasswordstrength] password validation didn't pass:"
     }
+  },
+  "popover": {
+    "domFallback": "[popover]: appendto element missing from dom, falling back to body",
+    "serverSideCall": "[popover]: toggle method triggered on server-side, skipping action.",
+    "noTrigger": "[popover]: no trigger element provided",
+    "methodsDeclarative": "[popover]: { method }() called in declarative mode. use v-model:open instead.",
+    "triggererElementNull": "[popover] triggerer prop is set, but element is null. check if the target element is mounted.",
+    "imperativeNotice": "[popover] imperative mode notice:\n• \"triggerer\" prop is ignored in imperative mode.\n• fix: pass element to methods: ref.toggle(elementref)\n• or: add \"open\" prop to switch to declarative mode.",
+    "declarativeError": "[popover] declarative mode error:\n• \"open\" prop is provided (v-model:open), but \"triggerer\" is missing.\n• fix: add :triggerer=\"elementref\" for positioning.\n• or: remove \"open\" prop to use imperative mode with ref.toggle()."
+  },
+  "progressBar": {
+    "typeWarning": "[progressbar] value should be a number",
+    "outOfRangeWarning": "[progressbar] value exceeds the maximum limit",
+    "positiveNumberWarning": "[progressbar] max needs to be a positive number",
+    "zeroingWarning": "[progressbar] value is null in determinate mode, falling back to 0"
   },
   "system": {
     "warnings": {
@@ -41,6 +59,21 @@
         "cache-warmup": "🌿 chewing fresh river grass...",
         "ready": "🦛 hidden hippo ready to dive!"
       }
+    },
+    "boot": {
+      "themeTimeout": "theme loading timed out, switching to default style",
+      "cacheError": "cache read failed, starting with a clean slate"
+    },
+    "crypto": {
+      "secureContext": "🔐 secure context: { value }",
+      "subtle": "🔐 crypto.subtle: { value }",
+      "protocol": "🌐 current protocol: { value }",
+      "hostname": "🏠 active hostname: { value }",
+      "pwnedDisabled": "⚠️ crypto.subtle unavailable — password safety check is disabled\n💡 quick fixes: 1) switch to https, 2) add sha-1 polyfill, or 3) skip the pwned check"
+    },
+    "network": {
+      "offline": "you're currently offline",
+      "online": "you're back online"
     }
   },
   "forms": {

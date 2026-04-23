@@ -1,4 +1,37 @@
 {
+  "password": {
+    "errors": {
+      "PASSWORD_INSECURE": "tessera normis securitatis systematis non respondet",
+      "PASSWORD_REQUIRED": "tessera requiritur",
+      "PASSWORD_TOO_SHORT": "tessera saltem { minlength } signum habere debet | tessera saltem { minlength } signa habere debet",
+      "PASSWORD_NO_LOWERCASE": "litteras minores (a–z) adde",
+      "PASSWORD_NO_UPPERCASE": "litteras maiores (a–z) adde",
+      "PASSWORD_NO_NUMBERS": "numeros (0–9) adde",
+      "PASSWORD_NO_SPECIAL_CHARS": "signum speciale adde",
+      "PASSWORD_EXPOSED": "tessera in ruptura datorum patefacta est. aliam elige",
+      "PASSWORD_TOP_10": "tessera inter decem vulnerabilissimas est. singularem crea",
+      "PASSWORD_TOP_100": "tessera inter centum vulnerabilissimas est. fortiorem elige",
+      "PASSWORD_COMMON": "tessera nimis usitata est. coniunctionem magis singularem crea",
+      "PASSWORD_SIMILAR": "tessera usitatae simillima est. eam muta ad securitatem meliorem",
+      "PASSWORD_IN_DICTIONARY": "tessera vocabulum lexici continet. numeros vel symbola adde",
+      "PASSWORD_HUMAN_NAME": "nomina vel cognomina in tessera evita",
+      "PASSWORD_DATE": "datas (dies natales, annos) in tessera evita",
+      "PASSWORD_REPEATS": "signa repetita evita (e.g., «aaa» vel «111»)",
+      "PASSWORD_KEYBOARD_PATTERN": "ordines claviaturae evita (e.g., «qwerty» vel «1234»)",
+      "PASSWORD_EXCESSIVE": "tessera satis longa est — signa specialia optativa sunt",
+      "validation_failed": "validatio tesserae defecit — vide console"
+    },
+    "levels": {
+      "very_weak": "valde debilis",
+      "weak": "debilis",
+      "medium": "mediocris",
+      "strong": "fortis",
+      "very_strong": "valde fortis"
+    },
+    "warnings": {
+      "validationError": "[usepasswordstrength] validatio tesserae non successit:"
+    }
+  },
   "system": {
     "warnings": {
       "composable_same_ref": "⚠️ Composable «{ name }»: Same model ref used in { count } instances.\nThis can cause state races. Use a separate ref for each field."
@@ -11,7 +44,37 @@
         "cache-warmup": "🌿 herbas fluviales mandens...",
         "ready": "🦛 hippo occultus paratus!"
       }
+    },
+    "boot": {
+      "themeTimeout": "tinctura tarde oneratur, ad modum praedefinitum revertimur",
+      "cacheError": "promptorium legi non potuit, a principio incipimus"
+    },
+    "crypto": {
+      "secureContext": "🔐 contextus securus: { value }",
+      "subtle": "🔐 crypto.subtle: { value }",
+      "protocol": "🌐 protocollum: { value }",
+      "hostname": "🏠 nomen hostis: { value }",
+      "pwnedDisabled": "⚠️ crypto.subtle non adest — exploratio tesserarum intercepta\n💡 solutia: 1) https adhibe, 2) polyfill sha-1 adde, vel 3) explorationem praeteri"
+    },
+    "network": {
+      "offline": "sine connexione",
+      "online": "iterum in linea"
     }
+  },
+  "popover": {
+    "domFallback": "[popover]: elementum appendto in dom deest, ad corpus revertimur",
+    "serverSideCall": "[popover]: methodus toggle in serviente invocata, actio praeteritur.",
+    "noTrigger": "[popover]: nullum elementum initians provisum",
+    "methodsDeclarative": "[popover]: methodus { method }() in modo declarativo vocata. utere v-model:open potius.",
+    "triggererElementNull": "[popover] prop triggerer constitutum est, sed elementum nullum est. inspice an elementum destinatum insertum sit.",
+    "imperativeNotice": "[popover] nota de modo imperativo:\n• prop \"triggerer\" in modo imperativo ignoratur.\n• solutio: trade elementum methodis: ref.toggle(elementref)\n• aut: adde prop \"open\" ut ad modum declarativum convertaris.",
+    "declarativeError": "[popover] error modi declarativi:\n• prop \"open\" provisum est (v-model:open), sed \"triggerer\" deest.\n• solutio: adde :triggerer=\"elementref\" ad positionem.\n• aut: tolle prop \"open\" ut modo imperativo cum ref.toggle() utaris."
+  },
+  "progressBar": {
+    "typeWarning": "[progressbar] valor numerus esse debet",
+    "outOfRangeWarning": "[progressbar] valor limitem maximum superat",
+    "positiveNumberWarning": "[progressbar] max numerus positivus esse debet",
+    "zeroingWarning": "[progressbar] valor in modo determinato nullus est, ad 0 redigitur"
   },
   "forms": {
     "login": {
