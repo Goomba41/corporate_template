@@ -37,15 +37,15 @@
     "serverSideCall": "[popover]: метод toggle вызван на сервере, действие пропущено.",
     "noTrigger": "[popover]: элемент-триггер не указан",
     "methodsDeclarative": "[popover]: метод { method }() вызван в декларативном режиме. используйте v-model:open.",
-    "triggererElementNull": "[popover] проп triggerer задан, но элемент равен null. проверьте, смонтирован ли целевой элемент.",
-    "imperativeNotice": "[popover] заметка об императивном режиме:\n• проп \"triggerer\" игнорируется в этом режиме.\n• решение: передайте элемент в методы: ref.toggle(elementref)\n• или: добавьте проп \"open\" для переключения на декларативный режим.",
-    "declarativeError": "[popover] ошибка декларативного режима:\n• проп \"open\" указан (v-model:open), но \"triggerer\" отсутствует.\n• решение: добавьте :triggerer=\"elementref\" для позиционирования.\n• или: уберите проп \"open\" для использования императивного режима через ref.toggle()."
+    "triggererElementNull": "[popover] свойство triggerer задан, но элемент равен null. проверьте, смонтирован ли целевой элемент.",
+    "imperativeNotice": "[popover] заметка об императивном режиме:\n• свойство \"triggerer\" игнорируется в этом режиме.\n• решение: передайте элемент в методы: ref.toggle(elementRef)\n• или: добавьте свойство \"open\" для переключения на декларативный режим.",
+    "declarativeError": "[popover] ошибка декларативного режима:\n• свойство \"open\" указан (v-model:open), но \"triggerer\" отсутствует.\n• решение: добавьте :triggerer=\"elementRef\" для позиционирования.\n• или: уберите свойство \"open\" для использования императивного режима через ref.toggle()."
   },
   "progressBar": {
-    "typeWarning": "[progressbar] значение должно быть числом",
-    "outOfRangeWarning": "[progressbar] значение превышает установленный максимум",
-    "positiveNumberWarning": "[progressbar] параметр max должен быть положительным числом",
-    "zeroingWarning": "[progressbar] значение не указано в детерминированном режиме, используется 0"
+    "typeWarning": "[progressBar] значение должно быть числом",
+    "outOfRangeWarning": "[progressBar] значение превышает установленный максимум",
+    "positiveNumberWarning": "[progressBar] параметр max должен быть положительным числом",
+    "zeroingWarning": "[progressBar] значение не указано в детерминированном режиме, используется 0"
   },
   "system": {
     "warnings": {
@@ -69,7 +69,7 @@
       "subtle": "🔐 поддержка crypto.subtle: { value }",
       "protocol": "🌐 текущий протокол: { value }",
       "hostname": "🏠 текущий хост: { value }",
-      "pwnedDisabled": "⚠️ crypto.subtle недоступен — проверка утечек отключена\n💡 варианты решения: 1) переключитесь на https, 2) добавьте полифил sha-1, или 3) пропустите проверку"
+      "pwnedDisabled": "⚠️ crypto.subtle недоступен — проверка утечек отключена\n💡 варианты решения: 1) переключитесь на https, 2) добавьте polyfill sha-1, или 3) пропустите проверку"
     },
     "network": {
       "offline": "вы сейчас без сети",
@@ -146,7 +146,7 @@
       "items": {
         "dark": "тёмный",
         "light": "светлый",
-        "system": "системый",
+        "system": "системный",
         "no-preference": "без предпочтений"
       }
     }

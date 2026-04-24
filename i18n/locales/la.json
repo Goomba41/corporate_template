@@ -67,14 +67,14 @@
     "noTrigger": "[popover]: nullum elementum initians provisum",
     "methodsDeclarative": "[popover]: methodus { method }() in modo declarativo vocata. utere v-model:open potius.",
     "triggererElementNull": "[popover] prop triggerer constitutum est, sed elementum nullum est. inspice an elementum destinatum insertum sit.",
-    "imperativeNotice": "[popover] nota de modo imperativo:\n• prop \"triggerer\" in modo imperativo ignoratur.\n• solutio: trade elementum methodis: ref.toggle(elementref)\n• aut: adde prop \"open\" ut ad modum declarativum convertaris.",
-    "declarativeError": "[popover] error modi declarativi:\n• prop \"open\" provisum est (v-model:open), sed \"triggerer\" deest.\n• solutio: adde :triggerer=\"elementref\" ad positionem.\n• aut: tolle prop \"open\" ut modo imperativo cum ref.toggle() utaris."
+    "imperativeNotice": "[popover] nota de modo imperativo:\n• prop \"triggerer\" in modo imperativo ignoratur.\n• solutio: trade elementum methodis: ref.toggle(elementRef)\n• aut: adde prop \"open\" ut ad modum declarativum convertaris.",
+    "declarativeError": "[popover] error modi declarativi:\n• prop \"open\" provisum est (v-model:open), sed \"triggerer\" deest.\n• solutio: adde :triggerer=\"elementRef\" ad positionem.\n• aut: tolle prop \"open\" ut modo imperativo cum ref.toggle() utaris."
   },
   "progressBar": {
-    "typeWarning": "[progressbar] valor numerus esse debet",
-    "outOfRangeWarning": "[progressbar] valor limitem maximum superat",
-    "positiveNumberWarning": "[progressbar] max numerus positivus esse debet",
-    "zeroingWarning": "[progressbar] valor in modo determinato nullus est, ad 0 redigitur"
+    "typeWarning": "[progressBar] valor numerus esse debet",
+    "outOfRangeWarning": "[progressBar] valor limitem maximum superat",
+    "positiveNumberWarning": "[progressBar] max numerus positivus esse debet",
+    "zeroingWarning": "[progressBar] valor in modo determinato nullus est, ad 0 redigitur"
   },
   "forms": {
     "login": {

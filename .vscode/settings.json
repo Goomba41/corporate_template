@@ -8,6 +8,9 @@
         "**/.nuxt": true,
         "**/.vscode": true,
     },
+    "cSpell.ignorePaths": [
+        "**/i18n/locales/la.json"
+    ],
     "cSpell.words": [
         "dexie",
         "iconify",
@@ -17,6 +20,8 @@
         "primevue",
         "unocss",
         "vueuse",
-        "zxcvbn"
+        "zxcvbn",
+        "вива",
+        "сохо"
     ]
 }
