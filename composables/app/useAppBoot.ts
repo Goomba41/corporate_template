@@ -15,6 +15,9 @@ export function useAppBoot() {
     const isThemeReady = ref(false)
     const errors = ref<string[]>([])
 
+    const { t } = useI18n()
+    const i18nPath = 'system.boot'
+
     const isHydrationComplete = ref(import.meta.server)
 
     // Карта весов для прогресса (сумма = 100)
@@ -31,11 +34,9 @@ export function useAppBoot() {
         progress.value = STAGE_WEIGHTS[newStage]
     }
 
-    const devDelay = async (label: string) => {
-        if (DEV_STAGE_DELAY_MS > 0) {
-            console.debug(`[useAppBoot] ⏱ ${label} — пауза ${DEV_STAGE_DELAY_MS}ms`)
+    const devDelay = async () => {
+        if (DEV_STAGE_DELAY_MS > 0) 
             await new Promise(resolve => setTimeout(resolve, DEV_STAGE_DELAY_MS))
-        }
     }
 
     // Основная инициализация
@@ -56,7 +57,7 @@ export function useAppBoot() {
             }
 
             setStage('theme-loading')
-            await devDelay('theme-loading')
+            await devDelay()
 
             useTheme()
 
@@ -74,28 +75,28 @@ export function useAppBoot() {
                     // Fallback таймаут на случай, если событие не сработает
                     setTimeout(() => {
                         document.removeEventListener('theme-applied', handler as EventListener)
-                        console.warn('Theme apply timeout')
+                        console.warn(t(`${i18nPath}.themeTimeout`))
                         resolve(true) // Не блокируем приложение
                     }, 2000)
                 })
             }
 
             setStage('theme-ready')
-            await devDelay('theme-ready')
+            await devDelay()
 
             // 2. (Опционально) Предварительная загрузка критичных данных для оффлайна
             if (import.meta.client && navigator.onLine) {
                 setStage('cache-warmup')
-                await devDelay('cache-warmup')
+                await devDelay()
                 // TODO: когда будем делать кэширование, предварительная загрузка критичных данных
                 // await useCacheWarmer().prefetchCriticalData().catch(e => {
                 //   // Не блокируем загрузку при ошибке кэша
-                //   console.warn('Cache warmup failed', e)
+                //   console.warn(t(`${i18nPath}.cacheError`), e)
                 //   errors.value.push('Не удалось подготовить оффлайн-режим')
                 // })
             }
 
-            await devDelay('ready')
+            await devDelay()
             setStage('ready')
             hasBooted.value = true
             return { success: true as const }

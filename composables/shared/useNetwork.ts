@@ -8,11 +8,14 @@ export function useNetwork() {
     const isHttps = ref(false);
     const isHttp = computed(() => !isHttps.value)
 
+    const { t } = useI18n()
+    const i18nPath = 'system.network'
+
     const updateStatus = () => {
         if (navigator.onLine) {
-            console.info('App is now online')
+            console.info(t(`${i18nPath}.online`))
         } else {
-            console.warn('App is now offline')
+            console.warn(t(`${i18nPath}.offline`))
         }
         isOnline.value = navigator.onLine;
         isHttps.value = !!window.crypto?.subtle && window.isSecureContext

@@ -82,10 +82,11 @@
  * @slot custom - Полная замена визуала. Получает: { progress: number, value: number | null, max: number }
  * @slot default - Кастомный контент внутри текстовой метки (проценты, иконки)
  */
+
 /**
 * Интерфейс пропсов компонента
 */
-const props = defineProps({
+interface Props {
     /** 
      * Текущее значение прогресса.
      * 
@@ -95,63 +96,61 @@ const props = defineProps({
      * 
      * @default null
      */
-    value: {
-        type: Number as PropType<number | null>,
-        default: null,
-        validator: (value: unknown, props: { max?: number }): boolean => {
-            if (value === null || value === undefined) {
-                return true
-            }
-            if (typeof value !== 'number' || !Number.isFinite(value)) {
-                console.warn('[ProgressBar] value должно быть числом')
-                return false
-            }
-            if (props.max && value > props.max) {
-                console.warn(`[ProgressBar] значение больше максимального`)
-                return false
-            }
-            return true
-        }
-    },
+    value: number | null
     /** 
      * Максимальное значение (верхняя граница шкалы).
      * Используется для расчёта процентов: (value / max) * 100.
      * @default 100
      */
-    max: {
-        type: Number,
-        default: 100,
-        validator(value: number) {
-            if (!Number.isFinite(value) || value <= 0) {
-                console.warn('[ProgressBar] max должен быть положительным числом')
-                return false
-            }
-            return true
-        }
-    },
+    max: number
     /** 
      * Показывать ли текстовое значение (проценты) внутри прогресс-бара.
      * Если передан слот `default`, текст игнорируется в пользу слота.
      * @default true
      */
-    showValue: {
-        type: Boolean,
-        default: true,
-    },
+    showValue: boolean
     /** 
      * Режим отображения прогресса:
      * - `determinate`: известное значение, полоска заполняется пропорционально value/max
      * - `indeterminate`: неизвестная длительность, показывается бесконечная анимация
      * @default 'determinate'
      */
-    mode: {
-        type: String as PropType<'indeterminate' | 'determinate'>,
-        default: "determinate",
-        validator(value: string) {
-            return ["indeterminate", "determinate"].includes(value)
-        }
-    }
+    mode: 'indeterminate' | 'determinate'
+}
+
+const props = withDefaults(defineProps<Partial<Props>>(), {
+    value: null,
+    max: 100,
+    showValue: true,
+    mode: 'determinate'
 })
+
+const i18Path = 'progressBar'
+
+const { t } = useI18n()
+
+// Валидация props
+watch(
+    [() => props.value, () => props.max, () => props.mode],
+    ([val, maxVal, modeVal]) => {
+        // 1. Проверка max
+        if (!Number.isFinite(maxVal) || maxVal <= 0) {
+            console.warn(t(`${i18Path}.positiveNumberWarning`))
+        }
+
+        // 2. Проверка value (только в determinate-режиме)
+        if (modeVal === 'determinate') {
+            if (val === null || val === undefined) {
+                console.warn(t(`${i18Path}.zeroingWarning`))
+            } else if (typeof val !== 'number' || !Number.isFinite(val)) {
+                console.warn(t(`${i18Path}.typeWarning`))
+            } else if (maxVal && val > maxVal) {
+                console.warn(t(`${i18Path}.outOfRangeWarning`))
+            }
+        }
+    },
+    { immediate: true } // Запускается сразу при маунте + следит за изменениями
+)
 
 const bem = appBEM('progress-bar')
 
@@ -196,7 +195,7 @@ const normalizedValue = computed(() => {
     }
 
     if (props.value === null || props.value === undefined) {
-        console.warn('[ProgressBar] value is null in determinate mode, defaulting to 0')
+        console.warn(t(`${i18Path}.zeroingWarning`))
         return 0
     }
 

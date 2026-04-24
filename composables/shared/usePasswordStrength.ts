@@ -77,10 +77,9 @@ export function usePasswordStrength(
     // Отлавливание использования одного ref в разных экземплярах хука
     if (import.meta.dev && modelRegistry) {
         const count = modelRegistry.get(passwordRef) || 0
-        if (count > 0) {
-            const warning = t('system.warnings.composable_same_ref', { name: 'usePasswordStrength', count: count + 1 })
-            console.warn(warning)
-        }
+        if (count > 0) 
+            console.warn(t('system.warnings.composable_same_ref', { name: 'usePasswordStrength', count: count + 1 }))
+        
         modelRegistry.set(passwordRef, count + 1)
     }
 
@@ -195,7 +194,7 @@ export function usePasswordStrength(
                 feedback: t(`password.levels.${validationResult.level}`)
             }
         } catch (error) {
-            console.error('[usePasswordStrength] Validation failed:', error)
+            console.error(t('password.warnings.validationError'), error)
             state.value = {
                 score: 0,
                 level: 'very_weak',
