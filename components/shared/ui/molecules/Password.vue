@@ -274,7 +274,7 @@ const stregthColorMap: Record<PasswordStrengthScore, string> = {
                 ref="strengthPopover"
                 :triggerer="inputWrapper"
                 v-model:open="debouncedValidationOpener"
-                :dismissable="false"
+                :dismissible="false"
             >
                 <slot name="header" />
                 <slot name="content">

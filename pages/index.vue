@@ -83,7 +83,7 @@ setInterval(() => {
   }
 }, 3000)
 
-const stregthColorMap: Record<PasswordStrengthScore, string> = {
+const strengthColorMap: Record<PasswordStrengthScore, string> = {
   0: 'var(--accent-error)',
   1: 'var(--accent-error)',
   2: 'var(--accent-warning)',
@@ -1315,7 +1315,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
       </AtomCard>
     </div>
 
-    <!-- Прогресс-трэкеры -->
+    <!-- Прогресс -->
     <div class="flex flex-col gap-6 items-center">
       <h2>Progress</h2>
 
@@ -1341,7 +1341,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             :max="maxPasswordScore"
             :show-value="false"
             :style="{
-              '--pb-fill-bg': stregthColorMap[passwordScore]
+              '--pb-fill-bg': strengthColorMap[passwordScore]
             }
               "
           />
@@ -1403,7 +1403,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
           <div class="mt-5 flex justify-center gap-4">
             <AtomButton
               ref="popoverBtnFirst"
-              :label="visiblePopoverFirst ? 'Hide Popover (dismissable)' : 'Show Popover (dismissable)'"
+              :label="visiblePopoverFirst ? 'Hide Popover (dismissible)' : 'Show Popover (dismissible)'"
               @click="visiblePopoverFirst = !visiblePopoverFirst"
             />
             <AtomPopover v-model:open="visiblePopoverFirst">
@@ -1422,7 +1422,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             <AtomPopover
               v-model:open="visiblePopoverSecond"
               :triggerer="popoverBtnSecond"
-              :dismissable="false"
+              :dismissible="false"
             >
               <div class="">
                 <p>This is a popover content.</p>
@@ -1440,7 +1440,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
           <div class="mt-5 flex justify-center gap-4">
             <AtomButton
               ref="imperativePopoverBtnFirst"
-              label="Toggle popover (dismissable)"
+              label="Toggle popover (dismissible)"
               @click="toggleFirst"
             />
             <AtomPopover ref="imperativePopoverFirst">
@@ -1457,7 +1457,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
             />
             <AtomPopover
               ref="imperativePopoverSecond"
-              :dismissable="false"
+              :dismissible="false"
               :show-arrow="true"
             >
               <div class="">
@@ -1528,7 +1528,7 @@ const indeterminateCustomChecked = ref<'checked' | 'unchecked' | null>(null)
       </AtomCard>
     </div>
 
-    <!-- Бэйджи -->
+    <!-- Значки -->
     <div class="flex flex-col gap-6 items-center">
       <h2>Badge</h2>
 

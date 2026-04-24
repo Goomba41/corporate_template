@@ -7,7 +7,7 @@
  */
 
 export default defineNuxtPlugin((nuxtApp) => {
-    // Явная типизация для TS + безопасный фоллбэк
+    // Явная типизация для TS + безопасный fallback
     const i18nInstance = nuxtApp.$i18n as { t: (key: string, params?: Record<string, any>) => string } | undefined
     const t = i18nInstance?.t ?? ((key: string) => key)
 
@@ -24,7 +24,7 @@ export default defineNuxtPlugin((nuxtApp) => {
      * @description
      * Если `crypto.subtle` недоступен, выводит рекомендации по устранению проблемы:
      * 1. Использование HTTPS.
-     * 2. Добавление полифила для SHA-1.
+     * 2. Добавление polyfill для SHA-1.
      * 3. Отключение проверки pwned.
      */
     function debugCryptoAvailability() {

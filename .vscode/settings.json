@@ -9,6 +9,13 @@
         "**/.vscode": true,
     },
     "cSpell.words": [
+        "dexie",
+        "iconify",
+        "msvc",
+        "nuxtjs",
+        "primeuix",
+        "primevue",
+        "unocss",
         "vueuse",
         "zxcvbn"
     ]

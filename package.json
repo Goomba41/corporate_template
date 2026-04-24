@@ -1,12 +1,11 @@
 {
-  "name": "miac-corporate",
+  "name": "corporate-level-template",
   "type": "module",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "dev-https": "nuxt dev --https",
-    "dev-nohmr": "nuxt dev --no-hmr",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

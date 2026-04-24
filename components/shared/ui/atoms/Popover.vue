@@ -41,7 +41,7 @@
  * @features
  * - Позиционирование через @floating-ui (flip, shift, arrow)
  * - Teleport в body / self / custom element
- * - Закрытие по клику вне (dismissable)
+ * - Закрытие по клику вне (dismissible)
  * - Анимация появления/исчезновения через Transition
  * - SSR-совместимость (Nuxt)
  * 
@@ -64,10 +64,10 @@
  * <button @click="popoverRef?.toggle(buttonEl)">Toggle</button>
  * ```
  * 
- * @slot default - Контент попапа
- * @event update:open - Эмит при изменении видимости (для v-model)
- * @event show - Эмит при открытии
- * @event hide - Эмит при закрытии
+ * @slot default - Контент
+ * @event update:open - Излучатель события при изменении видимости (для v-model)
+ * @event show - Излучатель события при открытии
+ * @event hide - Излучатель события при закрытии
  */
 
 // ============================================================================
@@ -97,7 +97,7 @@ type PopoverPlacement = Placement | 'auto';
 
 type PopoverBaseProps = {
     showArrow?: boolean;
-    dismissable?: boolean;
+    dismissible?: boolean;
     appendTo?: HTMLElement | HintedString<'body' | 'self'>;
     style?: CSSProperties | CSSProperties[];
     class?: string | string[] | Record<string, boolean>;
@@ -133,9 +133,9 @@ export interface PopoverExposed {
 // #region Component Interface
 /**
  * @prop {boolean} [showArrow=false] - Показать стрелку-указатель на триггер
- * @prop {boolean} [dismissable=true] - Закрывать ли по клику вне попапа
+ * @prop {boolean} [dismissible=true] - Закрывать ли по клику вне popover
  * @prop {HTMLElement | 'body' | 'self'} [appendTo='body'] - Куда телепортировать контент
- * @prop {CSSProperties | CSSProperties[]} [style] - Дополнительные инлайн-стили
+ * @prop {CSSProperties | CSSProperties[]} [style] - Дополнительные inline-стили
  * @prop {string | string[] | Record<string, boolean>} [class] - Дополнительные классы
  * @prop {Placement | 'auto'} [placement='bottom-start'] - Предпочтительная позиция относительно триггера
  * 
@@ -143,7 +143,7 @@ export interface PopoverExposed {
  * @prop {MaybeRefOrGetter<HTMLElement | null>} triggerer - (Declarative) Элемент-якорь для позиционирования. Обязателен в декларативном режиме.
  */
 const props = withDefaults(defineProps<Props>(), {
-    dismissable: true,
+    dismissible: true,
     appendTo: 'body',
     placement: 'bottom-start',
     showArrow: false,
@@ -180,9 +180,9 @@ const i18Path = 'popover'
  */
 const isDeclarativeMode = computed(() => props.open !== undefined);
 
-// Место размещения попапа (для Teleport)
+// Место размещения (для Teleport)
 /**
- * Вычисляет, куда телепортировать контент попапа.
+ * Вычисляет, куда телепортировать контент.
  * Поддерживает: 'body' | 'self' | HTMLElement | CSS-селектор
  */
 const teleportTarget = computed(() => {
@@ -192,7 +192,7 @@ const teleportTarget = computed(() => {
 
     // Если строка — пробуем найти по селектору
     if (typeof target === 'string') {
-        // 1. Если self — не телепортировать (рендерить на месте)
+        // 1. Если self — не телепортировать (отображать на месте)
         if (target === 'self') return null
 
         return document.body;
@@ -233,7 +233,7 @@ const resolvedTarget = computed(() => {
 // Логика видимости: контролируется через v-model:open или внутренне
 /**
  * Реактивное состояние видимости с поддержкой v-model:open.
- * Если передан проп `open` — контролируется извне, иначе — внутреннее состояние.
+ * Если передано свойство `open` — контролируется извне, иначе — внутреннее состояние.
  */
 const isVisible = computed({
     get: () => props.open ?? internalOpen.value,
@@ -291,7 +291,7 @@ const getArrowRotation = (side: string) => {
 
 /**
  * Вычисляет стили для стрелки-указателя на триггер.
- * Учитывает текущую позицию попапа и направление стрелки.
+ * Учитывает текущую позицию и направление стрелки.
  */
 const arrowStyles = computed(() => {
     const { arrow: arrowData } = middlewareData.value;
@@ -347,11 +347,11 @@ watch(isVisible, (newVal) => {
 let removeClickListener: (() => void) | undefined;
 
 /**
- * Управляет подпиской на клик вне попапа.
- * Слушатель активируется только когда попап видим и dismissable=true.
+ * Управляет подпиской на клик вне popover.
+ * Слушатель активируется только когда popover видим и dismissible=true.
  */
 watchEffect(() => {
-    if (!isVisible.value || props.dismissable === false) {
+    if (!isVisible.value || props.dismissible === false) {
         removeClickListener?.();
         removeClickListener = undefined;
         return;
@@ -366,7 +366,7 @@ watchEffect(() => {
     );
 });
 
-// Очистка слушателя при анмаунте (безопасно для SSR)
+// Очистка слушателя при отключении компонента (безопасно для SSR)
 tryOnUnmounted(() => {
     removeClickListener?.();
 });
@@ -378,7 +378,7 @@ tryOnUnmounted(() => {
 // #region Public API & Lifecycle
 /**
  * @exposed
- * @property {Ref<HTMLElement | null>} element - Ссылка на корневой DOM-элемент попапа (после телепортации)
+ * @property {Ref<HTMLElement | null>} element - Ссылка на корневой DOM-элемент (после телепортации)
  * @method {function} toggle - Переключить видимость. Опционально принимает новый trigger-элемент (для императивного режима)
  * @method {function} show - Принудительно открыть. Опционально принимает trigger-элемент
  * @method {function} hide - Принудительно закрыть
@@ -387,7 +387,7 @@ defineExpose({
     element: popoverRef,
 
     /**
-     * Переключает видимость попапа.
+     * Переключает видимость.
      * @param triggerElement - Опциональный элемент-триггер (для императивного режима)
      */
     toggle: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
@@ -411,7 +411,7 @@ defineExpose({
     },
 
     /**
-     * Принудительно открывает попап.
+     * Принудительно открывает popover.
      * @param triggerElement - Опциональный элемент-триггер
      */
     show: (triggerElement?: MaybeRefOrGetter<HTMLElement | null>) => {
@@ -424,7 +424,7 @@ defineExpose({
     },
 
     /**
-     * Принудительно закрывает попап.
+     * Принудительно закрывает popover.
      */
     hide: () => {
         if (isDeclarativeMode.value)
@@ -470,7 +470,7 @@ onMounted(async () => {
 
     // 2. Небольшая задержка (0-16ms), чтобы гарантировать, что 
     // родительские компоненты успели прокинуть свои рефы вниз
-    // Это решает проблему "ложных" ошибок при гидратации/маунте
+    // Это решает проблему "ложных" ошибок при гидратации/подключении компонента
     await new Promise(resolve => setTimeout(resolve, 0));
 
     // 3. Только теперь запускаем валидацию, когда все рефы должны быть на месте

@@ -29,7 +29,7 @@
       "very_strong": "Очень надёжный"
     },
     "warnings": {
-      "validationError": "[usepasswordstrength] проверка пароля не прошла:"
+      "validationError": "[usePasswordStrength] проверка пароля не прошла:"
     }
   },
   "popover": {

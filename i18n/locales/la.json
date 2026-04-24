@@ -29,7 +29,7 @@
       "very_strong": "valde fortis"
     },
     "warnings": {
-      "validationError": "[usepasswordstrength] validatio tesserae non successit:"
+      "validationError": "[usePasswordStrength] validatio tesserae non successit:"
     }
   },
   "system": {

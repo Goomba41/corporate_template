@@ -29,7 +29,7 @@
       "very_strong": "Very strong"
     },
     "warnings": {
-      "validationError": "[usepasswordstrength] password validation didn't pass:"
+      "validationError": "[usePasswordStrength] password validation didn't pass:"
     }
   },
   "popover": {
