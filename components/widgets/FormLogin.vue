@@ -2,7 +2,7 @@
     <div :class="bem('form-container')">
         <img
             :class="bem('logotype')"
-            src="../../public/favicon.svg"
+            src="/favicon.svg"
             alt=""
             :width="64"
             :height="64"

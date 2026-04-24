@@ -11,7 +11,7 @@
 
     <!-- Задник -->
     <img
-        src="../assets/images/login-background.svg"
+        :src="loginBackground"
         alt=""
         :class="bem('background')"
     >
@@ -24,6 +24,8 @@
     setup
     lang="ts"
 >
+import loginBackground from '~/assets/images/login-background.svg?url'
+
 definePageMeta({
     layout: 'login'
 })

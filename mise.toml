@@ -1,9 +1,21 @@
 [env]
 NUXT_HOST = "0.0.0.0"
-NUXT_PORT = "3000"
 NUXT_SSL_CERT = "./.cert/cert.pem"
 NUXT_SSL_KEY = "./.cert/key.pem"
 
 [tools]
 node = "latest"
 pnpm = "latest"
+
+[tasks.dev]
+description = "Запуск dev-сервера"
+run = "pnpm dev-https"
+env = { NUXT_PORT = "3000" }
+[tasks.build]
+description = "Запуск сборки"
+run = "rm -rf .output && pnpm nuxt build"
+env = { PORT = "3001" }
+[tasks.preview]
+description = "Запуск production-сервера"
+run = "node .output/server/index.mjs"
+env = { PORT = "3001" }
