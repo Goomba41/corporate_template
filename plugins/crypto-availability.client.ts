@@ -13,6 +13,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     const i18nPath = "system.crypto"
 
+    const { t } = useI18n()
+    const i18nPath = "system.crypto"
+
     /**
      * Выполняет диагностику доступности криптографических API и выводит результат в консоль.
      * Проверяет наличие Secure Context и интерфейса SubtleCrypto.
