@@ -2,8 +2,8 @@ import { ref, computed, watch, type Ref } from 'vue';
 
 import { useDebounceFn } from '@vueuse/core';
 
-import { validatePassword } from '~/core/application/use-cases/validatePassword';
-import { isZxcvbnOnlineWarningCode, type PasswordPolicy, type PasswordValidationError } from '~/core/domain/types/password';
+import { validatePassword } from '~/lib/validation/password';
+import { isZxcvbnOnlineWarningCode, type PasswordPolicy, type PasswordValidationError } from '~/types/password';
 import type { DisplayablePasswordValidationResult } from '~/types/presentation/password';
 
 /**

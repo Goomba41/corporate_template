@@ -1,7 +1,16 @@
-import { zxcvbnAsync, zxcvbnOptions } from '@zxcvbn-ts/core'
-import { matcherPwnedFactory } from '@zxcvbn-ts/matcher-pwned'
+import { zxcvbnAsync } from '@zxcvbn-ts/core'
 
-import { type PasswordValidationResult, type PasswordPolicy, PasswordStrengthScore, PasswordStrengthLevel, type PasswordValidationError, ZXCVBN_WARNING_MAP, PolicyRule, type PasswordErrorCode, type PasswordPolicyRule, ZxcvbnOnlineWarningCodes, isZxcvbnOnlineWarningCode } from '~/core/domain/types/password';
+import {
+    PasswordStrengthScore,
+    PasswordStrengthLevel,
+    isZxcvbnOnlineWarningCode,
+    type PasswordValidationResult,
+    type PasswordPolicy,
+    type PasswordValidationError,
+    type PasswordErrorCode,
+    type PasswordPolicyRule,
+    ZXCVBN_WARNING_MAP
+} from '~/types/password';
 
 export async function validatePassword(
     password: string,

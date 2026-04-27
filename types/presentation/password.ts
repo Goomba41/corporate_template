@@ -1,7 +1,7 @@
 import type {
     PasswordValidationResult,
     PasswordValidationError
-} from '~/core/domain/types/password';
+} from '~/types/password';
 
 /**
  * Ошибка для отображения в UI.

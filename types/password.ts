@@ -210,7 +210,7 @@ export const PasswordStrengthLevel: Record<PasswordStrengthScore, PasswordStreng
  * @see {@link PasswordErrorCode} — тип значений
  * @see {@link ZxcvbnWarningCode} — подмножество ключей
  * @see {@link isZxcvbnOnlineWarningCode} — для онлайн-проверок
- * @deprecated Требует ручной верификации: возможны несовпадения строк
+ * @note Требует ручной верификации: возможны несовпадения строк
  */
 export const ZXCVBN_WARNING_MAP: Record<string, PasswordErrorCode> = {
     'This is a top-10 common password.': 'PASSWORD_TOP_10',
