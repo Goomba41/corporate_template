@@ -1,0 +1,11 @@
+# Служебные файлы разработки шаблона
+.git/
+.gitignore
+.degitignore
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# CI/CD шаблона (не нужен в проекте)
+.gitlab-ci.yml
+.github/

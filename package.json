@@ -1,6 +1,6 @@
 {
-  "name": "corporate-level-template",
-  "type": "module",
+  "name": "@hidden-hippo/client-nuxt",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "nuxt build",
