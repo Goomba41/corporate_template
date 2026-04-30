@@ -5,7 +5,7 @@
 import type { AtomInputText, AtomPopover } from '#components';
 import { useFocus, useActiveElement, refDebounced } from '@vueuse/core';
 
-import { PasswordStrengthScore } from '~/core/domain/types/password';
+import { PasswordStrengthScore } from '~/types/password';
 
 import type { PopoverExposed } from '../atoms/Popover.vue';
 

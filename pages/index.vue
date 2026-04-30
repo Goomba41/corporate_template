@@ -2,7 +2,7 @@
   setup
   lang="ts"
 >
-import { PolicyRule, PasswordStrengthScore } from '~/core/domain/types/password';
+import { PolicyRule, PasswordStrengthScore } from '~/types/password';
 
 definePageMeta({
   layout: 'dashboard'
